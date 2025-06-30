@@ -1,0 +1,16 @@
+{
+  "index": {
+    "welcome": {
+      "title": "Welcome to Astro!",
+      "content": "You are currently viewing the Spanish version of this page."
+    }
+  },
+  "example": {
+    "content": "You have entered the example route."
+  },
+  "other": {
+    "example": {
+      "content": "You have entered another example route."
+    }
+  }
+}

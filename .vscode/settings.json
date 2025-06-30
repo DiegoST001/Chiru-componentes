@@ -1,0 +1,14 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#991b1b",
+    "titleBar.activeForeground": "#ffe4e6",
+    "titleBar.inactiveBackground": "#7f1d1d",
+    "titleBar.inactiveForeground": "#fecdd3"
+  },
+  "json-synchronized.translationService": "GoogleTranslator",
+  "prettier.documentSelectors": ["**/*.astro"],
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

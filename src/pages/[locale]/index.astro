@@ -1,0 +1,27 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const { t, currentLocale } = useLocalizePage(Astro);
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const exampleURL = getRelativeLocaleUrl(currentLocale, "example");
+const otherExampleURL = getRelativeLocaleUrl(currentLocale, "other/example");
+---
+
+<Layout>
+  <h1>{t("index.welcome.title")}</h1>
+  <p>{t("index.welcome.content")}</p>
+  <p>Get started by editing <code>src/pages/index.astro</code>.</p>
+  <p>
+    You can also check out the <a href={exampleURL}>example page</a> for more information.
+  </p>
+  <p>
+    You can also check out the <a href={otherExampleURL}>other example page</a> for
+    more information.
+  </p>
+</Layout>

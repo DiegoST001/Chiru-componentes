@@ -1,4 +1,13 @@
 {
-  "recommendations": ["astro-build.astro-vscode"],
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "AbelMSG89.json-synchronized",
+    "stivo.tailwind-fold",
+    "RapidAPI.vscode-rapidapi-client",
+    "ms-azuretools.vscode-containers",
+    "AbelMSG89.the-ultimate-extension-starter-pack"
+  ],
   "unwantedRecommendations": []
 }
