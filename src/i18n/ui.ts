@@ -28,7 +28,7 @@ export const languages = {
 } as const;
 
 export type Language = keyof typeof languages;
-export const defaultLang: Language = "en";
+export const defaultLang: Language = "es";
 
 /**
  * Helper type for nested object key access with dot notation

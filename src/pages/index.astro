@@ -1,10 +1,30 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import { languages, defaultLang } from "../i18n/ui";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+export const prerender = false;
+
+function getBrowserLanguage(acceptLanguage: string): string {
+  if (!acceptLanguage) return defaultLang;
+  
+  const browserLangs = acceptLanguage
+    .split(',')
+    .map(lang => {
+      const [code, q = '1'] = lang.trim().split(';q=');
+      return { code: code.split('-')[0].toLowerCase(), quality: parseFloat(q) };
+    })
+    .sort((a, b) => b.quality - a.quality);
+  
+  for (const { code } of browserLangs) {
+    if (code in languages) {
+      return code;
+    }
+  }
+
+  return defaultLang;
+}
+
+const acceptLanguage = Astro.request.headers.get('accept-language') || '';
+const detectedLang = getBrowserLanguage(acceptLanguage);
+
+return Astro.redirect(`/${detectedLang}/`);
 ---
-
-<Layout>
-  <h1>Welcome to Chiru!</h1>
-</Layout>
