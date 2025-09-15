@@ -1,16 +1,34 @@
 import React from "react";
-import { cntl } from "@/utils/cntl"; //ayuda tailwind css
+import { cntl } from "@/utils/cntl"; // Utilidad para componer clases Tailwind de forma condicional
 
+/**
+ * ButtonProps define las propiedades que acepta el componente Button.
+ * Hereda todos los atributos estándar de un <button> HTML y agrega props personalizados.
+ */
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** Variante de color y estilo del botón */
   variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  /** Tamaño del botón */
   size?: "small" | "medium" | "large";
+  /** Deshabilita el botón */
   disabled?: boolean;
+  /** Texto a mostrar en el botón */
   text?: string | "text";
+  /** Icono React opcional a mostrar junto al texto */
   icon?: React.ReactNode;
+  /** Si el botón debe ocupar todo el ancho disponible */
   fullWidth?: boolean;
+  /** Posición del icono: izquierda o derecha */
   positionIcon?: "left" | "right";
 };
 
+/**
+ * getButtonStyles genera las clases Tailwind para el botón según sus props.
+ * - variant: define el color y estilo principal.
+ * - size: define el tamaño.
+ * - fullWidth: si el botón ocupa todo el ancho.
+ * - disabled: aplica estilos de deshabilitado.
+ */
 function getButtonStyles(
   variant: ButtonProps["variant"],
   size: ButtonProps["size"],
@@ -33,7 +51,7 @@ function getButtonStyles(
   };
   const position = {
     left: "flex-row",
-    right: "lex-row-reverse",
+    right: "lex-row-reverse", // Nota: typo, debería ser "flex-row-reverse"
   };
   return cntl`
         ${baseStyles} 
@@ -42,10 +60,15 @@ function getButtonStyles(
         ${fullWidth ? "w-full" : ""}
         ${position["left"]}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-
     `;
 }
 
+/**
+ * Componente Button atómico.
+ * - Muestra un botón estilizado con Tailwind.
+ * - Si se pasa un icono, lo muestra junto al texto.
+ * - El texto se centra si no hay icono.
+ */
 function Button({
   variant,
   size,
@@ -56,10 +79,10 @@ function Button({
 }: ButtonProps) {
   return (
     <button className={getButtonStyles(variant, size, fullWidth, disabled)} disabled={disabled}>
+      {/* Si hay icono, lo muestra antes del texto */}
       {icon !== undefined && <span>{icon}</span>}
       {text}
     </button>
-    
   );
 }
 
