@@ -1,21 +1,37 @@
 ---
 // filepath: d:\CHIRU\FRONT\frontend\frontend\src\pages\[locale]\docs\dev\ui\atoms\ejemplo.astro
 import Layout from "@/layouts/Layout.astro";
-import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import AtomButton from "@/components/atoms/Button";
-import ArrowRight from 'phosphor-astro/ArrowRightBold.astro';
-import Sparkle from 'phosphor-astro/SparkleDuotone.astro';
+import { getStaticLanguagePaths } from "@/i18n/utils";
+// import { Button, ButtonAdd, ButtonDelete, ButtonWithIcon, ButtonEdit } from "@/components/atoms/Button";
+import { ButtonPrue } from "@/components/atoms/Prueb";
+import { Button } from "@/components/atoms/Button";
+import { Pencil, Trash } from "phosphor-react";
 
-
-// 👇 Esto le dice a Astro para qué idiomas generar la página
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
 }
 ---
-<Layout title="Ejemplo de Botón">
-    <Sparkle />
-    <ArrowRight />
-  <AtomButton variant="danger" size="medium" className="w-full">Enviar</AtomButton>
-</Layout>
 
+<Layout title="Ejemplo de Botón">
+
+  <Button
+    variant="primary"
+    size="large"
+    positionIcon="left"
+    text="Editar"
+    disabled={false}
+    fullWidth={false}
+  >
+    <Pencil slot="icon" />
+  </Button>
+    <Button
+    variant="secondary"
+    size="large"
+    positionIcon="left"
+    text="Editar"
+    disabled={false}
+    fullWidth={false}
+  >
+    <!-- <Pencil slot="icon" /> -->
+  </Button>
+</Layout>
