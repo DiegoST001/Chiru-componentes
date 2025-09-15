@@ -6,6 +6,7 @@
     "titleBar.inactiveBackground": "#7f1d1d",
     "titleBar.inactiveForeground": "#fecdd3"
   },
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "tailwindCSS.classFunctions": ["cntl"],
   "json-synchronized.translationService": "GoogleTranslator",
   "prettier.documentSelectors": ["**/*.astro"],

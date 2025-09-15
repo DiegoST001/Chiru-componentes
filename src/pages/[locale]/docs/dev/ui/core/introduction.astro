@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/DocsLayout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+
+const { t } = useLocalizePage(Astro);
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Sistema de Diseño">
+  <p>
+    Bienvenido al sistema de diseño de Chiru. Dado que Astro es compatible con
+    muchos marcos, puedes importar tus componentes y documentarlos.
+  </p>
+  <h2>Metodología</h2>
+  <p>
+    El sistema de diseño de Chiru se basa en la metodología Atomic Design, que
+    organiza los componentes en cinco niveles jerárquicos: átomos, moléculas,
+    organismos, plantillas y páginas.
+  </p>
+  <h2>Componentes</h2>
+  <h3>Átomos</h3>
+  <p>
+    Los átomos son los componentes más básicos de la interfaz, como botones,
+    entradas de texto y etiquetas.
+  </p>
+  <h3>Moléculas</h3>
+  <p>
+    Las moléculas son combinaciones de átomos que forman componentes más
+    complejos, como formularios.
+  </p>
+  <h3>Organismos</h3>
+  <p>
+    Los organismos son grupos de moléculas que forman secciones completas de una
+    interfaz, como encabezados o pies de página.
+  </p>
+  <h3>Plantillas</h3>
+  <p>
+    Las plantillas son estructuras de diseño que definen la disposición de los
+    organismos en una página.
+  </p>
+  <h3>Páginas</h3>
+  <p>
+    Las páginas son instancias específicas de plantillas con contenido real,
+    representando vistas.
+  </p>
+  <h2>Añadiendo nuevos componentes</h2>
+  <p>
+    Para añadir nuevos componentes, crea un archivo en la carpeta
+    correspondiente dentro de <code>src/components</code>. Sigue la estructura
+    para mantener la organización.
+  </p>
+  <p>
+    Para añadir su documentación, crea una archivo dentro de <code
+      >src/docs/dev/ui/</code
+    > siguiendo la metodología del proyecto.
+  </p>
+</Layout>

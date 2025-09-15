@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+
+const { t } = useLocalizePage(Astro);
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Tipografía">
+  <p>
+    El sistema de diseño de Chiru utiliza una tipografía definida para mantener
+    la coherencia visual en todas las aplicaciones.
+  </p>
+  <hr />
+  <h2>ChiruFont</h2>
+  <hr />
+  <h2>Helvetica</h2>
+  <hr />
+  <h2>Arial</h2>
+</Layout>

@@ -20,5 +20,8 @@ export default defineConfig({
       en: "es",
       zh: "en",
     },
+    routing: {
+      prefixDefaultLocale: true,
+    },
   },
 });

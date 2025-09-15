@@ -1,5 +1,13 @@
 ---
 import "@/styles/global.css";
+import Layout from "@/layouts/DocsLayout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+
+const { t } = useLocalizePage(Astro);
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
 ---
 
 <!doctype html>

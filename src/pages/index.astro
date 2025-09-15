@@ -5,15 +5,15 @@ export const prerender = false;
 
 function getBrowserLanguage(acceptLanguage: string): string {
   if (!acceptLanguage) return defaultLang;
-  
+
   const browserLangs = acceptLanguage
-    .split(',')
-    .map(lang => {
-      const [code, q = '1'] = lang.trim().split(';q=');
-      return { code: code.split('-')[0].toLowerCase(), quality: parseFloat(q) };
+    .split(",")
+    .map((lang) => {
+      const [code, q = "1"] = lang.trim().split(";q=");
+      return { code: code.split("-")[0].toLowerCase(), quality: parseFloat(q) };
     })
     .sort((a, b) => b.quality - a.quality);
-  
+
   for (const { code } of browserLangs) {
     if (code in languages) {
       return code;
@@ -23,7 +23,7 @@ function getBrowserLanguage(acceptLanguage: string): string {
   return defaultLang;
 }
 
-const acceptLanguage = Astro.request.headers.get('accept-language') || '';
+const acceptLanguage = Astro.request.headers.get("accept-language") || "";
 const detectedLang = getBrowserLanguage(acceptLanguage);
 
 return Astro.redirect(`/${detectedLang}/`);

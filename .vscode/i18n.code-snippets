@@ -1,0 +1,26 @@
+{
+  "Localize Page (Translation)": {
+    "prefix": "i18n-t",
+    "body": [
+      "import { useLocalizePage } from \"@/i18n/utils\";",
+      "const { t } = useLocalizePage(Astro);",
+      "",
+    ],
+    "description": "Snippet to use useLocalizePage with only 't'"
+  },
+  "Localize Page (Translation + Static Paths)": {
+    "prefix": "i18n-full",
+    "body": [
+      "import { getStaticLanguagePaths, useLocalizePage } from \"@/i18n/utils\";",
+      "import { getRelativeLocaleUrl } from \"astro:i18n\";",
+      "",
+      "const { t, currentLocale } = useLocalizePage(Astro);",
+      "",
+      "export async function getStaticPaths() {",
+      "  return getStaticLanguagePaths();",
+      "}",
+      "",
+    ],
+    "description": "Snippet to use useLocalizePage with 't' and 'currentLocale' together"
+  }
+}

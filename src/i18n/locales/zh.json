@@ -12,5 +12,16 @@
     "example": {
       "content": "您已输入另一条示例路线。"
     }
+  },
+  "docs": {
+    "dev": {
+      "ui": {
+        "core": {
+          "introduction": {
+            "description": {}
+          }
+        }
+      }
+    }
   }
 }

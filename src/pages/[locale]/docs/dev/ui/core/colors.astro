@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/DocsLayout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+
+const { t } = useLocalizePage(Astro);
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Colores">
+  <p>
+    El sistema de diseño de Chiru utiliza una paleta de colores definida para
+    mantener la coherencia visual en todas las aplicaciones. Los colores se
+    organizan en categorías para facilitar su uso.
+  </p>
+  <h2>Color #1</h2>
+  <h2>Color #2</h2>
+  <h2>Color #3</h2>
+</Layout>

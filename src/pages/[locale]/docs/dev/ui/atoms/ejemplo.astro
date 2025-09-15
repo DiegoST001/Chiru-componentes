@@ -1,0 +1,21 @@
+---
+// filepath: d:\CHIRU\FRONT\frontend\frontend\src\pages\[locale]\docs\dev\ui\atoms\ejemplo.astro
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths, useLocalizePage } from "@/i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import AtomButton from "@/components/atoms/Button";
+import ArrowRight from 'phosphor-astro/ArrowRightBold.astro';
+import Sparkle from 'phosphor-astro/SparkleDuotone.astro';
+
+
+// 👇 Esto le dice a Astro para qué idiomas generar la página
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+<Layout title="Ejemplo de Botón">
+    <Sparkle />
+    <ArrowRight />
+  <AtomButton variant="danger" size="medium" className="w-full">Enviar</AtomButton>
+</Layout>
+

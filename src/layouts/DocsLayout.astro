@@ -1,0 +1,77 @@
+---
+import "@/styles/global.css";
+import "@/styles/docs.css";
+
+interface Props {
+  title: string;
+}
+
+const { title = "Untitled" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Docs</title>
+  </head>
+  <body>
+    <div class="flex gap-8">
+
+      <!-- Navegación lateral -->
+      <aside class="w-64 min-h-screen bg-gray-50 p-4">
+        <nav id="table-of-contents">
+          <h2 class="text-lg font-semibold mb-4">Tabla de contenidos</h2>
+          <ul id="toc-list" class="space-y-2 text-sm">
+            <!-- Se genera automáticamente con JavaScript -->
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Contenido principal -->
+      <main class="flex-1 px-4 lg:px-6 py-6">
+        <h1>{title}</h1>
+        <hr />
+        <div id="main-content">
+          <slot />
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const content = document.getElementById("main-content");
+        const tocList = document.getElementById("toc-list");
+
+        if (!content || !tocList) return;
+
+        const headers = content.querySelectorAll("h2, h3, h4, h5, h6");
+
+        tocList.innerHTML = "";
+
+        headers.forEach((header, index) => {
+          if (!header.id) {
+            header.id = `#h${index}`;
+          }
+
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+
+          a.href = `#${header.id}`;
+          a.textContent = header.textContent;
+          a.className = "text-blue-600 hover:text-blue-800 block py-1";
+
+          const level = parseInt(header.tagName.charAt(1));
+          li.style.paddingLeft = `${(level - 2) * 16}px`;
+
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+      });
+    </script>
+    
+  </body>
+</html>

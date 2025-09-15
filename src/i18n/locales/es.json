@@ -12,5 +12,16 @@
     "example": {
       "content": "Haz entrado a otra ruta de ejemplo."
     }
+  },
+  "docs": {
+    "dev": {
+      "ui": {
+        "core": {
+          "introduction": {
+            "description": {}
+          }
+        }
+      }
+    }
   }
 }

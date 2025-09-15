@@ -9,8 +9,8 @@ export async function getStaticPaths() {
   return getStaticLanguagePaths();
 }
 
-const exampleURL = getRelativeLocaleUrl(currentLocale, "example");
-const otherExampleURL = getRelativeLocaleUrl(currentLocale, "other/example");
+const exampleURL = getRelativeLocaleUrl(currentLocale, "/example");
+const otherExampleURL = getRelativeLocaleUrl(currentLocale, "/other/example");
 ---
 
 <Layout>

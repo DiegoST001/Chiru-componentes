@@ -12,5 +12,16 @@
     "example": {
       "content": "You have entered another example route."
     }
+  },
+  "docs": {
+    "dev": {
+      "ui": {
+        "core": {
+          "introduction": {
+            "description": {}
+          }
+        }
+      }
+    }
   }
 }
