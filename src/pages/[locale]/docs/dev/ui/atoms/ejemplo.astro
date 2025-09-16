@@ -11,18 +11,18 @@ export async function getStaticPaths() {
 ---
 
 <Layout title="Ejemplo de Botón">
-
   <Button
     variant="primary"
     size="large"
-    positionIcon="left"
+    positionIcon="right"
     text="Editar"
     disabled={false}
     fullWidth={false}
   >
     <Pencil slot="icon" />
   </Button>
-    <Button
+
+  <Button
     variant="secondary"
     size="large"
     positionIcon="left"
@@ -31,5 +31,15 @@ export async function getStaticPaths() {
     fullWidth={false}
   >
     <!-- <Pencil slot="icon" /> -->
+  </Button>
+
+  <Button
+    variant="primary"
+    size="large"
+    positionIcon="left"
+    disabled={false}
+    fullWidth={false}
+  >
+    <Pencil slot="icon" />
   </Button>
 </Layout>

@@ -28,12 +28,15 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
  * - size: define el tamaño.
  * - fullWidth: si el botón ocupa todo el ancho.
  * - disabled: aplica estilos de deshabilitado.
+ * - positionIcon: define el orden de icono/texto (izquierda/derecha).
  */
+
 function getButtonStyles(
   variant: ButtonProps["variant"],
   size: ButtonProps["size"],
   fullWidth?: boolean,
   disabled?: boolean,
+  positionIcon?: "left" | "right"
 ) {
   const baseStyles =
     "inline-flex items-center justify-center font-medium rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none gap-4 cursor-pointer";
@@ -51,16 +54,16 @@ function getButtonStyles(
   };
   const position = {
     left: "flex-row",
-    right: "lex-row-reverse", // Nota: typo, debería ser "flex-row-reverse"
+    right: "flex-row-reverse",
   };
   return cntl`
-        ${baseStyles} 
-        ${stylesVariant[variant || "primary"]} 
-        ${sizes[size || "medium"]} 
-        ${fullWidth ? "w-full" : ""}
-        ${position["left"]}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-    `;
+    ${baseStyles} 
+    ${stylesVariant[variant || "primary"]} 
+    ${sizes[size || "medium"]} 
+    ${fullWidth ? "w-full" : ""}
+    ${position[positionIcon || "left"]}
+    ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+  `;
 }
 
 /**
@@ -68,6 +71,7 @@ function getButtonStyles(
  * - Muestra un botón estilizado con Tailwind.
  * - Si se pasa un icono, lo muestra junto al texto.
  * - El texto se centra si no hay icono.
+ * - El icono puede ir a la izquierda o derecha según el prop positionIcon.
  */
 function Button({
   variant,
@@ -76,12 +80,18 @@ function Button({
   disabled,
   text,
   icon,
+  positionIcon = "left",
+  ...props
 }: ButtonProps) {
   return (
-    <button className={getButtonStyles(variant, size, fullWidth, disabled)} disabled={disabled}>
-      {/* Si hay icono, lo muestra antes del texto */}
+    <button
+      className={getButtonStyles(variant, size, fullWidth, disabled, positionIcon)}
+      disabled={disabled}
+      {...props}
+    >
+      {/* Si hay icono, lo muestra en la posición indicada */}
       {icon !== undefined && <span>{icon}</span>}
-      {text}
+      {text !== undefined && <span>{text}</span>}
     </button>
   );
 }
