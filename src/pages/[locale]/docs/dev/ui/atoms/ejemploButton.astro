@@ -3,7 +3,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
 import { Button } from "@/components/atoms/Button";
-import { Pencil, Trash } from "phosphor-react";
+import { Pencil, Trash} from "phosphor-react";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -12,19 +12,19 @@ export async function getStaticPaths() {
 
 <Layout title="Ejemplo de Botón">
   <Button
-    variant="primary"
-    size="large"
+    variant="danger"
+    size="medium"
     positionIcon="right"
-    text="Editar"
+    text="nuevo"
     disabled={false}
     fullWidth={false}
   >
-    <Pencil slot="icon" />
+    <Trash slot="icon" />
   </Button>
 
   <Button
     variant="secondary"
-    size="large"
+    size="medium"
     positionIcon="left"
     text="Editar"
     disabled={false}
@@ -42,4 +42,32 @@ export async function getStaticPaths() {
   >
     <Pencil slot="icon" />
   </Button>
+  <Button
+    variant="primary"
+    size="large"
+    positionIcon="left"
+    disabled={false}
+    fullWidth={false}
+  >
+    <Pencil slot="icon" />
+  </Button>
+  <Button
+    variant="primary"
+    size="large"
+    positionIcon="left"
+    disabled={false}
+    fullWidth={false}
+  >
+    <Pencil slot="icon" />
+  </Button>
+  <Button
+    variant="primary"
+    size="large"
+    positionIcon="left"
+    disabled={false}
+    fullWidth={false}
+  >
+    <Pencil slot="icon" />
+  </Button>
+  
 </Layout>

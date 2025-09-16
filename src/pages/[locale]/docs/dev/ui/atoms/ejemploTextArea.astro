@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Textarea } from "@/components/atoms/Textarea";
+import { ChatCircleText } from "phosphor-react";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Textarea">
+  <div class="flex flex-col gap-6">
+    <Textarea placeholder="Escribe un comentario..." fullWidth rows={4} />
+    <Textarea
+      placeholder="Con ícono"
+      variant="outline"
+      size="large"
+      fullWidth
+      rows={5}
+    >
+      <ChatCircleText slot="icon" />
+    </Textarea>
+    <Textarea placeholder="Deshabilitado" disabled fullWidth />
+  </div>
+</Layout>
