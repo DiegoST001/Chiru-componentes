@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { HelperText } from "@/components/atoms/HelperText";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+  <div class="flex flex-col gap-6">
+    <HelperText type="default">Esto es un caption normal</HelperText>
+    <HelperText type="helper">Texto de ayuda</HelperText>
+    <HelperText type="error">Error: campo requerido</HelperText>
+
+  </div>
+</Layout>

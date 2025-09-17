@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Select } from "@/components/atoms/Select";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+  <div class="flex flex-col gap-6">
+
+    <Select
+      label="País"
+      fullWidth
+      variant="outline"
+      options={[
+        { value: "pe", label: "Perú" },
+        { value: "cl", label: "Chile" },
+        { value: "mx", label: "México" },
+      ]}
+    />
+
+</Layout>

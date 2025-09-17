@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Switch } from "@/components/atoms/Switch";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+  <div class="flex flex-col gap-6">
+    <div>
+      <Switch checked={true} onChange={(val) => console.log("Switch:", val)} label="Activar notificaciones" />
+      <Switch checked={false} onChange={(val) => console.log("Switch:", val)} label="Desactivar notificaciones" />
+    </div>
+  </div>
+</Layout>

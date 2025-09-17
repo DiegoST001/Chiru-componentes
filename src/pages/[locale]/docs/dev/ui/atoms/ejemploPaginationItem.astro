@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { PaginationItem } from "@/components/atoms/PaginationItem";
+
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+
+  <div class="flex gap-2 mb-6">
+    <PaginationItem disabled>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
+  </div>
+
+</Layout>

@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Toast } from "@/components/atoms/Toast";
+
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout >
+
+  <div class="mt-4">
+    <Toast message="Operación exitosa" variant="success" />
+  </div>
+    <div class="mt-4">
+        <Toast message="Advertencia: Verifica los datos ingresados" variant="warning" />
+    </div>
+
+</Layout>

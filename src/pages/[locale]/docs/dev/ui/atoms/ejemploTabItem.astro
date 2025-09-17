@@ -1,0 +1,40 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { BreadcrumbItem } from "@/components/atoms/BreadcrumbItem";
+import { PaginationItem } from "@/components/atoms/PaginationItem";
+import { TabItem } from "@/components/atoms/TabItem";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Navegación">
+
+  <!-- Breadcrumb -->
+  <nav class="flex gap-2 mb-6">
+    <BreadcrumbItem href="/">Inicio</BreadcrumbItem>
+    <span>/</span>
+    <BreadcrumbItem href="/docs">Docs</BreadcrumbItem>
+    <span>/</span>
+    <BreadcrumbItem active>UI</BreadcrumbItem>
+  </nav>
+
+  <!-- Pagination -->
+  <div class="flex gap-2 mb-6">
+    <PaginationItem disabled>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-4 border-b">
+    <TabItem active>General</TabItem>
+    <TabItem>Configuración</TabItem>
+    <TabItem>Avanzado</TabItem>
+  </div>
+
+</Layout>

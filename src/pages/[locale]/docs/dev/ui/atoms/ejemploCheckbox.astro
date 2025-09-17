@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Checkbox } from "@/components/atoms/Checkbox";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Checkbox">
+  <!-- Tamaños -->
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-2">
+      <Checkbox tams="small" variant="default" id="chk-small" />
+      <label for="chk-small">Pequeño</label>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <Checkbox tams="medium" variant="success" id="chk-medium" />
+      <label for="chk-medium">Mediano (Éxito)</label>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <Checkbox tams="large" variant="danger" id="chk-large" />
+      <label for="chk-large">Grande (Peligro)</label>
+    </div>
+  </div>
+</Layout>

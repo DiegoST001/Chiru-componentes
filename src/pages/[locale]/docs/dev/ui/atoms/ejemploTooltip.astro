@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Tooltip } from "@/components/atoms/Tooltip";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout >
+
+  <Tooltip text="Soy un tooltip">
+    <button class="px-3 py-1 bg-indigo-600 text-white rounded">Hover aquí</button>
+  </Tooltip>
+
+
+</Layout>

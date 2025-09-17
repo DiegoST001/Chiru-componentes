@@ -1,0 +1,48 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Button } from "@/components/atoms/Button";
+import { Icon } from "@/components/atoms/Icon";
+
+// Importamos 10 íconos de phosphor-react
+import { Pencil, Trash, Plus, Check, X, Heart, Star, Bell, Download, Upload } from "phosphor-react";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Botones con Íconos">
+  <div class="grid grid-cols-2 gap-4">
+    <Button variant="primary">
+      <Pencil slot="icon" />
+    </Button>
+    <Button variant="danger" >
+      <Trash slot="icon" />
+    </Button>
+    <Button variant="primary">
+      <Plus slot="icon" />
+    </Button>
+    <Button variant="secondary">
+      <Check slot="icon" />
+    </Button>
+    <Button variant="outline">
+      <X slot="icon" />
+    </Button>
+    <Button variant="primary" >
+      <Heart slot="icon" />
+    </Button>
+    <Button variant="secondary">
+      <Star slot="icon" />
+    </Button>
+    <Button variant="secondary">
+      <Bell slot="icon" />
+    </Button>
+    <Button variant="secondary">
+      <Download slot="icon" />
+    </Button>
+    <Button variant="secondary">
+      <Upload slot="icon" />
+    </Button>
+  </div>
+</Layout>
