@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Label } from "@/components/atoms/Label";
+
+export async function getStaticPaths() {
+  return [
+    { params: { locale: "es" } },
+    { params: { locale: "en" } },
+  ];
+}
+---
+<Layout>
+
+  <div class="grid grid-cols-3 gap-4">
+    <Label variant="normal" size="small" fontWeight="normal" text="Normal Small Normal" />
+    <Label variant="normal" size="small" fontWeight="medium" text="Normal Small Medium" />
+    <Label variant="normal" size="small" fontWeight="bold" text="Normal Small Bold" />
+
+    <Label variant="normal" size="medium" fontWeight="normal" text="Normal Medium Normal" />
+    <Label variant="normal" size="medium" fontWeight="medium" text="Normal Medium Medium" />
+    <Label variant="normal" size="medium" fontWeight="bold" text="Normal Medium Bold" />
+
+    <Label variant="normal" size="large" fontWeight="normal" text="Normal Large Normal" />
+    <Label variant="normal" size="large" fontWeight="medium" text="Normal Large Medium" />
+    <Label variant="normal" size="large" fontWeight="bold" text="Normal Large Bold" />
+
+    <Label variant="error" size="small" fontWeight="normal" text="Error Small Normal" />
+    <Label variant="error" size="small" fontWeight="medium" text="Error Small Medium" />
+    <Label variant="error" size="small" fontWeight="bold" text="Error Small Bold" />
+
+    <Label variant="error" size="medium" fontWeight="normal" text="Error Medium Normal" />
+    <Label variant="error" size="medium" fontWeight="medium" text="Error Medium Medium" />
+    <Label variant="error" size="medium" fontWeight="bold" text="Error Medium Bold" />
+
+    <Label variant="error" size="large" fontWeight="normal" text="Error Large Normal" />
+    <Label variant="error" size="large" fontWeight="medium" text="Error Large Medium" />
+    <Label variant="error" size="large" fontWeight="bold" text="Error Large Bold" />
+  </div>
+</Layout>

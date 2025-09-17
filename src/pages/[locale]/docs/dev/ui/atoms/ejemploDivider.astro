@@ -1,0 +1,32 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Divider } from "@/components/atoms/Divider";   
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+<h1>Combinaciónes de Divider</h1>
+  <h3>Horizontal</h3>
+  <Divider orientation="horizontal" variant="solid" spacing="small" />
+  <Divider orientation="horizontal" variant="solid" spacing="medium" />
+  <Divider orientation="horizontal" variant="solid" spacing="large" />
+  <Divider orientation="horizontal" variant="dashed" spacing="small" />
+  <Divider orientation="horizontal" variant="dashed" spacing="medium" />
+  <Divider orientation="horizontal" variant="dashed" spacing="large" />
+
+  <br />
+
+  <h3>Vertical (inline)</h3>
+  <div class="flex gap-4 h-32 items-center">
+    <Divider orientation="vertical" variant="solid" spacing="small" />
+    <Divider orientation="vertical" variant="solid" spacing="medium" />
+    <Divider orientation="vertical" variant="solid" spacing="large" />
+    <Divider orientation="vertical" variant="dashed" spacing="small" />
+    <Divider orientation="vertical" variant="dashed" spacing="medium" />
+    <Divider orientation="vertical" variant="dashed" spacing="large" />
+  </div>
+</Layout>

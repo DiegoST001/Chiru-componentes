@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Avatar } from "@/components/atoms/Avatar";   
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+
+  <div class="grid grid-cols-3 gap-4">
+    <!-- XS -->
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XS Circle" size="xs" shape="circle" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XS Rounded" size="xs" shape="rounded" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XS Square" size="xs" shape="square" />
+
+    <!-- SM -->
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="SM Circle" size="sm" shape="circle" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="SM Rounded" size="sm" shape="rounded" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="SM Square" size="sm" shape="square" />
+
+    <!-- MD -->
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="MD Circle" size="md" shape="circle" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="MD Rounded" size="md" shape="rounded" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="MD Square" size="md" shape="square" />
+
+    <!-- LG -->
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="LG Circle" size="lg" shape="circle" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="LG Rounded" size="lg" shape="rounded" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="LG Square" size="lg" shape="square" />
+
+    <!-- XL -->
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XL Circle" size="xl" shape="circle" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XL Rounded" size="xl" shape="rounded" />
+    <Avatar src="https://media.vandalsports.com/master/1-2022/2022131163547_1.jpg" alt="XL Square" size="xl" shape="square" />
+  </div>
+</Layout>
