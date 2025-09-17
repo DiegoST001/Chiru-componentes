@@ -1,0 +1,17 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Link } from "@/components/atoms/Link";
+import { Icon } from "@/components/atoms/Icon";
+
+// Importamos 10 íconos de phosphor-react
+import { Pencil, Trash, Plus, Check, X, Heart, Star, Bell, Download, Upload } from "phosphor-react";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+<Layout title="Ejemplo de Links">
+<Link text="Hola">  </Link>
+    
+</Layout>
