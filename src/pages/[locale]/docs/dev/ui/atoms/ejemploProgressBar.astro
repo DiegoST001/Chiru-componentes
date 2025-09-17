@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProgressBar } from "@/components/atoms/ProgressBar";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout >
+
+  <div class="mt-4 w-64">
+    <ProgressBar value={70} color="green" />
+    <ProgressBar value={40} color="red" />
+    <ProgressBar value={90} color="indigo" />
+    <ProgressBar value={55} color="yellow" />
+  </div>
+
+
+</Layout>

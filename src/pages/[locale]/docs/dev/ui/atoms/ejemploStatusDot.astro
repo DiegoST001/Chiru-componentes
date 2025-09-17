@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { StatusDot } from "@/components/atoms/StatusDot";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout >
+
+  <div class="flex gap-2 mt-4">
+    <StatusDot color="green" />
+    <StatusDot color="red" />
+    <StatusDot color="yellow" />
+    <StatusDot color="gray" />
+  </div>
+
+
+</Layout>
