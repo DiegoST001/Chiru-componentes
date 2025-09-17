@@ -1,0 +1,361 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Badge } from "@/components/atoms/Badge";
+import { Heading } from "@/components/atoms/Heading";
+import { BreadcrumbItem } from "@/components/atoms/BreadcrumbItem";
+import { Button } from "@/components/atoms/Button";
+import {
+  Bell,
+  ChatCircleText,
+  Check,
+  Download,
+  Heart,
+  Pencil,
+  Plus,
+  Star,
+  Trash,
+  Upload,
+} from "phosphor-react";
+import { Checkbox } from "@/components/atoms/Checkbox";
+import { HelperText } from "@/components/atoms/HelperText";
+import { PaginationItem } from "@/components/atoms/PaginationItem";
+import { ProgressBar } from "@/components/atoms/ProgressBar";
+import { RadioButton } from "@/components/atoms/RadioButton";
+import { Select } from "@/components/atoms/Select";
+import { StatusDot } from "@/components/atoms/StatusDot";
+import { Switch } from "@/components/atoms/Switch";
+import { TabItem } from "@/components/atoms/TabItem";
+import { Tag } from "@/components/atoms/Tag";
+import { Textarea } from "@/components/atoms/Textarea";
+import { Toast } from "@/components/atoms/Toast";
+import { Tooltip } from "@/components/atoms/Tooltip";
+import { Icon } from "@/components/atoms/Icon";
+import { Input } from "@/components/atoms/Input";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout>
+  <div class="w-full flex justify-center mb-8">
+    <Heading level={1} color="primary">Lista de atomos</Heading>
+  </div>
+
+  <section class="grid grid-cols-2 gap-8 pb-12">
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Badges</Heading>
+      <div class="flex gap-2">
+        <Badge>Default</Badge>
+        <Badge variant="success">Nuevo</Badge>
+        <Badge variant="danger">Error</Badge>
+        <Badge variant="warning">Beta</Badge>
+        <Badge variant="info">Info</Badge>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">BreadcrumbItem</Heading>
+      <div class="flex gap-2">
+        <BreadcrumbItem href="/">Inicio</BreadcrumbItem>
+        <span>/</span>
+        <BreadcrumbItem href="/docs">Docs</BreadcrumbItem>
+        <span>/</span>
+        <BreadcrumbItem active>UI</BreadcrumbItem>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Buttons</Heading>
+      <div class="flex gap-2">
+        <Button
+          variant="danger"
+          size="medium"
+          positionIcon="right"
+          text="nuevo"
+        >
+          <Trash slot="icon" />
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="medium"
+          positionIcon="left"
+          text="Editar"
+        >
+          <!-- <Pencil slot="icon" /> -->
+        </Button>
+
+        <Button variant="primary" size="large" positionIcon="left" disabled>
+          <Pencil slot="icon" />
+        </Button>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Checkbox</Heading>
+      <div class="flex gap-2">
+        <div class="flex items-center gap-2">
+          <Checkbox tams="small" variant="default" id="chk-small" />
+          <label for="chk-small">Pequeño</label>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <Checkbox tams="medium" variant="success" id="chk-medium" />
+          <label for="chk-medium">Mediano (Éxito)</label>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <Checkbox tams="large" variant="danger" id="chk-large" />
+          <label for="chk-large">Grande (Peligro)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Heading</Heading>
+      <div class="flex gap-4">
+        <Heading level={1}>Título Principal (H1)</Heading>
+        <Heading level={3} color="primary">Subtítulo (H3)</Heading>
+        <Heading level={5} color="danger">Encabezado con alerta (H5)</Heading>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">HelperText</Heading>
+      <div class="flex gap-2">
+        <HelperText type="default">Esto es un caption normal</HelperText>
+        <HelperText type="helper">Texto de ayuda</HelperText>
+        <HelperText type="error">Error: campo requerido</HelperText>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Button-icons</Heading>
+      <div class="flex gap-2">
+        <Button variant="primary">
+          <Pencil slot="icon" />
+        </Button>
+        <Button variant="danger">
+          <Trash slot="icon" />
+        </Button>
+        <Button variant="primary">
+          <Plus slot="icon" />
+        </Button>
+        <Button variant="secondary">
+          <Check slot="icon" />
+        </Button>
+        <!-- <Button variant="outline">
+          <X slot="icon" />
+        </Button> -->
+        <Button variant="primary">
+          <Heart slot="icon" />
+        </Button>
+        <Button variant="secondary">
+          <Star slot="icon" />
+        </Button>
+        <Button variant="secondary">
+          <Bell slot="icon" />
+        </Button>
+        <Button variant="secondary">
+          <Download slot="icon" />
+        </Button>
+        <Button variant="secondary">
+          <Upload slot="icon" />
+        </Button>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">PaginationItem</Heading>
+      <div class="flex gap-2">
+        <PaginationItem disabled>&laquo;</PaginationItem>
+        <PaginationItem>1</PaginationItem>
+        <PaginationItem active>2</PaginationItem>
+        <PaginationItem>3</PaginationItem>
+        <PaginationItem>&raquo;</PaginationItem>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">ProgressBar</Heading>
+      <div class="flex flex-col gap-2">
+        <ProgressBar value={70} color="green" />
+        <ProgressBar value={40} color="red" />
+        <ProgressBar value={90} color="indigo" />
+        <ProgressBar value={55} color="yellow" />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">RadioButton</Heading>
+      <div class="flex flex-col gap-2">
+        <RadioButton
+          name="gender"
+          value="male"
+          label="Masculino"
+          defaultChecked
+        />
+        <RadioButton name="gender" value="female" label="Femenino" />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Select</Heading>
+      <div class="flex flex-col gap-2">
+        <Select
+          label="País"
+          fullWidth
+          variant="outline"
+          options={[
+            { value: "pe", label: "Perú" },
+            { value: "cl", label: "Chile" },
+            { value: "mx", label: "México" },
+          ]}
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">StatusDot</Heading>
+      <div class="flex flex-col gap-2">
+        <StatusDot color="green" />
+        <StatusDot color="red" />
+        <StatusDot color="yellow" />
+        <StatusDot color="gray" />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Switch</Heading>
+      <div class="flex flex-col gap-2">
+        <Switch
+          checked={true}
+          onChange={(val) => console.log("Switch:", val)}
+          label="Activar notificaciones"
+        />
+        <Switch
+          checked={false}
+          onChange={(val) => console.log("Switch:", val)}
+          label="Desactivar notificaciones"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">TableItem</Heading>
+      <div class="flex flex-col gap-2">
+        <div class="flex gap-4 border-b">
+          <TabItem active>General</TabItem>
+          <TabItem>Configuración</TabItem>
+          <TabItem>Avanzado</TabItem>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Tag</Heading>
+      <div class="">
+        <Tag text="React" onRemove={() => alert("React eliminado")} />
+        <Tag text="TypeScript" />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">TextArea</Heading>
+      <div class="flex flex-col gap-2">
+        <Textarea placeholder="Escribe un comentario..." fullWidth rows={4} />
+        <Textarea
+          placeholder="Con ícono"
+          variant="outline"
+          size="large"
+          fullWidth
+          rows={5}
+        >
+          <ChatCircleText slot="icon" />
+        </Textarea>
+        <Textarea placeholder="Deshabilitado" disabled fullWidth />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Toast</Heading>
+      <div class="flex flex-col gap-2">
+        <Toast message="Operación exitosa" variant="success" />
+        <Toast
+          message="Advertencia: Verifica los datos ingresados"
+          variant="warning"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Tooltip</Heading>
+      <div class="flex flex-col gap-2">
+        <Tooltip text="Soy un tooltip">
+          <button class="px-3 py-1 bg-indigo-600 text-white rounded"
+            >Hover aquí</button
+          >
+        </Tooltip>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Icon</Heading>
+      <div class="flex gap-2">
+        <Icon>
+          <Bell size={32} color="#4F46E5" />
+        </Icon>
+        <Icon>
+          <ChatCircleText size={32} color="#4F46E5" />
+        </Icon>
+        <Icon>
+          <Check size={32} color="#4F46E5" />
+        </Icon>
+        <Icon>
+          <Download size={32} color="#4F46E5" />
+        </Icon>
+        <Icon>
+          <Heart size={32} color="#4F46E5" />
+        </Icon>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <Heading level={3} color="primary">Input</Heading>
+      <div class="">
+        <Input
+          variant="primary"
+          size="large"
+          placeholder="Tu nombre"
+          type="text"
+        />
+        <Input
+          variant="primary"
+          size="large"
+          placeholder="Telefono"
+          type="number"
+        />
+        <Input
+          variant="primary"
+          size="large"
+          placeholder="Tu nombre"
+          type="date"
+        />
+        <Input
+          variant="primary"
+          size="large"
+          placeholder="password"
+          type="password"
+        />
+        <Input
+          variant="primary"
+          size="large"
+          placeholder="ejemplo@dominio.com"
+          type="email"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
