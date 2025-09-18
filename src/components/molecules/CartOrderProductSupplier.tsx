@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "../atoms/Icon";
-import { User } from "phosphor-react";
+import { User, CalendarBlank } from "phosphor-react";
 import { Text } from "../atoms/Text";
 import { Button } from "../atoms/Button";
 import { Select } from "../atoms/Select";
@@ -13,13 +13,10 @@ type ProductInfo = {
   title: string;
   subtitle: string;
   price: string;
-  userText?: string;
 };
 
 type CartOrderProductSupplierProps = {
   id: string | number;
-  leftText?: string;
-  rightText?: string;
   selectLabel?: string;
   selectOptions?: { value: string; label: string }[];
   buttonText?: string;
@@ -28,42 +25,36 @@ type CartOrderProductSupplierProps = {
 
 export function CartOrderProductSupplier({
   id,
-  leftText = "texto",
-  rightText = "texto",
-  selectLabel = "texto:",
+  selectLabel = "text:",
   selectOptions = [{ value: "texto", label: "texto" }],
   buttonText = "text",
   productInfo,
 }: CartOrderProductSupplierProps) {
   return (
     <div className="bg-white rounded-xl shadow p-6 w-full">
-      {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
+          <Icon tamano="small" variant="default">
+            <CalendarBlank />
+          </Icon>
           <Text size="md" weight="bold">#{id}</Text>
-          <Text size="sm" color="muted">{leftText}</Text>
-        </div>
-        <div className="flex items-center gap-2">
-          <Text size="sm" color="muted">{rightText}</Text>
+          <Text size="sm" color="muted">text</Text>
         </div>
       </div>
 
-      {/* Select + Button Row */}
       <div className="flex items-center gap-2 mb-4">
-        <Label className="mr-2">{selectLabel}</Label>
+        <Text size="sm" weight="bold" className="mr-2">{selectLabel}</Text>
         <Select options={selectOptions} size="sm" />
-        <Button size="sm" variant="primary">{buttonText}</Button>
+        <Button size="small" variant="primary" text={buttonText} />
       </div>
 
-      {/* Supplier Row */}
       <div className="flex items-center gap-2 mb-4">
         <Icon tamano="small" variant="default">
           <User />
         </Icon>
-        <Text size="sm" color="muted">{selectLabel}</Text>
+        <Text size="sm" color="muted">text:</Text>
       </div>
 
-      {/* Product Card */}
       <div className="relative flex bg-gray-50 rounded-lg p-3 items-center gap-3 min-h-[120px]">
         <Image
           src={productInfo.imageUrl}
@@ -77,14 +68,7 @@ export function CartOrderProductSupplier({
           <HelperText>{productInfo.subtitle}</HelperText>
           <Text size="md" weight="bold" color="primary">{productInfo.price}</Text>
         </div>
-        {/* Icon + text at bottom right */}
-        <div className="absolute bottom-2 right-3 flex items-center gap-1">
-          <Icon tamano="small" variant="default">
-            <User />
-          </Icon>
-          <Text size="sm" color="muted">{productInfo.userText || "texto:"}</Text>
         </div>
       </div>
-    </div>
   );
 }

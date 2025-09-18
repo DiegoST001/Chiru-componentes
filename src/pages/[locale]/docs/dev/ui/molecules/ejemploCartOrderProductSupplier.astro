@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartOrderProductSupplier } from "@/components/molecules/CartOrderProductSupplier";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const mockProduct = {
+  imageUrl: "https://dummyimage.com/100x100/eee/aaa.png&text=ProductImage+100x100",
+  title: "Título del texto",
+  subtitle: "texto",
+  price: "S/. 0.00",
+};
+---
+
+<Layout title="CartOrderProductSupplier">
+  <div class="flex flex-col gap-10 p-8 bg-neutral-100 min-h-screen">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">CartOrderProductSupplier - Ejemplo</h1>
+    <CartOrderProductSupplier
+      id={0}
+      selectLabel="text:"
+      selectOptions={[{ value: "texto", label: "texto" }]}
+      buttonText="text"
+      productInfo={mockProduct}
+      client:load
+    />
+  </div>
+</Layout>
