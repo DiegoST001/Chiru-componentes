@@ -1,12 +1,12 @@
 import React from "react";
 import { cntl } from "@/utils/cntl";
 
-type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+type SelectProps = Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> & {
   /** Opciones del select */
   options: { value: string; label: string }[];
   /** Variante */
   variant?: "default" | "outline";
-  /** Tamaño */
+  /** Tamaño personalizado */
   size?: "small" | "medium" | "large";
   /** Texto del label */
   label?: string;
@@ -38,11 +38,23 @@ function getSelectStyles({ variant, size, fullWidth, disabled }: Partial<SelectP
   `;
 }
 
-function Select({ options, label, variant, size, fullWidth, disabled, ...props }: SelectProps) {
+function Select({
+  options,
+  label,
+  variant,
+  size,
+  fullWidth,
+  disabled,
+  ...props
+}: SelectProps) {
   return (
     <div className={`flex flex-col gap-1 ${fullWidth ? "w-full" : "w-auto"}`}>
       {label && <span className="text-sm font-medium text-gray-700">{label}</span>}
-      <select className={getSelectStyles({ variant, size, fullWidth, disabled })} disabled={disabled} {...props}>
+      <select
+        className={getSelectStyles({ variant, size, fullWidth, disabled })}
+        disabled={disabled}
+        {...props}
+      >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

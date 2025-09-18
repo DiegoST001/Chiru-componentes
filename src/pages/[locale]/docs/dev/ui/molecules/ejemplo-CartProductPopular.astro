@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartProductPopular } from "@/components/molecules/CartProductPopular";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const mockProduct = {
+  id: "1",
+  urlImage: "https://i.pinimg.com/474x/c6/ed/d1/c6edd154f50416dba0def70b87777253.jpg",
+  name: "TEXT_PRICE",
+  price: 49.99,
+  oldPrice: 60.0,
+  rating: 4.7,
+  description: "text",
+};
+---
+
+<Layout title="Ejemplo de CartProductPopular">
+  <div class="max-w-md mx-auto my-10">
+    <CartProductPopular client:load size="medium" dataProduct={mockProduct} />
+  </div>
+</Layout>

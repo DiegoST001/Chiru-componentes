@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { FilterSupplier } from "@/components/molecules/FilterSupplier";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+type Filters = {
+  text: string;
+  option: string;
+  date: string;
+};
+
+function handleFilter(filters: Filters) {
+  console.log("Filtros aplicados:", filters);
+}
+---
+
+<Layout title="Ejemplo FilterSupplier">
+  <div class="max-w-4xl mx-auto my-10">
+    <FilterSupplier client:load size="medium" onFilter={handleFilter} />
+  </div>
+</Layout>
