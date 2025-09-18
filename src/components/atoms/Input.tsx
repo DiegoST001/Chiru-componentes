@@ -2,23 +2,14 @@ import React from "react";
 import { cntl } from "@/utils/cntl";
 
 type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {
-  /** Tipo de input: text, email, number, date... */
   type?: "text" | "email" | "number" | "password" | "date";
-  /** Ícono opcional (phosphor-react) */
   icon?: React.ReactNode;
-  /** Posición del ícono */
   positionIcon?: "left" | "right";
-  /** Si ocupa todo el ancho */
   fullWidth?: boolean;
-  /** Tamaño */
   size?: "small" | "medium" | "large";
-  /** Variante */
   variant?: "default" | "outline";
 };
 
-/**
- * Genera estilos dinámicos para el input
- */
 function getInputStyles({
   type,
   size,
@@ -56,9 +47,7 @@ function getInputStyles({
   `;
 }
 
-/**
- * Input atómico con soporte para íconos
- */
+
 function Input({
   type = "text",
   icon,
