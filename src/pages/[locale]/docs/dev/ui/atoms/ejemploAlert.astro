@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Alert } from "@/components/atoms/Alert";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Alertas">
+  <div class="space-y-4">
+    <Alert title="Éxito" variant="success">
+    Text
+    </Alert>
+
+    <Alert title="Error" variant="error">
+    Text
+    </Alert>
+
+    <Alert variant="warning">
+    Text
+    </Alert>
+  </div>
+</Layout>
