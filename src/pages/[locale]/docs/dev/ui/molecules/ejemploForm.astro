@@ -1,0 +1,95 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Form } from "@/components/molecules/Form";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const fields = [
+  {
+    id: "text1",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "text",
+    placeholder: "abc"
+  },
+  {
+    id: "text2",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "text",
+    placeholder: "abc"
+  },
+  {
+    id: "email",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "email",
+    placeholder: "abc@gmail.com"
+  },
+  {
+    id: "select",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "select",
+    options: [
+      { value: "abc", label: "abc" }
+    ],
+    placeholder: "abc"
+  },
+  {
+    id: "fecha",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "date",
+    placeholder: "dd/mm/aaaa"
+  },
+  {
+    id: "pass",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "password",
+    placeholder: "*****"
+  },
+  {
+    id: "num",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "input",
+    inputType: "number",
+    placeholder: "34567"
+  },
+  {
+    id: "combo",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "combo",
+    selectOptions: [
+      { value: "DNI", label: "DNI" },
+      { value: "CE", label: "CE" }
+    ],
+    selectPlaceholder: "DNI",
+    inputPlaceholder: "12345678"
+  },
+  {
+    id: "comentario",
+    label: "text",
+    helper: "Lorem ipsum dolor sit amet.",
+    type: "textarea",
+    placeholder: "Escribe aquí...",
+    rows: 3
+  }
+];
+---
+
+<Layout title="Forms: todos los campos posibles">
+  <h1 class="font-bold text-2xl mb-4">Forms: todos los campos posibles</h1>
+  <Form client:load fields={fields} />
+</Layout>
