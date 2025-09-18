@@ -1,67 +1,85 @@
 import React from "react";
 import { cntl } from "@/utils/cntl";
 
-type InputTypes = React.InputHTMLAttributes<HTMLInputElement>["type"];
-
-type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & {
-  type?: InputTypes;
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "fill";
-  size?: "small" | "medium" | "large";
+type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {
+  /** Tipo de input: text, email, number, date... */
+  type?: "text" | "email" | "number" | "password" | "date";
+  /** Ícono opcional (phosphor-react) */
+  icon?: React.ReactNode;
+  /** Posición del ícono */
+  positionIcon?: "left" | "right";
+  /** Si ocupa todo el ancho */
   fullWidth?: boolean;
+  /** Tamaño */
+  size?: "small" | "medium" | "large";
+  /** Variante */
+  variant?: "default" | "outline";
 };
 
-function getInputStyle(
-  variant?: InputProps["variant"],
-  size?: InputProps["size"],
-  disabled?: boolean,
-  fullWidth?: boolean
-) {
+/**
+ * Genera estilos dinámicos para el input
+ */
+function getInputStyles({
+  type,
+  size,
+  variant,
+  fullWidth,
+  positionIcon,
+  disabled,
+}: Partial<InputProps>) {
   const baseStyles =
-    "inline-flex items-center justify-start font-medium rounded-md transition-colors disabled:pointer-events-none gap-4";
+    "flex items-center rounded-md border transition focus-within:ring-2 focus-within:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed";
 
-  const stylesVariant = {
-    primary: cntl`bg-indigo-50 text-gray-900 border border-indigo-300 focus-visible:ring-indigo-700`,
-    secondary: cntl`bg-gray-100 text-gray-800 border border-gray-300 focus-visible:ring-0`,
-    outline: cntl`border border-gray-300 bg-transparent text-gray-900 hover:bg-gray-50 focus-visible:ring-indigo-700`,
-    ghost: cntl`text-gray-900 bg-transparent hover:bg-gray-100 focus-visible:ring-gray-500`,
-    danger: cntl`bg-red-50 text-red-800 border border-red-300 focus-visible:ring-red-500`,
-    fill: cntl`bg-gray-50 text-gray-900 focus-visible:ring-gray-500 border border-gray-200`,
+  const variants = {
+    default: cntl`bg-gray-100 border-gray-300 text-gray-900 focus-within:border-indigo-500`,
+    outline: cntl`bg-white border-gray-400 text-gray-900 focus-within:border-indigo-500`,
   };
 
-  const sizeStyles = {
-    small: "h-8 px-3 text-sm",
-    medium: "h-10 px-4 text-base",
-    large: "h-12 px-6 text-lg",
+  const sizes = {
+    small: "h-8 px-2 text-sm gap-2",
+    medium: "h-10 px-3 text-base gap-2",
+    large: "h-12 px-4 text-lg gap-3",
+  };
+
+  const positions = {
+    left: "flex-row",
+    right: "flex-row-reverse",
   };
 
   return cntl`
     ${baseStyles}
-    ${stylesVariant[variant || "primary"]}
-    ${sizeStyles[size || "medium"]}
-    ${fullWidth ? "w-full" : ""}
-    ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+    ${variants[variant || "default"]}
+    ${sizes[size || "medium"]}
+    ${positions[positionIcon || "left"]}
+    ${fullWidth ? "w-full" : "w-auto"}
+    ${disabled ? "opacity-50" : ""}
   `;
 }
 
-const Input: React.FC<InputProps> = ({
+/**
+ * Input atómico con soporte para íconos
+ */
+function Input({
   type = "text",
-  variant = "primary",
-  size = "medium",
-  fullWidth = false,
-  disabled = false,
-  className,
-  ...rest
-}) => {
-  const inputClassName = getInputStyle(variant, size, disabled, fullWidth);
-
+  icon,
+  positionIcon = "left",
+  fullWidth,
+  size,
+  variant,
+  disabled,
+  ...props
+}: InputProps) {
   return (
-    <input
-      type={type}
-      className={cntl`${inputClassName} ${className || ""}`}
-      disabled={disabled}
-      {...rest}
-    />
+    <div className={getInputStyles({ type, size, variant, fullWidth, positionIcon, disabled })}>
+      {icon && <span className="text-gray-500">{icon}</span>}
+      <input
+        type={type}
+        className="w-full bg-transparent outline-none"
+        disabled={disabled}
+        {...props}
+      />
+    </div>
   );
-};
+}
 
 export { Input };

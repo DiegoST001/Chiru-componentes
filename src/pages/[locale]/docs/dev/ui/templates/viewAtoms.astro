@@ -11,6 +11,7 @@ import {
   Check,
   Download,
   Heart,
+  MagnifyingGlass,
   Pencil,
   Plus,
   Star,
@@ -325,36 +326,29 @@ export async function getStaticPaths() {
     <div class="flex flex-col gap-4">
       <Heading level={3} color="primary">Input</Heading>
       <div class="">
+        <Input placeholder="Pequeno" size="small" />
+        <Input placeholder="Médio (padrão)" size="medium" />
+        <Input placeholder="Grande" size="large" />
+        <Input placeholder="Outline" variant="outline" />
+
+        <Input placeholder="Desabilitado" disabled />
+        <div class="w-full max-w-md">
+          <Input placeholder="Ocupa toda a largura" fullWidth />
+        </div>
+
         <Input
-          variant="primary"
-          size="large"
-          placeholder="Tu nombre"
-          type="text"
-        />
-        <Input
-          variant="primary"
-          size="large"
-          placeholder="Telefono"
-          type="number"
-        />
-        <Input
-          variant="primary"
-          size="large"
-          placeholder="Tu nombre"
-          type="date"
-        />
-        <Input
-          variant="primary"
-          size="large"
-          placeholder="password"
-          type="password"
-        />
-        <Input
-          variant="primary"
-          size="large"
-          placeholder="ejemplo@dominio.com"
           type="email"
-        />
+          placeholder="Digite seu e-mail"
+          size="large"
+          positionIcon="left"
+        >
+          <MagnifyingGlass
+            slot={"icon"}
+            size={30}
+            weight="bold"
+            color="hotpink"
+          />
+        </Input>
       </div>
     </div>
   </section>

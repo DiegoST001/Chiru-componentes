@@ -44,7 +44,7 @@ function getButtonStyles(
     primary: cntl`bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:ring-indigo-700`,
     secondary: cntl`bg-gray-600 text-white hover:bg-gray-700 focus-visible:ring-gray-500`,
     outline: cntl`border border-gray-300 bg-transparent text-gray-900 hover:bg-gray-50 focus-visible:ring-gray-500`,
-    ghost: cntl`text-gray-900 hover:bg-gray-100 focus-visible:ring-gray-500`,
+    ghost: cntl`bg-gray-900 text-white hover:bg-gray-800 transition`,
     danger: cntl`bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500`,
   };
   const sizes = {

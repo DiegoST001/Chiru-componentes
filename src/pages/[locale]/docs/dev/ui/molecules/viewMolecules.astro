@@ -1,0 +1,87 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartProduct } from "@/components/molecules/CartProduct";
+import { Heading } from "@/components/atoms/Heading";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const productExample = {
+  id: "1",
+  name: "Product 1",
+  price: 100,
+  imageUrl:
+    "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor",
+  discount: 10,
+  brand: "Dewalt",
+};
+---
+
+<Layout title="View Molecules">
+  <div class="w-full flex justify-center mb-8">
+    <Heading level={1} color="primary">Lista de moléculas</Heading>
+  </div>
+
+  <div class="px-4 space-y-12">
+
+    <!-- En una grid -->
+    <div>
+      <Heading level={3}>Cart Product</Heading>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <CartProduct
+          client:load
+          size="small"
+          className="w-full"
+          product={productExample}
+        />
+        <CartProduct
+          client:load
+          size="small"
+          className="w-full"
+          product={productExample}
+        />
+        <CartProduct
+          client:load
+          size="small"
+          className="w-full"
+          product={productExample}
+        />
+      </div>
+    </div>
+
+    <!-- En un flex horizontal -->
+    <div class="rounded-lg">
+      <Heading level={4}>Dentro de un Flex horizontal</Heading>
+      <div class="flex flex-wrap gap-2 md:gap-4">
+        <CartProduct
+          client:load
+          size="small"
+          className="flex-1  min-w-[150px]"
+          product={productExample}
+        />
+        <CartProduct
+          client:load
+          size="small"
+          className="flex-1  min-w-[150px]"
+          product={productExample}
+        />
+        <CartProduct
+          client:load
+          size="small"
+          className="flex-1  min-w-[150px]"
+          product={productExample}
+        />
+        <CartProduct
+          client:load
+          size="small"
+          className="flex-1  min-w-[150px]"
+          product={productExample}
+        />
+      </div>
+    </div>
+  </div>
+</Layout>
