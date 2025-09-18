@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartService } from "@/components/molecules/CartService";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const data = {
+  imageUrl: "https://placehold.co/720x400/E5E7EB/6B7280?text=ProductImage%20250x250",
+  title: "Text-Title",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vulputate nulla at ante rhoncus.",
+  price: 0,
+  currency: "S/.",     
+  metaRight: "",       
+};
+
+const cardWidth = 360;   
+const imageHeight = 220; 
+---
+
+<Layout title="CartService">
+  <div class="my-10 flex justify-center">
+    <CartService client:load dataService={data} cardWidth={cardWidth} imageHeight={imageHeight} />
+  </div>
+</Layout>

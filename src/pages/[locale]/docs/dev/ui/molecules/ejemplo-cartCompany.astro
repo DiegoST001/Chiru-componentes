@@ -1,0 +1,38 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartCompany } from "@/components/molecules/CartCompany";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const mockCompany = {
+  id: "1",
+  avatarUrl: "https://i.pinimg.com/736x/6f/a3/6a/6fa36aa2c367da06b2a4c8ae1cf9ee02.jpg",
+  name: "Empresa ACME",
+  tagLabel: "Verificado",
+  rightText: "Premium",
+};
+
+const sizes = ["small", "medium", "large"] as const;
+const variants = ["default", "primary", "secondary"] as const;
+---
+<Layout title="Ejemplo CartCompany">
+  <div class="flex flex-col gap-10 p-8 bg-neutral-100 min-h-screen">
+    <h1 class="text-2xl font-bold text-gray-800">CartCompany - Combinaciones</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sizes.map((size) => (
+        variants.map((variant) => (
+          <CartCompany
+            client:load
+            size={size}
+            variant={variant}
+            dataCompany={mockCompany}
+          />
+        ))
+      ))}
+    </div>
+  </div>
+</Layout>
