@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Heading } from "@/components/atoms/Heading";
+import NavegationSupplierComponent from "@/components/molecules/NavegationSupplier";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<Layout title="NavegationSupplier - Chiru Components" locale={locale}>
+  <main class="container mx-auto p-8">
+    <Heading level={1} className="mb-8">
+      NavegationSupplier - Molécula
+    </Heading>
+    
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Ejemplo por defecto
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <div class="flex justify-center">
+          <NavegationSupplierComponent client:load />
+        </div>
+      </div>
+    </section>

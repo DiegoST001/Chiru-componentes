@@ -1,0 +1,61 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Heading } from "@/components/atoms/Heading";
+import ProfileBtnSupplierComponent from "@/components/molecules/ProfileBtnSupplier";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<Layout title="ProfileBtnSupplier - Chiru Components" locale={locale}>
+  <main class="container mx-auto p-8">
+    <Heading level={1} className="mb-8">
+      ProfileBtnSupplier - Molécula
+    </Heading>
+    
+    <section class="mb-12">
+    
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <div class="flex justify-center">
+          <ProfileBtnSupplierComponent client:load />
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <div class="space-y-4">
+          <ProfileBtnSupplierComponent 
+            title="Proveedor Principal"
+            imageUrl="https://imgs.search.brave.com/iD6YRq2HK6Sjy1OyxK8J9--NSspkmmwBrTw0qJtZSww/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9ob21i/cmUtZGUtbmVnb2Np/b3MtY29tby1lbXBy/ZXNhcmlvLWpvdmVu/LTg4NDQ4ODcxLmpw/Zw"
+            imageAlt="Proveedor Principal"
+            client:load 
+          />
+          
+          <ProfileBtnSupplierComponent 
+            title="Nuevo Proveedor"
+            imageUrl="https://imgs.search.brave.com/iD6YRq2HK6Sjy1OyxK8J9--NSspkmmwBrTw0qJtZSww/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9ob21i/cmUtZGUtbmVnb2Np/b3MtY29tby1lbXBy/ZXNhcmlvLWpvdmVu/LTg4NDQ4ODcxLmpw/Zw"
+            imageAlt="Nuevo Proveedor"
+            client:load 
+          />
+          
+          <ProfileBtnSupplierComponent 
+            title="Proveedor Destacado"
+            imageUrl="https://imgs.search.brave.com/iD6YRq2HK6Sjy1OyxK8J9--NSspkmmwBrTw0qJtZSww/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9ob21i/cmUtZGUtbmVnb2Np/b3MtY29tby1lbXBy/ZXNhcmlvLWpvdmVu/LTg4NDQ4ODcxLmpw/Zw"
+            imageAlt="Proveedor Destacado"
+            client:load 
+          />
+        </div>
+      </div>
+    </section>
+
+   
+  </main>
+</Layout>
