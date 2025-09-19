@@ -1,5 +1,5 @@
 import React from "react";
-import type { IconProps } from "phosphor-react"; // tipos propios de la librería
+import type { IconProps } from "phosphor-react";
 import { cntl } from "@/utils/cntl";
 
 type CustomIconProps = IconProps & {
@@ -23,15 +23,18 @@ function Icon({ tamano = "medium", variant = "default", children, weight = "regu
     info: "text-blue-600",
   };
 
-  // Solo clona si children es un ReactElement
+  // ✅ Arreglo: Maneja correctamente los elementos React
+  if (!React.isValidElement(children)) {
+    return null;
+  }
+
   return (
     <span className={cntl`inline-flex ${variants[variant]}`}>
-      {React.isValidElement(children)
-        ? React.cloneElement(children, {
-            size: sizes[tamano],
-            ...props,
-          })
-        : null}
+      {React.cloneElement(children as React.ReactElement<any>, {
+        size: sizes[tamano],
+        weight,
+        ...props,
+      })}
     </span>
   );
 }
