@@ -17,7 +17,7 @@ type RegisterFormProps = {
 
 function getRegisterFormStyles() {
   return cntl`
-    w-full max-w-md mx-auto p-8 bg-white rounded-lg border-2 border-red-500 shadow-lg
+    w-full max-w-md mx-auto p-8 bg-white rounded-lg shadow-lg
   `;
 }
 
