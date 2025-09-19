@@ -31,13 +31,11 @@ function getRightSectionStyles() {
 function Navbar({ className }: NavbarProps) {
   return (
     <nav className={cntl`${getNavbarStyles()} ${className || ""}`}>
-      {/* Sección izquierda: CategoryDropdown + NavLinks */}
       <div className={getLeftSectionStyles()}>
         <CategoryDropdown />
         <NavLinks />
       </div>
 
-      {/* Sección derecha: RightNavLinks */}
       <div className={getRightSectionStyles()}>
         <RightNavLinks />
       </div>

@@ -5,7 +5,6 @@ import { Text } from "@/components/atoms/Text";
 import { cntl } from "@/utils/cntl";
 
 type HeaderProps = {
-  /** Clase CSS adicional */
   className?: string;
 };
 
@@ -40,14 +39,12 @@ function getNavSectionStyles() {
 function Header({ className }: HeaderProps) {
   return (
     <header className={cntl`${getHeaderStyles()} ${className || ""}`}>
-      {/* Logo Chiru en rojo */}
       <div className={getLogoStyles()}>
         <Text size="xl" weight="bold" color="danger">
           Chiru
         </Text>
       </div>
 
-      {/* Barra de búsqueda con dropdown */}
       <div className={getSearchSectionStyles()}>
         <SearchBar
           placeholder="Buscar"
@@ -58,7 +55,6 @@ function Header({ className }: HeaderProps) {
         />
       </div>
 
-      {/* Iconos de navegación con labels "text" */}
       <div className={getNavSectionStyles()}>
         <NavIcons
           items={[
