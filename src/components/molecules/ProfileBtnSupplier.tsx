@@ -45,12 +45,10 @@ function ProfileBtnSupplier({
       className={buttonClasses}
       onClick={onClick}
     >
-      {/* Texto del título */}
       <Text size="base" weight="medium" color="default">
         {title}
       </Text>
 
-      {/* Imagen de perfil 112x112 */}
       <div className="w-28 h-28 ml-3">
         <img
           src={imageUrl}

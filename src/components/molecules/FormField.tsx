@@ -28,7 +28,6 @@ function getFormFieldStyles() {
   `;
 }
 
-// ✅ Función helper mejorada
 function getIconElement(icon: React.ReactNode | string, size: number = 20): React.ReactNode {
   if (typeof icon === 'string') {
     switch (icon) {

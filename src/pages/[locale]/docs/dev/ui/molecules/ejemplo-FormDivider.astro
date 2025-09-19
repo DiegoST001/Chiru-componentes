@@ -11,10 +11,8 @@ export async function getStaticPaths() {
 <Layout title="Ejemplo de FormDivider">
   <div class="max-w-md mx-auto my-10 space-y-8">
 
-    <!-- Divider sin texto -->
     <FormDivider client:load variant="solid" spacing="medium" />
 
-    <!-- Divider con texto -->
     <FormDivider 
       client:load 
       text="o continúa con" 
@@ -24,7 +22,6 @@ export async function getStaticPaths() {
       textSize="sm"
     />
 
-    <!-- Otro ejemplo -->
     <FormDivider 
       client:load 
       text="Sección Importante"
