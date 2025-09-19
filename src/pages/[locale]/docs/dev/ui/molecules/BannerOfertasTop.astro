@@ -1,0 +1,242 @@
+---
+import Layout from "../../../../../../layouts/Layout.astro";
+import { getStaticLanguagePaths } from "../../../../../../i18n/utils";
+import { Heading } from "../../../../../../components/atoms/Heading";
+import { Text } from "../../../../../../components/atoms/Text";
+import { BannerOfertasTop } from "../../../../../../components/molecules/BannerOfertasTop";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<Layout title="BannerOfertasTop - Ofertas Destacadas" locale={locale}>
+  <main class="container mx-auto p-8">
+    <Heading level={1} className="mb-8">
+      BannerOfertasTop - Ofertas Destacadas
+    </Heading>
+    
+    <Text className="mb-8 text-gray-600">
+      Componente molécula que muestra un carrusel horizontal de ofertas destacadas. 
+      Usa el componente CardPromotions para mantener consistencia visual.
+      Ideal para secciones de promociones, ofertas especiales y productos destacados.
+    </Text>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Ofertas por Defecto
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerOfertasTop client:load />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Ofertas Tecnológicas
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerOfertasTop 
+          title="Mega Ofertas Tech"
+          ofertas={[
+            {
+              id: "tech1",
+              imageUrl: "https://placehold.co/260x300/3B82F6/ffffff?text=iPhone+15",
+              title: "iPhone 15 Pro",
+              subtitle: "Apple iPhone",
+              rightText: "Desc. 20%",
+              price: 999.99,
+              badge: "NUEVO"
+            },
+            {
+              id: "tech2",
+              imageUrl: "https://placehold.co/260x300/10B981/ffffff?text=Samsung+S24",
+              title: "Galaxy S24 Ultra",
+              subtitle: "Samsung Galaxy",
+              rightText: "Desc. 25%",
+              price: 1199.99,
+              badge: "HOT"
+            },
+            {
+              id: "tech3",
+              imageUrl: "https://placehold.co/260x300/F59E0B/ffffff?text=Laptop+Dell",
+              title: "XPS 13 Plus",
+              subtitle: "Dell Ultrabook",
+              rightText: "Desc. 15%",
+              price: 1299.99,
+              badge: "POPULAR"
+            },
+            {
+              id: "tech4",
+              imageUrl: "https://placehold.co/260x300/EF4444/ffffff?text=iPad+Pro",
+              title: "iPad Pro 12.9",
+              subtitle: "Apple iPad",
+              rightText: "Desc. 18%",
+              price: 1099.99,
+              badge: "PREMIUM"
+            },
+            {
+              id: "tech5",
+              imageUrl: "https://placehold.co/260x300/8B5CF6/ffffff?text=AirPods+Pro",
+              title: "AirPods Pro 2",
+              subtitle: "Apple Audio",
+              rightText: "Desc. 30%",
+              price: 249.99,
+              badge: "OFERTA"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Ofertas del Hogar
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerOfertasTop 
+          title="Especiales para el Hogar"
+          ofertas={[
+            {
+              id: "hogar1",
+              imageUrl: "https://placehold.co/260x300/06B6D4/ffffff?text=Smart+TV",
+              title: "Smart TV 65'",
+              subtitle: "Samsung QLED",
+              rightText: "Desc. 35%",
+              price: 899.99,
+              badge: "MEGA"
+            },
+            {
+              id: "hogar2",
+              imageUrl: "https://placehold.co/260x300/84CC16/ffffff?text=Refrigeradora",
+              title: "Refrigeradora 500L",
+              subtitle: "LG InstaView",
+              rightText: "Desc. 20%",
+              price: 1499.99,
+              badge: "AHORRO"
+            },
+            {
+              id: "hogar3",
+              imageUrl: "https://placehold.co/260x300/F97316/ffffff?text=Lavadora",
+              title: "Lavadora 18kg",
+              subtitle: "Samsung AddWash",
+              rightText: "Desc. 25%",
+              price: 799.99,
+              badge: "POPULAR"
+            },
+            {
+              id: "hogar4",
+              imageUrl: "https://placehold.co/260x300/EC4899/ffffff?text=Microondas",
+              title: "Microondas 30L",
+              subtitle: "Panasonic Inverter",
+              rightText: "Desc. 40%",
+              price: 299.99,
+              badge: "HOT"
+            }
+          ]}
+          cardSize="large"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Ofertas Compactas (Sin navegación)
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerOfertasTop 
+          title="Flash Sale"
+          ofertas={[
+            {
+              id: "flash1",
+              imageUrl: "https://placehold.co/260x300/DC2626/ffffff?text=Reloj+Smart",
+              title: "Apple Watch S9",
+              subtitle: "Apple Wearable",
+              rightText: "Desc. 25%",
+              price: 399.99,
+              badge: "FLASH"
+            },
+            {
+              id: "flash2",
+              imageUrl: "https://placehold.co/260x300/7C3AED/ffffff?text=Headphones",
+              title: "Sony WH-1000XM5",
+              subtitle: "Sony Audio",
+              rightText: "Desc. 30%",
+              price: 299.99,
+              badge: "LIMITED"
+            },
+            {
+              id: "flash3",
+              imageUrl: "https://placehold.co/260x300/059669/ffffff?text=Speaker",
+              title: "HomePod Mini",
+              subtitle: "Apple Smart",
+              rightText: "Desc. 20%",
+              price: 99.99,
+              badge: "SALE"
+            }
+          ]}
+          cardSize="small"
+          showNavigation={false}
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Sin título
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerOfertasTop 
+          title=""
+          ofertas={[
+            {
+              id: "notitle1",
+              imageUrl: "https://placehold.co/260x300/6B7280/ffffff?text=Producto+A",
+              title: "Producto Especial",
+              subtitle: "Marca Premium",
+              rightText: "Desc. 10%",
+              price: 199.99,
+              badge: "NUEVO"
+            },
+            {
+              id: "notitle2",
+              imageUrl: "https://placehold.co/260x300/9CA3AF/ffffff?text=Producto+B",
+              title: "Otro Producto",
+              subtitle: "Calidad Superior",
+              rightText: "Desc. 15%",
+              price: 149.99,
+              badge: "OFERTA"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+        <p class="text-sm text-gray-600 mt-4 text-center">
+          Ejemplo sin título principal
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

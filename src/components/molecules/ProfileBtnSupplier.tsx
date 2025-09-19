@@ -1,0 +1,67 @@
+import React from "react";
+import { Button } from "../atoms/Button";
+import { Image } from "../atoms/Image";
+import { Text } from "../atoms/Text";
+import { cntl } from "@/utils/cntl";
+
+interface ProfileBtnSupplierProps {
+  title?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  onClick?: () => void;
+  className?: string;
+}
+
+function ProfileBtnSupplier({ 
+  title = "Text-Title", 
+  imageUrl = "https://via.placeholder.com/112x112/e2e8f0/64748b?text=Profile",
+  imageAlt = "Profile image",
+  onClick,
+  className 
+}: ProfileBtnSupplierProps) {
+  const buttonClasses = cntl`
+    flex
+    items-center
+    justify-between
+    px-4
+    py-3
+    border
+    border-gray-300
+    rounded-lg
+    bg-white
+    hover:bg-gray-50
+    focus:outline-none
+    focus:ring-2
+    focus:ring-blue-500
+    focus:border-blue-500
+    transition-colors
+    duration-200
+    ${className}
+  `;
+
+  return (
+    <button 
+      type="button"
+      className={buttonClasses}
+      onClick={onClick}
+    >
+      {/* Texto del título */}
+      <Text size="base" weight="medium" color="default">
+        {title}
+      </Text>
+
+      {/* Imagen de perfil 112x112 */}
+      <div className="w-28 h-28 ml-3">
+        <img
+          src={imageUrl}
+          alt={imageAlt}
+          className="w-full h-full object-cover rounded-full border border-gray-200"
+          width={112}
+          height={112}
+        />
+      </div>
+    </button>
+  );
+}
+
+export default ProfileBtnSupplier;
