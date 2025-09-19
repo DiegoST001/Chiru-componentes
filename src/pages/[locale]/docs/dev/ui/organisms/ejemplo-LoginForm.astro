@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { LoginForm } from "@/components/organisms/LoginForm";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de LoginForm">
+  <div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <LoginForm 
+      client:load 
+      onSubmit={(data) => {
+        console.log('Form submitted:', data);
+        alert('Login successful!');
+      }}
+      onGoogleLogin={() => {
+        console.log('Google login clicked');
+      }}
+      onSignIn={() => {
+        console.log('Sign in clicked');
+      }}
+      onForgotPassword={() => {
+        console.log('Forgot password clicked');
+      }}
+    />
+  </div>
+</Layout>

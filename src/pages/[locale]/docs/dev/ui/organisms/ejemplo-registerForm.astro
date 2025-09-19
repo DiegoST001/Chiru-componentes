@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { RegisterForm } from "@/components/organisms/RegisterForm";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de RegisterForm">
+  
+  <div class="px-4 py-8 flex justify-center">
+    <RegisterForm 
+      client:load 
+      className="w-full max-w-lg"
+      icons={{
+        name: "user",
+        phone: "phone",
+        email: "at",
+        password: "lock"
+      }}
+    />
+  </div>
+</Layout>

@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Header } from "@/components/organisms/Header";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de Header">
+  <Header client:load />
+</Layout>
