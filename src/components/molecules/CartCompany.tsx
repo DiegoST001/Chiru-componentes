@@ -1,90 +1,93 @@
 import React from "react";
-import { Icon } from "../atoms/Icon";
-import { User } from "phosphor-react";
+import { Avatar } from "../atoms/Avatar";
+import { Tag } from "../atoms/Tag";
 import { Text } from "../atoms/Text";
-import { Button } from "../atoms/Button";
-import { Select } from "../atoms/Select";
-import { Image } from "../atoms/Image";
-import { Label } from "../atoms/Label";
-import { HelperText } from "../atoms/HelperText";
+import { cntl } from "@/utils/cntl";
 
-type ProductInfo = {
-  imageUrl: string;
-  title: string;
-  subtitle: string;
-  price: string;
-  userText?: string;
+type CartCompanyProps = {
+  size?: "small" | "medium" | "large";
+  variant?: "default" | "primary" | "secondary";
+  dataCompany?: {
+    id: string;
+    avatarUrl: string;
+    name: string;
+    tagLabel: string;
+    rightText: string;
+  };
 };
 
-type CartOrderProductSupplierProps = {
-  id: string | number;
-  leftText?: string;
-  rightText?: string;
-  selectLabel?: string;
-  selectOptions?: { value: string; label: string }[];
-  buttonText?: string;
-  productInfo: ProductInfo;
-};
+function getCartCompanyStyles(size?: CartCompanyProps["size"], variant?: CartCompanyProps["variant"]) {
+  const base = `
+    flex items-center justify-between gap-4
+    rounded-md shadow-sm border w-full
+  `;
 
-export function CartOrderProductSupplier({
-  id,
-  leftText = "texto",
-  rightText = "texto",
-  selectLabel = "texto:",
-  selectOptions = [{ value: "texto", label: "texto" }],
-  buttonText = "text",
-  productInfo,
-}: CartOrderProductSupplierProps) {
+  const sizeStyles = {
+    small: "text-sm p-2 min-w-[220px]",
+    medium: "text-base p-4 min-w-[280px]",
+    large: "text-lg p-6 min-w-[340px]",
+  };
+
+  const variantStyles = {
+    default: "bg-white border-gray-200",
+    primary: "bg-blue-50 border-blue-200",
+    secondary: "bg-gray-50 border-gray-300",
+  };
+
+  return cntl`
+    ${base}
+    ${sizeStyles[size || "medium"]}
+    ${variantStyles[variant || "default"]}
+  `;
+}
+
+function getAvatarSize(size: CartCompanyProps["size"]) {
+  if (size === "small") return "sm";
+  if (size === "large") return "xl";
+  return "lg";
+}
+
+function getTagSize(size: CartCompanyProps["size"]) {
+  return size === "small" ? "small" : "medium";
+}
+
+function CartCompany({
+  size = "medium",
+  variant = "default",
+  dataCompany,
+}: CartCompanyProps) {
   return (
-    <div className="bg-white rounded-xl shadow p-6 w-full">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <Text size="md" weight="bold">#{id}</Text>
-          <Text size="sm" color="muted">{leftText}</Text>
-        </div>
-        <div className="flex items-center gap-2">
-          <Text size="sm" color="muted">{rightText}</Text>
-        </div>
-      </div>
-
-      {/* Select + Button Row */}
-      <div className="flex items-center gap-2 mb-4">
-        <Label className="mr-2">{selectLabel}</Label>
-        <Select options={selectOptions} size="sm" />
-        <Button size="sm" variant="primary">{buttonText}</Button>
-      </div>
-
-      {/* Supplier Row */}
-      <div className="flex items-center gap-2 mb-4">
-        <Icon tamano="small" variant="default">
-          <User />
-        </Icon>
-        <Text size="sm" color="muted">{selectLabel}</Text>
-      </div>
-
-      {/* Product Card */}
-      <div className="relative flex bg-gray-50 rounded-lg p-3 items-center gap-3 min-h-[120px]">
-        <Image
-          src={productInfo.imageUrl}
-          alt="ProductImage"
-          width={100}
-          height={100}
-          className="rounded-md object-cover bg-gray-200"
+    <div className={getCartCompanyStyles(size, variant)}>
+      {/* Avatar + Info */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <Avatar
+          src={dataCompany?.avatarUrl || ""}
+          alt={dataCompany?.name || "Company"}
+          size={getAvatarSize(size)}
+          shape="circle"
         />
-        <div className="flex flex-col min-w-0">
-          <Text size="md" weight="semibold">{productInfo.title}</Text>
-          <HelperText>{productInfo.subtitle}</HelperText>
-          <Text size="md" weight="bold" color="primary">{productInfo.price}</Text>
-        </div>
-        {/* Icon + text at bottom right */}
-        <div className="absolute bottom-2 right-3 flex items-center gap-1">
-          <Icon tamano="small" variant="default">
-            <User />
-          </Icon>
-          <Text size="sm" color="muted">{productInfo.userText || "texto:"}</Text>
+
+        <div className="flex flex-col gap-1 min-w-0 truncate">
+          <Text size="base" weight="medium" className="truncate">
+            {dataCompany?.name}
+          </Text>
+          <Tag
+            text={dataCompany?.tagLabel || ""}
+            size={getTagSize(size)}
+            variant="primary"
+            textColor="white"
+            weight="bold"
+            rounded="md"
+          />
         </div>
       </div>
+
+      {/* Texto a la derecha */}
+      <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
+        {dataCompany?.rightText}
+      </Text>
     </div>
   );
 }
+
+export { CartCompany };
