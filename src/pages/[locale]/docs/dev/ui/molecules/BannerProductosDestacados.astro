@@ -1,0 +1,271 @@
+---
+import Layout from "../../../../../../layouts/Layout.astro";
+import { getStaticLanguagePaths } from "../../../../../../i18n/utils";
+import { Heading } from "../../../../../../components/atoms/Heading";
+import { Text } from "../../../../../../components/atoms/Text";
+import { BannerProductosDestacados } from "../../../../../../components/molecules/BannerProductosDestacados";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<Layout title="BannerProductosDestacados - Lista de Productos" locale={locale}>
+  <main class="container mx-auto p-8">
+    <Heading level={1} className="mb-8">
+      BannerProductosDestacados - Lista de Productos
+    </Heading>
+    
+    <Text className="mb-8 text-gray-600">
+      Componente molécula que muestra una lista/grid de productos destacados. 
+      Usa el componente CartProduct para mantener consistencia visual.
+      Ideal para secciones de productos recomendados, ofertas especiales o catálogo principal.
+    </Text>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Grid de 4 columnas por defecto
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerProductosDestacados client:load />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Grid de 3 columnas - Productos Tecnológicos
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerProductosDestacados 
+          title="Tecnología Avanzada"
+          columns={3}
+          productos={[
+            {
+              id: "tech1",
+              name: "iPhone 15 Pro Max",
+              price: 1199.99,
+              description: "El iPhone más avanzado con chip A17 Pro, cámaras profesionales y titanio de grado aeroespacial.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 10,
+              brand: "Apple"
+            },
+            {
+              id: "tech2",
+              name: "MacBook Air M3",
+              price: 1299.99,
+              description: "Laptop ultradelgada con chip M3, pantalla Liquid Retina de 13 pulgadas y hasta 18 horas de batería.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 15,
+              brand: "Apple"
+            },
+            {
+              id: "tech3",
+              name: "Samsung Galaxy S24 Ultra",
+              price: 1299.99,
+              description: "Smartphone premium con S Pen integrado, cámaras con IA y pantalla Dynamic AMOLED 2X.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 20,
+              brand: "Samsung"
+            },
+            {
+              id: "tech4",
+              name: "PlayStation 5 Slim",
+              price: 499.99,
+              description: "Consola de nueva generación con SSD ultrarrápido, audio 3D y gráficos ray-tracing.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 8,
+              brand: "Sony"
+            },
+            {
+              id: "tech5",
+              name: "AirPods Pro 2",
+              price: 249.99,
+              description: "Auriculares inalámbricos con cancelación activa de ruido y audio espacial personalizado.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 25,
+              brand: "Apple"
+            },
+            {
+              id: "tech6",
+              name: "Microsoft Surface Pro 9",
+              price: 1099.99,
+              description: "Tablet 2-en-1 con procesador Intel Core i7, pantalla PixelSense de 13 pulgadas.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 12,
+              brand: "Microsoft"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Grid de 5 columnas - Ofertas Flash
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerProductosDestacados 
+          title="🔥 Ofertas Flash - Tiempo Limitado"
+          columns={5}
+          productos={[
+            {
+              id: "flash1",
+              name: "Smart Watch Series 9",
+              price: 399.99,
+              description: "Reloj inteligente con pantalla Always-On, GPS y monitor de salud avanzado.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 30,
+              brand: "Apple"
+            },
+            {
+              id: "flash2",
+              name: "Kindle Paperwhite",
+              price: 139.99,
+              description: "E-reader resistente al agua con pantalla de 6.8 pulgadas y luz cálida ajustable.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 40,
+              brand: "Amazon"
+            },
+            {
+              id: "flash3",
+              name: "Echo Dot 5ta Gen",
+              price: 49.99,
+              description: "Altavoz inteligente con Alexa, sonido más potente y hub de casa inteligente.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 50,
+              brand: "Amazon"
+            },
+            {
+              id: "flash4",
+              name: "JBL Flip 6",
+              price: 129.99,
+              description: "Altavoz Bluetooth portátil resistente al agua con sonido JBL Pro Sound.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 35,
+              brand: "JBL"
+            },
+            {
+              id: "flash5",
+              name: "Logitech MX Master 3S",
+              price: 99.99,
+              description: "Mouse inalámbrico de precisión con sensor de 8000 DPI y batería de 70 días.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 25,
+              brand: "Logitech"
+            }
+          ]}
+          cardSize="small"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Grid de 2 columnas - Productos Premium
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerProductosDestacados 
+          title="Selección Premium"
+          columns={2}
+          productos={[
+            {
+              id: "premium1",
+              name: "iMac 24' con Chip M3",
+              price: 1799.99,
+              description: "Computadora todo-en-uno con pantalla Retina 4.5K, chip M3 y diseño ultrafino disponible en colores vibrantes.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 8,
+              brand: "Apple"
+            },
+            {
+              id: "premium2",
+              name: "Samsung OLED 65' QN95C",
+              price: 2299.99,
+              description: "Smart TV OLED premium con Quantum HDR, procesador Neural Quantum 4K y sistema Tizen.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 15,
+              brand: "Samsung"
+            },
+            {
+              id: "premium3",
+              name: "Sony Alpha A7 IV",
+              price: 2499.99,
+              description: "Cámara mirrorless full-frame de 33MP con grabación 4K, estabilización de 5 ejes.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 12,
+              brand: "Sony"
+            },
+            {
+              id: "premium4",
+              name: "Dyson V15 Detect",
+              price: 749.99,
+              description: "Aspiradora inalámbrica con tecnología láser para detectar polvo microscópico.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 20,
+              brand: "Dyson"
+            }
+          ]}
+          cardSize="large"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Sin título (Solo productos)
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerProductosDestacados 
+          title=""
+          showTitle={false}
+          columns={3}
+          productos={[
+            {
+              id: "notitle1",
+              name: "Producto Ejemplo A",
+              price: 199.99,
+              description: "Descripción del producto ejemplo con características destacadas y especificaciones técnicas.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 15,
+              brand: "Marca A"
+            },
+            {
+              id: "notitle2",
+              name: "Producto Ejemplo B", 
+              price: 299.99,
+              description: "Otro producto de ejemplo con diferentes características y un precio competitivo en el mercado.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 10,
+              brand: "Marca B"
+            },
+            {
+              id: "notitle3",
+              name: "Producto Ejemplo C",
+              price: 149.99,
+              description: "Tercer producto de muestra con especificaciones únicas y gran relación calidad-precio.",
+              imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+              discount: 25,
+              brand: "Marca C"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+        <p class="text-sm text-gray-600 mt-4 text-center">
+          Ejemplo sin título - Solo mostrando productos
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>

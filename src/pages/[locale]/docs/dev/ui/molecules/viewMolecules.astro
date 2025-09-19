@@ -4,6 +4,10 @@ import { getStaticLanguagePaths } from "@/i18n/utils";
 import { CartProduct } from "@/components/molecules/CartProduct";
 import { Heading } from "@/components/atoms/Heading";
 import { CartProductRecommended } from "@/components/molecules/CartProductRecommended";
+import { BannerPromotional } from "@/components/molecules/BannerPromotional";
+import { BannerCompanyStars } from "@/components/molecules/BannerCompanyStars";
+import { BannerOfertasTop } from "@/components/molecules/BannerOfertasTop";
+import { BannerProductosDestacados } from "@/components/molecules/BannerProductosDestacados";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -107,6 +111,221 @@ const productExample = {
         className="inline-block max-w-[200px]"
         product={productExample}
       />
+    </div>
+
+    <div class="space-y-8">
+      <Heading level={2}>Banner Promotional</Heading>
+      
+      <div class="space-y-6">
+        <div>
+          <Heading level={4}>Banner por defecto</Heading>
+          <BannerPromotional client:load />
+        </div>
+
+        <div>
+          <Heading level={4}>Banner promocional full width</Heading>
+          <BannerPromotional 
+            brands={[
+              {
+                id: "promo1",
+                imageUrl: "https://images.falabella.com/v3/assets/bltf4ed0b9a176c126e/blt970823df33f67332/68c02fc64405f4b9bfa7f54a/zona-I-1x.jpg?auto=webp&quality=70&width=1200",
+                imageAlt: "Promoción Falabella",
+                brandName: "Falabella"
+              }
+            ]}
+            autoPlayInterval={0}
+            client:load 
+          />
+        </div>
+
+        <div>
+          <Heading level={4}>Carrusel de banners con auto-play</Heading>
+          <BannerPromotional 
+            brands={[
+              {
+                id: "auto1",
+                imageUrl: "https://images.falabella.com/v3/assets/bltf4ed0b9a176c126e/blt970823df33f67332/68c02fc64405f4b9bfa7f54a/zona-I-1x.jpg?auto=webp&quality=70&width=1200",
+                imageAlt: "Banner 1",
+                brandName: "Ofertas"
+              },
+              {
+                id: "auto2",
+                imageUrl: "https://images.falabella.com/v3/assets/bltf4ed0b9a176c126e/blt970823df33f67332/68c02fc64405f4b9bfa7f54a/zona-I-1x.jpg?auto=webp&quality=70&width=1200",
+                imageAlt: "Banner 2", 
+                brandName: "Descuentos"
+              }
+            ]}
+            autoPlayInterval={3000}
+            client:load 
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <Heading level={2}>Banner Company Stars</Heading>
+      
+      <div class="space-y-6">
+        <div>
+          <Heading level={4}>Empresas destacadas por defecto</Heading>
+          <BannerCompanyStars client:load />
+        </div>
+
+        <div>
+          <Heading level={4}>Empresas con tamaño pequeño</Heading>
+          <BannerCompanyStars 
+            title="Partners Tecnológicos"
+            companies={[
+              {
+                id: "tech1",
+                companyName: "Google",
+                category: "Tecnología",
+                location: "Silicon Valley, USA",
+                logoUrl: "https://via.placeholder.com/80x80/4285f4/ffffff?text=G"
+              },
+              {
+                id: "tech2",
+                companyName: "Microsoft",
+                category: "Software", 
+                location: "Redmond, USA",
+                logoUrl: "https://via.placeholder.com/80x80/00a1f1/ffffff?text=M"
+              },
+              {
+                id: "tech3",
+                companyName: "Apple",
+                category: "Hardware",
+                location: "Cupertino, USA",
+                logoUrl: "https://via.placeholder.com/80x80/000000/ffffff?text=🍎"
+              }
+            ]}
+            cardSize="small"
+            client:load 
+          />
+        </div>
+
+        <div>
+          <Heading level={4}>
+            <a href="./BannerCompanyStars" class="text-blue-500 hover:underline">
+              Ver ejemplos completos →
+            </a>
+          </Heading>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <Heading level={2}>Banner Ofertas Top</Heading>
+      
+      <div class="space-y-6">
+        <div>
+          <Heading level={4}>Ofertas destacadas por defecto</Heading>
+          <BannerOfertasTop client:load />
+        </div>
+
+        <div>
+          <Heading level={4}>Ofertas tecnológicas</Heading>
+          <BannerOfertasTop 
+            title="Mega Ofertas Tech"
+            ofertas={[
+              {
+                id: "tech1",
+                imageUrl: "https://placehold.co/260x300/3B82F6/ffffff?text=iPhone+15",
+                title: "iPhone 15 Pro",
+                subtitle: "Apple iPhone",
+                rightText: "Desc. 20%",
+                price: 999.99,
+                badge: "NUEVO"
+              },
+              {
+                id: "tech2",
+                imageUrl: "https://placehold.co/260x300/10B981/ffffff?text=Samsung+S24",
+                title: "Galaxy S24 Ultra",
+                subtitle: "Samsung Galaxy",
+                rightText: "Desc. 25%",
+                price: 1199.99,
+                badge: "HOT"
+              },
+              {
+                id: "tech3",
+                imageUrl: "https://placehold.co/260x300/F59E0B/ffffff?text=Laptop+Dell",
+                title: "XPS 13 Plus",
+                subtitle: "Dell Ultrabook",
+                rightText: "Desc. 15%",
+                price: 1299.99,
+                badge: "POPULAR"
+              }
+            ]}
+            cardSize="small"
+            client:load 
+          />
+        </div>
+
+        <div>
+          <Heading level={4}>
+            <a href="./BannerOfertasTop" class="text-blue-500 hover:underline">
+              Ver ejemplos completos →
+            </a>
+          </Heading>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <Heading level={2}>Banner Productos Destacados</Heading>
+      
+      <div class="space-y-6">
+        <div>
+          <Heading level={4}>Grid de productos por defecto (4 columnas)</Heading>
+          <BannerProductosDestacados client:load />
+        </div>
+
+        <div>
+          <Heading level={4}>Grid de 3 columnas - Productos tecnológicos</Heading>
+          <BannerProductosDestacados 
+            title="Tecnología Premium"
+            columns={3}
+            productos={[
+              {
+                id: "tech1",
+                name: "iPhone 15 Pro",
+                price: 999.99,
+                description: "El iPhone más avanzado con chip A17 Pro y cámaras profesionales.",
+                imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+                discount: 15,
+                brand: "Apple"
+              },
+              {
+                id: "tech2",
+                name: "MacBook Air M3",
+                price: 1299.99,
+                description: "Laptop ultradelgada con chip M3 y pantalla Retina.",
+                imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+                discount: 10,
+                brand: "Apple"
+              },
+              {
+                id: "tech3",
+                name: "Samsung Galaxy S24",
+                price: 899.99,
+                description: "Smartphone premium con cámaras IA y pantalla Dynamic AMOLED.",
+                imageUrl: "https://promart.vteximg.com.br/arquivos/ids/8819728-1000-1000/160569.jpg?v=638826698074400000",
+                discount: 20,
+                brand: "Samsung"
+              }
+            ]}
+            cardSize="small"
+            client:load 
+          />
+        </div>
+
+        <div>
+          <Heading level={4}>
+            <a href="./BannerProductosDestacados" class="text-blue-500 hover:underline">
+              Ver ejemplos completos →
+            </a>
+          </Heading>
+        </div>
+      </div>
     </div>
   </div>
 </Layout>

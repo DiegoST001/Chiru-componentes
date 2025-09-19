@@ -1,0 +1,220 @@
+---
+import Layout from "../../../../../../layouts/Layout.astro";
+import { getStaticLanguagePaths } from "../../../../../../i18n/utils";
+import { Heading } from "../../../../../../components/atoms/Heading";
+import { Text } from "../../../../../../components/atoms/Text";
+import { BannerCompanyStars } from "../../../../../../components/molecules/BannerCompanyStars";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<Layout title="BannerCompanyStars - Empresas Estrella" locale={locale}>
+  <main class="container mx-auto p-8">
+    <Heading level={1} className="mb-8">
+      BannerCompanyStars - Empresas Estrella
+    </Heading>
+    
+    <Text className="mb-8 text-gray-600">
+      Componente molécula que muestra un carrusel horizontal de empresas destacadas. 
+      Ideal para secciones de partners, clientes destacados o directorio de empresas.
+    </Text>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Empresas Estrella por Defecto
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerCompanyStars client:load />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Empresas Tecnológicas
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerCompanyStars 
+          title="Líderes en Tecnología"
+          companies={[
+            {
+              id: "tech1",
+              companyName: "Google",
+              category: "Tecnología",
+              location: "Silicon Valley, USA",
+              logoUrl: "https://via.placeholder.com/80x80/4285f4/ffffff?text=G"
+            },
+            {
+              id: "tech2",
+              companyName: "Microsoft",
+              category: "Software",
+              location: "Redmond, USA",
+              logoUrl: "https://via.placeholder.com/80x80/00a1f1/ffffff?text=M"
+            },
+            {
+              id: "tech3",
+              companyName: "Apple",
+              category: "Hardware",
+              location: "Cupertino, USA",
+              logoUrl: "https://via.placeholder.com/80x80/000000/ffffff?text=🍎"
+            },
+            {
+              id: "tech4",
+              companyName: "Amazon",
+              category: "E-commerce",
+              location: "Seattle, USA",
+              logoUrl: "https://via.placeholder.com/80x80/ff9900/ffffff?text=A"
+            },
+            {
+              id: "tech5",
+              companyName: "Meta",
+              category: "Social Media",
+              location: "Menlo Park, USA",
+              logoUrl: "https://via.placeholder.com/80x80/1877f2/ffffff?text=M"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Empresas Peruanas
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerCompanyStars 
+          title="Empresas Destacadas del Perú"
+          companies={[
+            {
+              id: "peru1",
+              companyName: "Falabella",
+              category: "Retail",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/e60012/ffffff?text=F"
+            },
+            {
+              id: "peru2",
+              companyName: "Ripley",
+              category: "Retail",
+              location: "Lima, Perú", 
+              logoUrl: "https://via.placeholder.com/80x80/ff6b00/ffffff?text=R"
+            },
+            {
+              id: "peru3",
+              companyName: "BCP",
+              category: "Banca",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/0066cc/ffffff?text=BCP"
+            },
+            {
+              id: "peru4",
+              companyName: "Interbank",
+              category: "Banca",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/00a651/ffffff?text=IB"
+            },
+            {
+              id: "peru5",
+              companyName: "Saga Falabella",
+              category: "Departamental",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/8b0000/ffffff?text=SF"
+            }
+          ]}
+          cardSize="large"
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Tamaño pequeño sin navegación
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerCompanyStars 
+          title="Startups Emergentes"
+          companies={[
+            {
+              id: "startup1",
+              companyName: "InnovateLab",
+              category: "AI/ML",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/9c27b0/ffffff?text=IL"
+            },
+            {
+              id: "startup2",
+              companyName: "TechVenture",
+              category: "Fintech",
+              location: "Arequipa, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/2e7d32/ffffff?text=TV"
+            },
+            {
+              id: "startup3",
+              companyName: "EcoTech",
+              category: "Sostenibilidad",
+              location: "Cusco, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/388e3c/ffffff?text=ET"
+            }
+          ]}
+          cardSize="small"
+          showNavigation={false}
+          client:load 
+        />
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <Heading level={2} className="mb-6">
+        Sin título
+      </Heading>
+      
+      <div class="p-6 border border-gray-200 rounded-lg bg-gray-50">
+        <BannerCompanyStars 
+          title=""
+          companies={[
+            {
+              id: "notitle1",
+              companyName: "Company Alpha",
+              category: "Servicios",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/607d8b/ffffff?text=CA"
+            },
+            {
+              id: "notitle2",
+              companyName: "Beta Solutions",
+              category: "Consultoría",
+              location: "Lima, Perú",
+              logoUrl: "https://via.placeholder.com/80x80/795548/ffffff?text=BS"
+            }
+          ]}
+          cardSize="medium"
+          client:load 
+        />
+        <p class="text-sm text-gray-600 mt-4 text-center">
+          Ejemplo sin título principal
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

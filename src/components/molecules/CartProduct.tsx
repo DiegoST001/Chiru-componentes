@@ -2,10 +2,13 @@ import React from "react";
 import { cntl } from "@/utils/cntl";
 import { Button } from "@/components/atoms/Button";
 import { Badge } from "../atoms/Badge";
+import { Image } from "../atoms/Image";
+import { Heading } from "../atoms/Heading";
+import { Text } from "../atoms/Text";
 import clsx from "clsx";
 
 type CartProductProps = {
-  size?: "small" | "medium";
+  size?: "small" | "medium" | "large";
   className?: string;
   imageHeight?: string; // <-- Nueva prop opcional para adaptar la altura de la imagen si es necesario
   product?: {
@@ -42,36 +45,38 @@ function CartProduct({
   return (
     <div className={clsx(getCartProductStyles(size), className)}>
       <div className="relative">
-        <img
+        <Image
           src={product?.imageUrl}
           alt={product?.name}
-          className={clsx("w-full object-cover bg-gray-200", imageHeight)}
+          className={clsx("w-full bg-gray-200", imageHeight)}
+          fit="cover"
+          radius="none"
         />
         {discount > 0 && (
-          <Badge variant="dangerInvert" size={size} className="absolute top-3 left-3">
+          <Badge variant="dangerInvert" size={size === "large" ? "medium" : size} className="absolute top-3 left-3">
             {discount}%
           </Badge>
         )}
         {product?.brand && (
-          <Badge variant="black" size={size} className="absolute top-3 right-3">
+          <Badge variant="black" size={size === "large" ? "medium" : size} className="absolute top-3 right-3">
             {product.brand}
           </Badge>
         )}
       </div>
 
       <div className="p-2 pt-0 sm:p-4 space-y-2">
-        <h3
+        <Heading 
+          level={3}
           className={clsx(
-            "font-bold",
             size === "small" && "text-base",
             size === "medium" && "text-lg",
             size === "large" && "text-2xl"
           )}
         >
           {product?.name || "Text-Title"}
-        </h3>
+        </Heading>
 
-        <p
+        <Text
           className={clsx(
             "text-gray-600",
             size === "small" && "text-xs",
@@ -81,33 +86,33 @@ function CartProduct({
         >
           {product?.description ||
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vulputate nulla at ante rhonc."}
-        </p>
+        </Text>
 
-        <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
+                <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
           {discount > 0 && (
-            <span
+            <Text
               className={clsx(
                 "line-through text-gray-400 max-w-md",
                 size === "small" ? "text-xs" : "text-sm"
               )}
             >
               S/. {price.toFixed(2)}
-            </span>
+            </Text>
           )}
-          <span
+          <Text
             className={clsx(
               "font-bold text-gray-800",
               size === "small" && "text-base",
-              size === "medium" && "text-xl",
+              size === "medium" && "text-lg",
               size === "large" && "text-2xl"
             )}
           >
             S/. {discountedPrice.toFixed(2)}
-          </span>
+          </Text>
         </div>
 
         <div>
-          <Badge variant="successInvert" size={size}>
+          <Badge variant="successInvert" size={size === "large" ? "medium" : size}>
             Envío gratuito
           </Badge>
         </div>
