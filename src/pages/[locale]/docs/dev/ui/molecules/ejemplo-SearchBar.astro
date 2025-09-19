@@ -1,0 +1,54 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { SearchBar } from "@/components/molecules/SearchBar";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de SearchBar">
+  <div class="max-w-4xl mx-auto my-10 space-y-8">
+    
+    <div class="space-y-4">
+      <div class="max-w-md">
+        <SearchBar 
+          client:load
+          placeholder="Buscar productos..."
+          onSearch={(value) => console.log('Búsqueda:', value)}
+        />
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="max-w-lg">
+        <SearchBar 
+          client:load
+          placeholder="Buscar por tipo..."
+          dropdownOptions={[
+            { value: "all", label: "Todos" },
+            { value: "electronics", label: "Electrónicos" },
+            { value: "clothing", label: "Ropa" },
+            { value: "books", label: "Libros" }
+          ]}
+          onSearch={(value, type) => console.log('Búsqueda:', value, 'tipo:', type)}
+        />
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="w-full">
+        <SearchBar 
+          client:load
+          placeholder="Búsqueda de ancho completo con filtros..."
+          dropdownOptions={["Todos", "Recientes", "Populares", "Favoritos"]}
+          fullWidth={true}
+          onSearch={(value, filter) => console.log('Búsqueda completa:', value, 'filtro:', filter)}
+        />
+      </div>
+    </div>
+
+
+  </div>
+</Layout>

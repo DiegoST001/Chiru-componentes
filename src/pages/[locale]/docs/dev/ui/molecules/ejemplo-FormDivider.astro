@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { FormDivider } from "@/components/molecules/FormDivider";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de FormDivider">
+  <div class="max-w-md mx-auto my-10 space-y-8">
+
+    <!-- Divider sin texto -->
+    <FormDivider client:load variant="solid" spacing="medium" />
+
+    <!-- Divider con texto -->
+    <FormDivider 
+      client:load 
+      text="o continúa con" 
+      variant="dashed" 
+      spacing="large" 
+      textColor="primary"
+      textSize="sm"
+    />
+
+    <!-- Otro ejemplo -->
+    <FormDivider 
+      client:load 
+      text="Sección Importante"
+      variant="solid"
+      spacing="medium"
+      textColor="danger"
+      textSize="lg"
+    />
+  </div>
+</Layout>

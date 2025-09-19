@@ -1,0 +1,41 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { SocialLoginButton } from "@/components/molecules/SocialLoginButton";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de SocialLoginButton">
+  <div class="max-w-sm mx-auto my-10 space-y-4">
+
+    <SocialLoginButton 
+      client:load
+      provider="google"
+      text="Continuar con Google"
+      onClick={() => console.log("Login con Google")}
+    />
+
+    <SocialLoginButton 
+      client:load
+      provider="facebook"
+      text="Ingresar con Facebook"
+      onClick={() => console.log("Login con Facebook")}
+    />
+
+    <SocialLoginButton 
+      client:load
+      provider="twitter"
+      onClick={() => console.log("Login con Twitter")}
+    />
+
+    <SocialLoginButton 
+      client:load
+      provider="github"
+      text="Entrar con GitHub"
+      onClick={() => console.log("Login con GitHub")}
+    />
+  </div>
+</Layout>

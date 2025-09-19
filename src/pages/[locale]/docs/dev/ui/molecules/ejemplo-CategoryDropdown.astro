@@ -1,0 +1,24 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CategoryDropdown } from "@/components/molecules/CategoryDropdown";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const categories = ["Café", "Té", "Jugos", "Postres"];
+let selectedCategory = "todas";
+---
+
+<Layout title="Ejemplo CategoryDropdown">
+  <div class="max-w-md mx-auto my-10">
+    <CategoryDropdown 
+      client:load
+      options={categories}
+      value={selectedCategory}
+      onChange={(value) => { selectedCategory = value }}
+    />
+
+  </div>
+</Layout>

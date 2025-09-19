@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { NavLinks } from "@/components/molecules/NavLinks";
+import type { NavLinkProps } from "@/components/molecules/NavLinks";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const exampleLinks: NavLinkProps[] = [
+  { text: "Inicio", color: "red", hasDropdown: false, dropdownOptions: [] },
+  { 
+    text: "Productos", 
+    color: "black", 
+    hasDropdown: true, 
+    dropdownOptions: [
+      { value: "cafe", label: "Café" },
+      { value: "te", label: "Té" },
+      { value: "jugos", label: "Jugos" },
+    ] 
+  },
+  { text: "Contacto", color: "black", hasDropdown: false, dropdownOptions: [] },
+];
+---
+
+<Layout title="Ejemplo NavLinks">
+  <div class="max-w-md mx-auto my-10">
+    <NavLinks client:load links={exampleLinks} />
+  </div>
+</Layout>

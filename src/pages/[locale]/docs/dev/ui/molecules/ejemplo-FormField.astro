@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { FormField } from "@/components/molecules/FormField";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Ejemplo de FormField">
+  <div class="max-w-md mx-auto my-10 space-y-6">
+    <h2 class="text-xl font-bold mb-4">Formulario de Ejemplo</h2>
+
+    <!-- Nombre completo -->
+    <FormField 
+      client:only="react"
+      label="Nombre completo" 
+      placeholder="Ingresa tu nombre"
+      icon="user"
+      required
+    />
+
+    <!-- Correo electrónico -->
+    <FormField 
+      client:only="react"
+      label="Correo electrónico"
+      type="email"
+      placeholder="ejemplo@correo.com"
+      icon="at"
+      required
+    />
+
+    <!-- Contraseña -->
+    <FormField 
+      client:only="react"
+      label="Contraseña"
+      type="password"
+      placeholder="Ingresa tu contraseña"
+      icon="lock"
+      error="La contraseña debe tener al menos 6 caracteres"
+      required
+    />
+  </div>
+</Layout>

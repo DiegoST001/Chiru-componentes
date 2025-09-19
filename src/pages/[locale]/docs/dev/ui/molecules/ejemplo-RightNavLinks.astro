@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { RightNavLinks } from "@/components/molecules/RightNavLinks";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const exampleRightLinks = [
+  { text: "Perfil", hasDropdown: false, dropdownOptions: [] },
+  { text: "Notificaciones", hasDropdown: false, dropdownOptions: [] },
+  { 
+    text: "Configuración", 
+    hasDropdown: true, 
+    dropdownOptions: [
+      { value: "cuenta", label: "Cuenta" },
+      { value: "privacidad", label: "Privacidad" },
+      { value: "ayuda", label: "Ayuda" },
+    ] 
+  },
+];
+---
+
+<Layout title="Ejemplo RightNavLinks">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente RightNavLinks</h2>
+
+    <RightNavLinks client:load links={exampleRightLinks} />
+  </div>
+</Layout>
