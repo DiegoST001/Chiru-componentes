@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from "../atoms/Icon";
 import { Text } from "../atoms/Text";
 import { cntl } from "@/utils/cntl";
@@ -9,7 +9,9 @@ import {
   FileText,
   User,
   ChartBar,
-  Gear
+  Gear,
+  List, // ícono de hamburguesa
+  X // ícono de cerrar
 } from "phosphor-react";
 
 interface NavItem {
@@ -26,33 +28,34 @@ interface NavegationSupplierProps {
   className?: string;
 }
 
-
-function NavegationSupplier({ 
+function NavegationSupplier({
   items = [
-    { id: "home", icon: <House />, label: "text", active: false },
-    { id: "search", icon: <MagnifyingGlass />, label: "text", active: false },
-    { id: "calendar", icon: <Calendar />, label: "text", active: false },
-    { id: "files", icon: <FileText />, label: "text", active: true, variant: "danger" },
-    { id: "user", icon: <User />, label: "text", active: false },
-    { id: "stats", icon: <ChartBar />, label: "text", active: false },
-    { id: "settings", icon: <Gear />, label: "text", active: false }
+    { id: "home", icon: <House />, label: "Inicio", active: false },
+    { id: "search", icon: <MagnifyingGlass />, label: "Buscar", active: false },
+    { id: "calendar", icon: <Calendar />, label: "Calendario", active: false },
+    { id: "files", icon: <FileText />, label: "Archivos", active: true, variant: "danger" },
+    { id: "user", icon: <User />, label: "Perfil", active: false },
+    { id: "stats", icon: <ChartBar />, label: "Estadísticas", active: false },
+    { id: "settings", icon: <Gear />, label: "Ajustes", active: false }
   ],
   onItemClick,
-  className 
+  className
 }: NavegationSupplierProps) {
-  
+  const [isOpen, setIsOpen] = useState(false);
+
   const containerClasses = cntl`
-    flex
+    hidden sm:flex   
     items-center
-    justify-center
-    gap-1
+    justify-space-around
+    gap-0.5
+    md:gap-1
+    lg:gap-2
     px-6
     py-3
     bg-white
     border
     border-gray-200
     rounded-2xl
-    shadow-sm
     ${className}
   `;
 
@@ -60,7 +63,7 @@ function NavegationSupplier({
     flex
     flex-col
     items-center
-    gap-1
+    gap-0.5
     px-4
     py-2
     rounded-lg
@@ -68,58 +71,85 @@ function NavegationSupplier({
     transition-all
     duration-200
     hover:bg-gray-50
-    ${item.active && item.variant === "danger" 
-      ? "bg-red-50 text-red-600" 
-      : item.active 
-        ? "bg-blue-50 text-blue-600" 
-        : "text-gray-600 hover:text-gray-800"
+    ${item.active && item.variant === "danger"
+      ? "bg-red-50 text-red-600"
+      : item.active
+      ? "bg-blue-50 text-blue-600"
+      : "text-gray-600 hover:text-gray-800"
     }
   `;
 
   const handleItemClick = (itemId: string) => {
-    if (onItemClick) {
-      onItemClick(itemId);
-    }
+    if (onItemClick) onItemClick(itemId);
+    setIsOpen(false); // cerrar menú en mobile al seleccionar
   };
 
   return (
-    <nav className={containerClasses}>
-      {items.map((item) => (
-        <button
-          key={item.id}
-          className={getItemClasses(item)}
-          onClick={() => handleItemClick(item.id)}
-          type="button"
-        >
-          <Icon 
-            tamano="medium"
-            variant={
-              item.active && item.variant === "danger" 
-                ? "danger" 
-                : item.active 
-                  ? "primary" 
-                  : "default"
-            }
+    <>
+      {/* Botón hamburguesa visible SOLO en pantallas < sm */}
+      <button
+        className="sm:hidden p-2 rounded-lg bg-white border border-gray-200"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X size={24} /> : <List size={24} />}
+      </button>
+
+      {/* Navegación normal en desktop */}
+      <nav className={containerClasses}>
+        {items.map((item) => (
+          <button
+            key={item.id}
+            className={getItemClasses(item)}
+            onClick={() => handleItemClick(item.id)}
+            type="button"
           >
-            {item.icon}
-          </Icon>
-          
-          <Text 
-            size="xs" 
-            weight="medium"
-            color={
-              item.active && item.variant === "danger" 
-                ? "danger" 
-                : item.active 
-                  ? "primary" 
+            <Icon
+              tamano="medium"
+              variant={
+                item.active && item.variant === "danger"
+                  ? "danger"
+                  : item.active
+                  ? "primary"
                   : "default"
-            }
-          >
-            {item.label}
-          </Text>
-        </button>
-      ))}
-    </nav>
+              }
+            >
+              {item.icon}
+            </Icon>
+            <Text
+              size="xs"
+              weight="medium"
+              color={
+                item.active && item.variant === "danger"
+                  ? "danger"
+                  : item.active
+                  ? "primary"
+                  : "default"
+              }
+            >
+              {item.label}
+            </Text>
+          </button>
+        ))}
+      </nav>
+
+      {/* Menú flotante en mobile */}
+      {isOpen && (
+        <div className="sm:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start">
+          <div className="bg-white rounded-lg shadow-lg mt-16 w-10/12 flex flex-col p-4 gap-2">
+            {items.map((item) => (
+              <button
+                key={item.id}
+                className="flex items-center gap-2 p-2 rounded hover:bg-gray-100"
+                onClick={() => handleItemClick(item.id)}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

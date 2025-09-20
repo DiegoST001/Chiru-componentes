@@ -1,0 +1,275 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import BrandSupplier from "../../../../../../components/organisms/BrandSupplier";
+
+import { NavigationSideSupplier } from "@/components/organisms/NavigationSideSupplier";
+import { Heading } from "@/components/atoms/Heading";
+import { HeaderCompany } from "@/components/organisms/HeaderCompany";
+import { HeaderCompanyProfile } from "@/components/organisms/HeaderCompanyProfile";
+import ScrollOrg from "@/components/molecules/ScrollOrg";
+import { BrandCart } from "@/components/molecules/BrandCart";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const brands = [
+  {
+    name: "Apple",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+    websiteUrl: "https://www.apple.com",
+  },
+  {
+    name: "Samsung",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+    websiteUrl: "https://www.samsung.com",
+  },
+  {
+    name: "Nike",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
+    websiteUrl: "https://www.nike.com",
+  },
+  {
+    name: "Adidas",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
+    websiteUrl: "https://www.adidas.com",
+  },
+  {
+    name: "Microsoft",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    websiteUrl: "https://www.microsoft.com",
+  },
+  {
+    name: "Google",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    websiteUrl: "https://www.google.com",
+  },
+  {
+    name: "Amazon",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    websiteUrl: "https://www.amazon.com",
+  },
+  {
+    name: "Tesla",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg",
+    websiteUrl: "https://www.tesla.com",
+  },
+  {
+    name: "Apple",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+    websiteUrl: "https://www.apple.com",
+  },
+  {
+    name: "Samsung",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+    websiteUrl: "https://www.samsung.com",
+  },
+  {
+    name: "Nike",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
+    websiteUrl: "https://www.nike.com",
+  },
+  {
+    name: "Adidas",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
+    websiteUrl: "https://www.adidas.com",
+  },
+  {
+    name: "Microsoft",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    websiteUrl: "https://www.microsoft.com",
+  },
+  {
+    name: "Google",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    websiteUrl: "https://www.google.com",
+  },
+  {
+    name: "Amazon",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    websiteUrl: "https://www.amazon.com",
+  },
+  {
+    name: "Tesla",
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg",
+    websiteUrl: "https://www.tesla.com",
+  },
+  {
+    name: "Sony",
+    logoUrl: "https://www.sony.com/en/template/2023/img/logo.svg",
+    websiteUrl: "https://www.sony.com",
+    color: "#000000",
+  },
+  {
+    name: "Coca-Cola",
+    logoUrl:
+      "https://www.coca-cola.com/content/dam/onexp/global/icons/Coke-company-logo-black.svg",
+    websiteUrl: "https://www.coca-cola.com",
+    color: "#E41E2B",
+  },
+];
+---
+
+<Layout>
+  <div class="container mx-auto px-2 py-8">
+    <Heading level={1} color="primary"> Organisms </Heading>
+
+    <section>
+      <Heading level={2}> Brand Supplier </Heading>
+      <BrandSupplier
+        title="Brand Supplier"
+        description="A section showcasing brand logos to build trust and credibility."
+        brands={brands}
+      />
+      <!-- <BrandSupplier /> -->
+    </section>
+    <section>
+      <Heading level={2}> Metodo de pagos </Heading>
+      <ScrollOrg
+        infinite
+        speed={15}
+        direction="horizontal"
+        size="100%"
+        className="p-4 scroll-hidden"
+        autoResumeDelay={5000}
+      >
+        {
+          brands.map((brand) => (
+            <BrandCart
+              key={brand.name}
+              name={brand.name}
+              logoUrl={brand.logoUrl}
+              websiteUrl={brand.websiteUrl}
+              color={brand.color}
+              showName={false}
+            />
+          ))
+        }
+      </ScrollOrg>
+    </section> 
+
+    <section class="h-[50rem] mb-12">
+      <NavigationSideSupplier
+        sections={[
+          {
+            title: "Principal",
+            items: [
+              { text: "Inicio", icon: "House", href: "/" },
+              { text: "Tiendas", icon: "Buildings", href: "/tiendas" },
+            ],
+          },
+          {
+            title: "Empresa",
+            items: [
+              { text: "Inicio", icon: "House", href: "/empresa" },
+              { text: "Tiendas", icon: "Buildings", href: "/empresa/tiendas" },
+              { text: "Agregar", icon: "Plus", href: "/empresa/agregar" },
+            ],
+          },
+        ]}
+        bottomAction={{
+          text: "Salir",
+          icon: "House",
+          variant: "danger",
+          href: "/logout",
+        }}
+      />
+    </section>
+
+    <section class="h-[50rem] mb-12">
+      <NavigationSideSupplier
+        responsive
+        sections={[
+          {
+            title: "Principal",
+            items: [
+              { text: "Inicio", icon: "House", href: "/" },
+              { text: "Tiendas", icon: "Buildings", href: "/tiendas" },
+            ],
+          },
+        ]}
+        bottomAction={{
+          text: "Cerrar sesión",
+          icon: "User",
+          variant: "danger",
+          href: "/logout",
+        }}
+      />
+    </section>
+
+    <section class="h-[50rem] mb-12">
+      <NavigationSideSupplier
+        sections={[
+          {
+            title: "Acciones rápidas",
+            items: [
+              {
+                text: "Crear producto",
+                icon: "Plus",
+                variant: "primary",
+                onClick: () => alert("Producto creado"),
+              },
+              {
+                text: "Abrir modal",
+                icon: "ToteSimple",
+                onClick: () => console.log("Abriste el modal"),
+              },
+            ],
+          },
+        ]}
+      />
+    </section>
+
+    <section class="h-[50rem] mb-12">
+      <NavigationSideSupplier
+        className="bg-gray-50 border-l-4 border-primary"
+        sections={[
+          {
+            title: "Panel",
+            items: [
+              {
+                text: "Dashboard",
+                icon: "House",
+                href: "/dashboard",
+                variant: "primary",
+                size: "medium",
+                className: "rounded-xl shadow-md",
+              },
+            ],
+          },
+        ]}
+        bottomAction={{
+          text: "Desconectar",
+          icon: "User",
+          variant: "dangerInverse",
+          onClick: () => console.log("Sesión cerrada"),
+        }}
+      />
+    </section>
+
+    <section class="h-[50rem]">
+      <HeaderCompany />
+    </section> 
+
+    <section class="h-[50rem]">
+      <HeaderCompanyProfile />
+    </section>
+  </div>
+</Layout>

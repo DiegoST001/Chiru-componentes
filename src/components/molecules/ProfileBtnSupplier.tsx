@@ -12,32 +12,36 @@ interface ProfileBtnSupplierProps {
   className?: string;
 }
 
-function ProfileBtnSupplier({ 
-  title = "Text-Title", 
+function ProfileBtnSupplier({
+  title = "Text-Title",
   imageUrl = "https://via.placeholder.com/112x112/e2e8f0/64748b?text=Profile",
   imageAlt = "Profile image",
   onClick,
-  className 
+  className,
 }: ProfileBtnSupplierProps) {
   const buttonClasses = cntl`
     flex
     items-center
-    justify-between
     px-4
     py-3
     border
+    gap-2
+    md:gap-3
+    lg:gap-4
     border-gray-300
-    rounded-lg
+    rounded-xl
     bg-white
     hover:bg-gray-50
-    focus:outline-none
-    focus:ring-2
-    focus:ring-blue-500
-    focus:border-blue-500
+
+
     transition-colors
     duration-200
     ${className}
   `;
+  //    focus:outline-none
+    // focus:ring-2
+    //   focus:ring-blue-500
+    // focus:border-blue-500
 
   return (
     <button 
