@@ -69,7 +69,7 @@ function ScrollOrg({
 
   return (
     <div className="relative w-full overflow-hidden">
-      {/* Botón izquierdo */}
+
       {withControls && (
         <Button
           variant="ghost"
@@ -101,14 +101,14 @@ function ScrollOrg({
         {infinite ? (
           <>
             {children}
-            {children} {/* duplicación para bucle */}
+            {children} 
           </>
         ) : (
           children
         )}
       </div>
 
-      {/* Botón derecho */}
+
       {withControls && (
         <Button
           variant="primary"

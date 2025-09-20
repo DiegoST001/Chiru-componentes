@@ -37,7 +37,6 @@ type NavIconsProps = {
   showLabels?: boolean;
 };
 
-// ✅ Helper function to get icon from string
 function getIconFromString(iconName: string): React.ReactNode {
   const iconMap: Record<string, React.ReactNode> = {
     user: <User />,
@@ -60,7 +59,7 @@ function getIconFromString(iconName: string): React.ReactNode {
     "user-circle": <UserCircle />,
   };
 
-  return iconMap[iconName] || <Package />; // fallback icon
+  return iconMap[iconName] || <Package />; 
 }
 
 function getNavIconsStyles(orientation: NavIconsProps["orientation"]) {
@@ -91,7 +90,6 @@ function getNavIconStyles(active?: boolean) {
 }
 
 function NavIcon({ icon, label, onClick, active }: NavIconProps) {
-  // Handle both string and ReactNode icons
   const iconElement = typeof icon === 'string' ? getIconFromString(icon) : icon;
 
   return (

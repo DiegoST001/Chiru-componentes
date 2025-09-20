@@ -1,0 +1,72 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductDetailView } from "@/components/organisms/ProductDetailView";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos de ejemplo
+const mockImages = [
+  { id: "1", imgUrl: "/assets/astro.svg" },
+  { id: "2", imgUrl: "/assets/astro.svg" },
+  { id: "3", imgUrl: "/assets/astro.svg" },
+];
+const mockProductList = [
+  { id: "1", imgUrl: "/assets/astro.svg" },
+  { id: "2", imgUrl: "/assets/astro.svg" },
+  { id: "3", imgUrl: "/assets/astro.svg" },
+];
+const mockDescription = {
+  name: "Auriculares Inalámbricos Pro",
+  description:
+    "Auriculares de última generación con cancelación de ruido activa, batería de larga duración y sonido envolvente.",
+  provider: "TechStore Perú",
+  verified: true,
+};
+const mockPriceInfo = {
+  currentPrice: "$1,299.00",
+  oldPrice: "$1,499.00",
+  saving: "$200.00",
+  freeShipping: true,
+};
+const mockActions = {
+  onBuy: () => alert("Comprar producto"),
+  onContact: () => alert("Contactar proveedor"),
+  onReport: () => alert("Reportar producto"),
+};
+// Tipado explícito para que TypeScript reconozca los literales correctamente
+const mockCartCompany: import("@/components/molecules/CartCompany").CartCompanyProps = {
+  size: "medium",
+  variant: "default",
+  id: "c1",
+  avatarUrl: "/assets/astro.svg",
+  name: "TechStore Perú",
+  tagLabel: "Premium",
+  rightText: "En stock",
+};
+const mockSpecs = [
+  "Bluetooth 5.2 de alta velocidad",
+  "Cancelación de ruido activa",
+  "Batería de 30 horas",
+  "Resistente al agua IPX5",
+  "Carga rápida USB-C",
+];
+---
+
+<Layout title="Ejemplo ProductDetailView">
+  <div class="my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductDetailView</h2>
+    <ProductDetailView
+      client:load
+      images={mockImages}
+      productList={mockProductList}
+      description={mockDescription}
+      priceInfo={mockPriceInfo}
+      actions={mockActions}
+  cartCompany={mockCartCompany}
+      specs={mockSpecs}
+    />
+  </div>
+</Layout>

@@ -44,18 +44,24 @@ function ProfileBtnSupplier({
     // focus:border-blue-500
 
   return (
-    <button type="button" className={buttonClasses} onClick={onClick}>
-      {/* Texto del título */}
-      <Text size="xs" weight="medium" color="default" >
+    <button 
+      type="button"
+      className={buttonClasses}
+      onClick={onClick}
+    >
+      <Text size="base" weight="medium" color="default">
         {title}
       </Text>
 
-      {/* Imagen de perfil 112x112 */}
-      <img
-        src={imageUrl}
-        alt={imageAlt}
-        className="w-11 h-11 md:w-14 md:h-14 object-cover rounded-full "
-      />
+      <div className="w-28 h-28 ml-3">
+        <img
+          src={imageUrl}
+          alt={imageAlt}
+          className="w-full h-full object-cover rounded-full border border-gray-200"
+          width={112}
+          height={112}
+        />
+      </div>
     </button>
   );
 }

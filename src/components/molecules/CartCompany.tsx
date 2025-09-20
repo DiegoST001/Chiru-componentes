@@ -7,13 +7,11 @@ import { cntl } from "@/utils/cntl";
 type CartCompanyProps = {
   size?: "small" | "medium" | "large";
   variant?: "default" | "primary" | "secondary";
-  dataCompany?: {
-    id: string;
-    avatarUrl: string;
-    name: string;
-    tagLabel: string;
-    rightText: string;
-  };
+  id: string;
+  avatarUrl: string;
+  name: string;
+  tagLabel: string;
+  rightText: string;
 };
 
 function getCartCompanyStyles(size?: CartCompanyProps["size"], variant?: CartCompanyProps["variant"]) {
@@ -54,25 +52,29 @@ function getTagSize(size: CartCompanyProps["size"]) {
 function CartCompany({
   size = "medium",
   variant = "default",
-  dataCompany,
+  id,
+  avatarUrl,
+  name,
+  tagLabel,
+  rightText,
 }: CartCompanyProps) {
   return (
     <div className={getCartCompanyStyles(size, variant)}>
       {/* Avatar + Info */}
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <Avatar
-          src={dataCompany?.avatarUrl || ""}
-          alt={dataCompany?.name || "Company"}
+          src={avatarUrl || ""}
+          alt={name || "Company"}
           size={getAvatarSize(size)}
           shape="circle"
         />
 
         <div className="flex flex-col gap-1 min-w-0 truncate">
           <Text size="base" weight="medium" className="truncate">
-            {dataCompany?.name}
+            {name}
           </Text>
           <Tag
-            text={dataCompany?.tagLabel || ""}
+            text={tagLabel || ""}
             size={getTagSize(size)}
             variant="primary"
             textColor="white"
@@ -84,10 +86,11 @@ function CartCompany({
 
       {/* Texto a la derecha */}
       <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
-        {dataCompany?.rightText}
+        {rightText}
       </Text>
     </div>
   );
 }
 
 export { CartCompany };
+export type { CartCompanyProps };

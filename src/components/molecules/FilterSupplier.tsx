@@ -48,7 +48,6 @@ function FilterSupplier({ size = "medium", onFilter }: FilterSupplierProps) {
 
   return (
     <div className={getFilterSupplierStyles(size)}>
-      {/* Input texto */}
       <Input
         type="text"
         placeholder="Text-Title"
@@ -68,7 +67,6 @@ function FilterSupplier({ size = "medium", onFilter }: FilterSupplierProps) {
         ]}
       />
 
-      {/* Input con calendario */}
       <Input
         type="date"
         placeholder="Text-Title"
@@ -77,7 +75,6 @@ function FilterSupplier({ size = "medium", onFilter }: FilterSupplierProps) {
         onChange={(e) => setDate(e.target.value)}
       />
 
-      {/* Botón */}
       <Button
         text="text"
         variant="primary"

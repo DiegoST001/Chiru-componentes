@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { FooterParagraphInline } from "@/components/molecules/FooterParagraphInline";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const mockHelp = {
+  title: "Ayuda",
+  items: [
+    { label: "Atención al cliente", href: "#" },
+    { label: "Litigios e informes", href: "#" },
+    { label: "Política de devoluciones y reembolsos", href: "#" },
+    { label: "Informar de una infracción DPI", href: "#" },
+    { label: "Información regulada", href: "#" },
+    { label: "Cumplimiento de la integridad", href: "#" },
+    { label: "Centro de Transparencia", href: "#" },
+    { label: "Entrada de quejas sin iniciar sesión", href: "#" },
+  ],
+};
+---
+
+<Layout title="Ejemplo Footer Ayuda Inline">
+  <div class="max-w-2xl mx-auto my-10">
+    <FooterParagraphInline client:load title={mockHelp.title} items={mockHelp.items} />
+  </div>
+</Layout>

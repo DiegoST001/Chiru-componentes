@@ -6,27 +6,16 @@ import { MagnifyingGlass } from "phosphor-react";
 import { cntl } from "@/utils/cntl";
 
 type SearchBarProps = {
-  /** Texto placeholder para el input */
   placeholder?: string;
-  /** Valor inicial del input */
   value?: string;
-  /** Opciones del dropdown */
   dropdownOptions?: string[] | { value: string; label: string }[];
-  /** Valor inicial del dropdown */
   defaultDropdownValue?: string;
-  /** Tamaño del componente */
   size?: "small" | "medium" | "large";
-  /** Ocupa todo el ancho */
   fullWidth?: boolean;
-  /** Callback cuando se hace búsqueda */
   onSearch?: (searchValue: string, selectedOption?: string) => void;
-  /** Callback cuando cambia el input */
   onChange?: (value: string) => void;
-  /** Callback cuando se selecciona una opción del dropdown */
   onDropdownSelect?: (option: string) => void;
-  /** Componente deshabilitado */
   disabled?: boolean;
-  /** Mostrar botón de búsqueda */
   showSearchButton?: boolean;
 };
 
@@ -95,7 +84,6 @@ function SearchBar({
   const [searchValue, setSearchValue] = useState(value || "");
   const [selectedOption, setSelectedOption] = useState(defaultDropdownValue || "");
 
-  // Procesar opciones del dropdown
   const processedOptions = dropdownOptions?.map((option) => {
     if (typeof option === "string") {
       return { value: option, label: option };
@@ -127,7 +115,6 @@ function SearchBar({
 
   return (
     <div className={getSearchBarStyles({ fullWidth })}>
-      {/* Dropdown Select */}
       {dropdownOptions && dropdownOptions.length > 0 && (
         <select
           value={selectedOption}
@@ -144,7 +131,6 @@ function SearchBar({
         </select>
       )}
 
-      {/* Search Input */}
       <input
         type="text"
         value={searchValue}
@@ -155,7 +141,6 @@ function SearchBar({
         className={getInputStyles({ size })}
       />
 
-      {/* Search Button */}
       {showSearchButton && (
         <button
           onClick={handleSearch}

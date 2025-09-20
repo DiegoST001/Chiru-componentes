@@ -1,0 +1,44 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductPriceInfo } from "@/components/molecules/ProductPriceInfo";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos falsos de prueba
+const mockPrice1 = {
+  currentPrice: "$1,299.00",
+  oldPrice: "$1,499.00",
+  saving: "$200.00",
+  freeShipping: true,
+};
+const mockPrice2 = {
+  currentPrice: "$899.00",
+  oldPrice: "$999.00",
+  saving: "$100.00",
+  freeShipping: false,
+};
+---
+
+<Layout title="Ejemplo ProductPriceInfo">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductPriceInfo</h2>
+    <ProductPriceInfo
+      client:load
+      currentPrice={mockPrice1.currentPrice}
+      oldPrice={mockPrice1.oldPrice}
+      saving={mockPrice1.saving}
+      freeShipping={mockPrice1.freeShipping}
+    />
+    <div class="my-6"></div>
+    <ProductPriceInfo
+      client:load
+      currentPrice={mockPrice2.currentPrice}
+      oldPrice={mockPrice2.oldPrice}
+      saving={mockPrice2.saving}
+      freeShipping={mockPrice2.freeShipping}
+    />
+  </div>
+</Layout>
