@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductSpecsList } from "@/components/molecules/ProductSpecsList";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Especificaciones de ejemplo
+const mockSpecs = [
+  "Bluetooth 5.2 de alta velocidad",
+  "Cancelación de ruido activa",
+  "Batería de 30 horas",
+  "Resistente al agua IPX5",
+  "Carga rápida USB-C",
+];
+---
+
+<Layout title="Ejemplo ProductSpecsList">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductSpecsList</h2>
+    <ProductSpecsList
+      client:load
+      specs={mockSpecs}
+      checkColor="success"
+    />
+  </div>
+</Layout>

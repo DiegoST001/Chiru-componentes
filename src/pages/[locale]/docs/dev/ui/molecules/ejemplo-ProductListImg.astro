@@ -1,0 +1,55 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductListImg } from "@/components/molecules/ProductListImg";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos falsos para mostrar productos de prueba
+const mockProducts = [
+  {
+    id: "1",
+    imgUrl: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg",
+  },
+  {
+    id: "2",
+    imgUrl: "https://i.pinimg.com/1200x/6c/0f/1d/6c0f1da95d7e93e9c1df3d3e5a23db42.jpg",
+  },
+  {
+    id: "3",
+    imgUrl: "https://i.pinimg.com/1200x/bb/62/8f/bb628ff51f67c2e41a2890b9d7a3af3b.jpg",
+  },
+  {
+    id: "4",
+    imgUrl: "https://i.pinimg.com/1200x/1a/85/2c/1a852c82254a447d25b167e07a4f79e3.jpg",
+  },
+  {
+    id: "5",
+    imgUrl: "https://i.pinimg.com/1200x/4b/4f/6f/4b4f6f82342f4568a9bb9621f267f053.jpg",
+  },
+  {
+    id: "6",
+    imgUrl: "https://i.pinimg.com/1200x/3f/8e/1d/3f8e1d27645a9e42a6cb622f50c7807d.jpg",
+  },
+];
+---
+
+<Layout title="Ejemplo de ProductListImg">
+  <div class="max-w-4xl mx-auto my-10">
+    <h2 class="text-xl font-bold mb-6">Componente ProductListImg</h2>
+
+    <!-- Ejemplo horizontal -->
+    <div class="mb-12">
+      <h3 class="font-semibold mb-4">Dirección Horizontal</h3>
+      <ProductListImg client:load products={mockProducts} direction="horizontal" size="small" />
+    </div>
+
+    <!-- Ejemplo vertical -->
+    <div>
+      <h3 class="font-semibold mb-4">Dirección Vertical</h3>
+      <ProductListImg client:load products={mockProducts} direction="vertical" size="small" />
+    </div>
+  </div>
+</Layout>

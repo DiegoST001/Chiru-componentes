@@ -1,0 +1,65 @@
+import React from "react";
+import { ProductCarousel } from "../molecules/ProductCarousel";
+import { ProductListImg } from "../molecules/ProductListImg";
+import { ProductDescription } from "../molecules/ProductDescription";
+import { ProductPriceInfo } from "../molecules/ProductPriceInfo";
+import { ProductActions } from "../molecules/ProductActions";
+import { CartCompany } from "../molecules/CartCompany";
+import { ProductSpecsList } from "../molecules/ProductSpecsList";
+
+// Tipos de props para cada sección
+import type { ImgProduct } from "../molecules/ProductCarousel";
+import type { ProductListImgProps } from "../molecules/ProductListImg";
+import type { ProductDescriptionProps } from "../molecules/ProductDescription";
+import type { ProductPriceInfoProps } from "../molecules/ProductPriceInfo";
+import type { ProductActionsProps } from "../molecules/ProductActions";
+import type { CartCompanyProps } from "../molecules/CartCompany";
+import type { ProductSpecsListProps } from "../molecules/ProductSpecsList";
+
+export type ProductDetailViewProps = {
+  images: ImgProduct[];
+  productList: ProductListImgProps["products"];
+  description: ProductDescriptionProps;
+  priceInfo: ProductPriceInfoProps;
+  actions: ProductActionsProps;
+  cartCompany: CartCompanyProps;
+  specs: ProductSpecsListProps["specs"];
+};
+
+function ProductDetailView({
+  images,
+  productList,
+  description,
+  priceInfo,
+  actions,
+  cartCompany,
+  specs,
+}: ProductDetailViewProps) {
+  return (
+    <div className="flex gap-8 w-full max-w-5xl mx-auto min-h-[600px]">
+      {/* Sección de imágenes */}
+      <div className="flex flex-col gap-6 flex-1 justify-between items-center bg-white rounded-xl shadow p-6">
+        <ProductCarousel products={images} size="large" />
+        <ProductListImg products={productList} direction="horizontal" size="small" />
+      </div>
+      {/* Sección de información */}
+      <div className="flex flex-col gap-6 flex-1 justify-between bg-white rounded-xl shadow p-6">
+        <ProductDescription {...description} />
+        <ProductPriceInfo {...priceInfo} />
+        <ProductActions {...actions} />
+        <CartCompany
+          size={cartCompany.size}
+          variant={cartCompany.variant}
+          id={cartCompany.id}
+          avatarUrl={cartCompany.avatarUrl}
+          name={cartCompany.name}
+          tagLabel={cartCompany.tagLabel}
+          rightText={cartCompany.rightText}
+        />
+        <ProductSpecsList specs={specs} />
+      </div>
+    </div>
+  );
+}
+
+export { ProductDetailView };

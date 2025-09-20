@@ -3,7 +3,6 @@
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
 import { Button } from "@/components/atoms/Button";
-import ButtonEjm from "@/components/atoms/ButtonEjm";
 import { Pencil, Trash } from "phosphor-react";
 
 export async function getStaticPaths() {
@@ -44,14 +43,5 @@ export async function getStaticPaths() {
     <Pencil slot="icon" />
   </Button>
 
-<ButtonEjm
-  type="button"
-  onClick={() => alert("Hola mundo")}
-  variant="primary"
-  size="medium"
-  client:load
->
-  Hola mundo
-</ButtonEjm>
 
 </Layout>

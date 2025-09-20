@@ -1,0 +1,32 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductActions } from "@/components/molecules/ProductActions";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Acciones de ejemplo
+function handleBuy() {
+  alert("Comprar producto");
+}
+function handleContact() {
+  alert("Contactar proveedor");
+}
+function handleReport() {
+  alert("Reportar producto");
+}
+---
+
+<Layout title="Ejemplo ProductActions">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductActions</h2>
+    <ProductActions
+      client:load
+      onBuy={handleBuy}
+      onContact={handleContact}
+      onReport={handleReport}
+    />
+  </div>
+</Layout>

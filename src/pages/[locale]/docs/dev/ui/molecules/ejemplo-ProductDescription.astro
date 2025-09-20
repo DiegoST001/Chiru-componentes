@@ -1,0 +1,32 @@
+---
+// src/pages/ejemplo-product-description.astro
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductDescription } from "@/components/molecules/ProductDescription";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos falsos de prueba
+const mockProduct = {
+  name: "Auriculares Inalámbricos Pro",
+  description:
+    "Auriculares de última generación con cancelación de ruido activa, batería de larga duración y sonido envolvente.",
+  provider: "TechStore Perú",
+  verified: true,
+};
+---
+
+<Layout title="Ejemplo ProductDescription">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductDescription</h2>
+    <ProductDescription
+      client:load
+      name={mockProduct.name}
+      description={mockProduct.description}
+      provider={mockProduct.provider}
+      verified={mockProduct.verified}
+    />
+  </div>
+</Layout>

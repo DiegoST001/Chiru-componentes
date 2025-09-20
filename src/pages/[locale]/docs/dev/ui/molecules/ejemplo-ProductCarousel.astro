@@ -1,0 +1,33 @@
+---
+// src/pages/ejemplos/EjemCarousel.astro
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductCarousel } from "@/components/molecules/ProductCarousel";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos falsos de prueba
+const mockProducts = [
+  {
+    id: "1",
+    imgUrl: "https://i.pinimg.com/1200x/0b/4a/b0/0b4ab030fdd6f9eed4879a279e3c7712.jpg",
+  },
+  {
+    id: "2",
+    imgUrl: "https://i.pinimg.com/736x/c6/20/66/c620660bf6a67c1369d47b19217fe963.jpg",
+  },
+  {
+    id: "3",
+    imgUrl: "https://i.pinimg.com/1200x/0b/4a/b0/0b4ab030fdd6f9eed4879a279e3c7712.jpg",
+  },
+];
+---
+
+<Layout title="Ejemplo de ProductCarousel">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductCarousel</h2>
+    <ProductCarousel client:load products={mockProducts} size="large" />
+  </div>
+</Layout>
