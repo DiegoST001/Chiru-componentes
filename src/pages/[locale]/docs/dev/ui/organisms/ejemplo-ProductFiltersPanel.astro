@@ -1,0 +1,79 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductFiltersPanel } from "@/components/organisms/ProductFiltersPanel";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+let freeShipping = false;
+function handleFreeShipping(val: boolean) {
+  freeShipping = val;
+}
+
+const categories = [
+  { value: "cat1", label: "Categoría 1" },
+  { value: "cat2", label: "Categoría 2" },
+];
+let selectedCategory = "cat1";
+function handleCategory(val: string) {
+  selectedCategory = val;
+}
+
+const brands = [
+  { id: "1", name: "Marca Uno" },
+  { id: "2", name: "Marca Dos" },
+  { id: "3", name: "Marca Tres" },
+];
+let selectedBrands = ["2"];
+function handleBrand(id: string) {
+  if (selectedBrands.includes(id)) {
+    selectedBrands = selectedBrands.filter((b) => b !== id);
+  } else {
+    selectedBrands = [...selectedBrands, id];
+  }
+}
+
+const colors = [
+  { value: "red", label: "Rojo" },
+  { value: "blue", label: "Azul" },
+];
+let selectedColor = "red";
+function handleColor(val: string) {
+  selectedColor = val;
+}
+
+const sizes = [
+  { value: "s", label: "S" },
+  { value: "m", label: "M" },
+  { value: "l", label: "L" },
+];
+let selectedSize = "m";
+function handleSize(val: string) {
+  selectedSize = val;
+}
+---
+
+<Layout title="Ejemplo ProductFiltersPanel">
+  <div class="max-w-xs mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductFiltersPanel</h2>
+    <ProductFiltersPanel
+      client:load
+      freeShipping={freeShipping}
+      onFreeShippingChange={handleFreeShipping}
+      categories={categories}
+      selectedCategory={selectedCategory}
+      onCategoryChange={handleCategory}
+      brands={brands}
+      selectedBrands={selectedBrands}
+      onBrandChange={handleBrand}
+      colors={colors}
+      selectedColor={selectedColor}
+      onColorChange={handleColor}
+      sizes={sizes}
+      selectedSize={selectedSize}
+      onSizeChange={handleSize}
+    />
+  </div>
+</Layout>

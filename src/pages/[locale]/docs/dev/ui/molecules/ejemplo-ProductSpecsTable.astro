@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductSpecsTable } from "@/components/molecules/ProductSpecsTable";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const specs = [
+  { key: "Ram", value: "12GB" },
+  { key: "Screen", value: "6.5 AMOLED" },
+  { key: "Storage", value: "256GB" },
+];
+---
+
+<Layout title="Ejemplo ProductSpecsTable">
+  <div class="max-w-2xl mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductSpecsTable</h2>
+    <ProductSpecsTable specs={specs} />
+  </div>
+</Layout>

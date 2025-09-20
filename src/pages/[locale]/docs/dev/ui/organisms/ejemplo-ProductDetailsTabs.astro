@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductDetailsTabs } from "@/components/organisms/ProductDetailsTabs";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const specs = [
+  { key: "Ram", value: "12GB" },
+  { key: "Screen", value: "6.5 AMOLED" },
+  { key: "Storage", value: "256GB" },
+];
+const descriptions = [
+  "6.5-inch AMOLED, 12GB RAM, 256GB Storage",
+  "Batería de larga duración, cámara triple, Android 13",
+];
+const companyInfo = `<strong>TechStore Perú</strong><br/>Empresa líder en tecnología y electrónica.`;
+---
+
+<Layout title="Ejemplo ProductDetailsTabs">
+  <div class="max-w-3xl mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente ProductDetailsTabs</h2>
+    <ProductDetailsTabs
+      specs={specs}
+      descriptions={descriptions}
+      companyInfo={companyInfo}
+    />
+  </div>
+</Layout>

@@ -1,0 +1,38 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { DropdownCheckboxList } from "@/components/molecules/DropdownCheckboxList";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const mockBrands = [
+  { id: "1", name: "Marca Uno" },
+  { id: "2", name: "Marca Dos" },
+  { id: "3", name: "Marca Tres" },
+  { id: "4", name: "Marca Cuatro" },
+];
+
+let selectedBrands = ["2"];
+function handleChange(id: string) {
+  if (selectedBrands.includes(id)) {
+    selectedBrands = selectedBrands.filter((b) => b !== id);
+  } else {
+    selectedBrands = [...selectedBrands, id];
+  }
+}
+---
+
+<Layout title="Ejemplo DropdownCheckboxList">
+  <div class="max-w-sm mx-auto my-10">
+    <h2 class="text-xl font-bold mb-4">Componente DropdownCheckboxList</h2>
+    <DropdownCheckboxList
+      client:load
+      label="Marcas"
+      options={mockBrands}
+      selected={selectedBrands}
+      onChange={handleChange}
+    />
+  </div>
+</Layout>
