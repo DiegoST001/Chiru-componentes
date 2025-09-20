@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { SectionOffersByCategory } from "@/components/organisms/SectionOffersByCategory";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Mock data de categorías (6)
+const mockCategories = [
+  { id: "1", urlImage: "https://ae01.alicdn.com/kf/S0449e88b491d456fa942fe22f32f9b413.png", name: "Moda mujer" },
+  { id: "2", urlImage: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg", name: "Tecnología" },
+  { id: "3", urlImage: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg", name: "Hogar" },
+  { id: "4", urlImage: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg", name: "Deportes" },
+  { id: "5", urlImage: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg", name: "Accesorios" },
+  { id: "6", urlImage: "https://i.pinimg.com/1200x/60/7a/9c/607a9c900ae6504ea31bc47780400143.jpg", name: "Belleza" },
+];
+
+// Mock base de producto
+const mockProduct = {
+  id: "1",
+  urlImage: "https://i.pinimg.com/474x/c6/ed/d1/c6edd154f50416dba0def70b87777253.jpg",
+  name: "TEXT_PRICE",
+  price: 49.99,
+  oldPrice: 60.0,
+  rating: 4.7,
+  description: "text",
+};
+
+// 3 productos con id y name distintos
+const mockProducts = [
+  mockProduct,
+  { ...mockProduct, id: "2", name: "TEXT_PRICE 2", price: 39.99 },
+  { ...mockProduct, id: "3", name: "TEXT_PRICE 3", price: 29.99 },
+];
+---
+
+<Layout title="Ejemplo de SectionOffersByCategory">
+  <SectionOffersByCategory
+    products={mockProducts}
+    categories={mockCategories}
+    client:load
+  />
+</Layout>

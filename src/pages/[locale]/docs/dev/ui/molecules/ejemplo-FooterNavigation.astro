@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { FooterNavigation } from "@/components/molecules/FooterNavigation";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos de prueba
+const mockFooter = {
+  title: "Atención al cliente",
+  items: [
+    { label: "Centro de ayuda", href: "#" },
+    { label: "Políticas de devolución", href: "#" },
+    { label: "Términos y condiciones", href: "#" },
+    { label: "Acuerdo de privacidad", href: "#" }, // sin href, se renderiza como texto
+  ],
+};
+---
+
+<Layout title="Ejemplo Footer Navigation">
+  <div class="max-w-md mx-auto my-10">
+    <h2 class="text-xl font-bold mb-6">Componente FooterNavigation</h2>
+
+    <FooterNavigation client:load title={mockFooter.title} items={mockFooter.items} />
+  </div>
+</Layout>

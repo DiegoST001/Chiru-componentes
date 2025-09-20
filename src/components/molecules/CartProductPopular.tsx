@@ -3,23 +3,24 @@ import { cntl } from "@/utils/cntl";
 import { Image } from "../atoms/Image";
 import { Text } from "../atoms/Text";
 
+export type ProductData = {
+  id: string;
+  urlImage: string;
+  name: string;
+  price: number;
+  oldPrice?: number;
+  rating: number;
+  description?: string;
+};
+
 type CartProductPopularProps = {
   size?: "small" | "medium" | "large";
-  dataProduct?: {
-    id: string;
-    urlImage: string;
-    name: string;
-    price: number;
-    oldPrice?: number;
-    rating: number;
-    description?: string;
-  };
+  dataProduct?: ProductData;
 };
 
 function getCartProductPopularStyles(size: CartProductPopularProps["size"]) {
   return cntl`
-    flex flex-col bg-white text-gray-900
-  rounded-md shadow-md overflow-hidden p-3
+    flex flex-col bg-white text-gray-900 rounded-md shadow-md overflow-hidden p-3
     ${size === "small" ? "w-48" : ""}
     ${size === "medium" ? "w-60" : ""}
     ${size === "large" ? "w-72" : ""}
