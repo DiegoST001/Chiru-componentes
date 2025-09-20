@@ -12,13 +12,20 @@ type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   bordered?: boolean;
   /** Ajuste del objeto dentro del contenedor */
   fit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+  /** Estilos en línea para el contenedor (span) */
+  wrapperStyle?: React.CSSProperties;
 };
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-function getImageWrapper(size?: ImageProps["size"], radius?: ImageProps["radius"], shadow?: boolean, bordered?: boolean) {
+function getImageWrapper(
+  size?: ImageProps["size"],
+  radius?: ImageProps["radius"],
+  shadow?: boolean,
+  bordered?: boolean
+) {
   const base = "inline-block overflow-hidden bg-white";
   const sizes = {
     small: "w-24 h-24",
@@ -53,10 +60,18 @@ function getImageClass(fit?: ImageProps["fit"]) {
 }
 
 /** Átomo: Image (wrapper + <img/>) */
-function Image({ size, radius, shadow, bordered, fit = "cover", className, alt, ...props }: ImageProps) {
-  // alt es obligatorio semánticamente
+function Image({
+  size,
+  radius,
+  shadow,
+  bordered,
+  fit = "cover",
+  className,
+  wrapperStyle,
+  alt,
+  ...props
+}: ImageProps) {
   if (!alt) {
-    // si tu linter no permite console.warn, quítalo
     console.warn("[Image] Se recomienda proveer `alt` por accesibilidad.");
   }
 
@@ -64,7 +79,7 @@ function Image({ size, radius, shadow, bordered, fit = "cover", className, alt, 
   const imgCls = getImageClass(fit);
 
   return (
-    <span className={cx(wrapper, className)}>
+    <span className={cx(wrapper, className)} style={wrapperStyle}>
       <img className={imgCls} alt={alt || ""} {...props} />
     </span>
   );

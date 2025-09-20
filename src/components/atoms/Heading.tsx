@@ -22,6 +22,7 @@ const colors = {
   default: "text-gray-900",
   primary: "text-indigo-600",
   danger: "text-red-600",
+  white: "text-white",
 };
 
 function Heading({

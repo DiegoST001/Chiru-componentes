@@ -12,54 +12,50 @@ interface ProfileBtnSupplierProps {
   className?: string;
 }
 
-function ProfileBtnSupplier({ 
-  title = "Text-Title", 
+function ProfileBtnSupplier({
+  title = "Text-Title",
   imageUrl = "https://via.placeholder.com/112x112/e2e8f0/64748b?text=Profile",
   imageAlt = "Profile image",
   onClick,
-  className 
+  className,
 }: ProfileBtnSupplierProps) {
   const buttonClasses = cntl`
     flex
     items-center
-    justify-between
     px-4
     py-3
     border
+    gap-2
+    md:gap-3
+    lg:gap-4
     border-gray-300
-    rounded-lg
+    rounded-xl
     bg-white
     hover:bg-gray-50
-    focus:outline-none
-    focus:ring-2
-    focus:ring-blue-500
-    focus:border-blue-500
+
+
     transition-colors
     duration-200
     ${className}
   `;
+  //    focus:outline-none
+    // focus:ring-2
+    //   focus:ring-blue-500
+    // focus:border-blue-500
 
   return (
-    <button 
-      type="button"
-      className={buttonClasses}
-      onClick={onClick}
-    >
+    <button type="button" className={buttonClasses} onClick={onClick}>
       {/* Texto del título */}
-      <Text size="base" weight="medium" color="default">
+      <Text size="xs" weight="medium" color="default" >
         {title}
       </Text>
 
       {/* Imagen de perfil 112x112 */}
-      <div className="w-28 h-28 ml-3">
-        <img
-          src={imageUrl}
-          alt={imageAlt}
-          className="w-full h-full object-cover rounded-full border border-gray-200"
-          width={112}
-          height={112}
-        />
-      </div>
+      <img
+        src={imageUrl}
+        alt={imageAlt}
+        className="w-11 h-11 md:w-14 md:h-14 object-cover rounded-full "
+      />
     </button>
   );
 }
