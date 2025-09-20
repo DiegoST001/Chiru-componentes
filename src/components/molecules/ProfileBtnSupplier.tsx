@@ -26,8 +26,7 @@ function ProfileBtnSupplier({
     py-3
     border
     gap-2
-    md:gap-3
-    lg:gap-4
+    md:gap-4
     border-gray-300
     rounded-xl
     bg-white
@@ -49,17 +48,15 @@ function ProfileBtnSupplier({
       className={buttonClasses}
       onClick={onClick}
     >
-      <Text size="base" weight="medium" color="default">
+      <Text weight="medium" color="default" className="text-xs md:text-lg">
         {title}
       </Text>
 
-      <div className="w-28 h-28 ml-3">
+      <div className="w-10 h-10 md:h-16 md:w-16">
         <img
           src={imageUrl}
           alt={imageAlt}
           className="w-full h-full object-cover rounded-full border border-gray-200"
-          width={112}
-          height={112}
         />
       </div>
     </button>
