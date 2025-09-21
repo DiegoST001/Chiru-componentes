@@ -1,0 +1,44 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { WorkHere } from "@/components/organisms/WorkHere";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const leftCard = {
+  avatarBg: "bg-gray-300",
+  unit: "",
+  textLines: [
+    "orem ipsum dolor sit amet, consectetur",
+  ]
+};
+
+const centerCard = {
+  avatarBg: "bg-gray-400",
+  textLines: [
+    "orem ipsum dolor sit amet, consectetur"
+  ],
+  buttonText: "text",
+  showButton: true
+};
+
+const rightCard = {
+  avatarBg: "bg-gray-300",
+  unit: "",
+  textLines: [
+    "orem ipsum dolor sit amet, consectetur",  ]
+};
+---
+
+<Layout title="Ejemplo WorkHere">
+  <WorkHere
+    title="¿Por qué vender en chiru.com?"
+    left={leftCard}
+    center={centerCard}
+    right={rightCard}
+    footer="orem ipsum dolor sit amet, consectetur"
+    client:load
+  />
+</Layout>

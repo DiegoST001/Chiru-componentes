@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { RelatedProducts } from "@/components/molecules/RelatedProducts";
+
+export async function getStaticPaths() { return getStaticLanguagePaths(); }
+
+const items = Array.from({ length: 12 }).map((_, i) => ({
+  imageUrl: "https://placehold.co/600x600/9CA3AF/374151?text=img",
+  title: "Text-Title",
+  price: 0,
+  currency: "S/.",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vulputate nulla at ante rhoncus.",
+}));
+---
+
+<Layout title="RelatedProducts">
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Ajusta minColWidth si las quieres más chicas o grandes -->
+    <RelatedProducts client:load items={items} minColWidth={180} />
+  </div>
+</Layout>

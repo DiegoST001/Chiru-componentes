@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Breadcrumbs } from "@/components/molecules/Breadcrumbs";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const items = [
+  { label: "Home", href: "/" },
+  { label: "Shoes", href: "/shoes" },
+  { label: "Men" } // current page
+];
+---
+
+<Layout title="Breadcrumbs">
+  <!-- BLOQUE A TODO EL ANCHO (full-bleed) -->
+  <div class="-mx-[calc(50vw-50%)] px-[calc(50vw-50%)] bg-gray-100">
+    <div class="py-3">
+      <Breadcrumbs client:load items={items} />
+    </div>
+  </div>
+
+  <!-- contenido normal debajo... -->
+  <div class="p-6">
+    <!-- resto de la página -->
+  </div>
+</Layout>
