@@ -9,6 +9,7 @@ import { HeaderCompany } from "@/components/organisms/HeaderCompany";
 import { HeaderCompanyProfile } from "@/components/organisms/HeaderCompanyProfile";
 import ScrollOrg from "@/components/molecules/ScrollOrg";
 import { BrandCart } from "@/components/molecules/BrandCart";
+import { BannerCompanyStars } from "@/components/organisms/BannerCompanyStars";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -163,7 +164,7 @@ const brands = [
           ))
         }
       </ScrollOrg>
-    </section> 
+    </section>
 
     <section class="h-[50rem] mb-12">
       <NavigationSideSupplier
@@ -266,10 +267,15 @@ const brands = [
 
     <section class="h-[50rem]">
       <HeaderCompany />
-    </section> 
+    </section>
 
     <section class="h-[50rem]">
       <HeaderCompanyProfile />
+    </section>
+
+    <section>
+      <h1>Hola mundos</h1>
+      <BannerCompanyStars/>
     </section>
   </div>
 </Layout>

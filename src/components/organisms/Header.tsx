@@ -3,6 +3,7 @@ import { SearchBar } from "@/components/molecules/SearchBar";
 import { NavIcons } from "@/components/molecules/NavIcons";
 import { Text } from "@/components/atoms/Text";
 import { cntl } from "@/utils/cntl";
+import { Image } from "../atoms/Image";
 
 type HeaderProps = {
   className?: string;
@@ -40,9 +41,12 @@ function Header({ className }: HeaderProps) {
   return (
     <header className={cntl`${getHeaderStyles()} ${className || ""}`}>
       <div className={getLogoStyles()}>
-        <Text size="xl" weight="bold" color="danger">
-          Chiru
-        </Text>
+        <Image
+          src="/chiru_logo_full.svg"
+          alt="Chiru Logo"
+          fit="contain"
+          className="h-8 lg:h-12  w-auto"
+        />
       </div>
 
       <div className={getSearchSectionStyles()}>

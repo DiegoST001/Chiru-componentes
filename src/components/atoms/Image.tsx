@@ -2,17 +2,12 @@ import React from "react";
 import { cntl } from "@/utils/cntl"; // tagged template para clases
 
 type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
-  /** Tamaño visual del contenedor */
+  /** Tamaño visual del contenedor (si no se pasa, no fuerza ancho/alto) */
   size?: "small" | "medium" | "large";
-  /** Radio de borde */
   radius?: "none" | "sm" | "md" | "lg" | "full";
-  /** Sombra */
   shadow?: boolean;
-  /** Borde sutil */
   bordered?: boolean;
-  /** Ajuste del objeto dentro del contenedor */
   fit?: "cover" | "contain" | "fill" | "none" | "scale-down";
-  /** Estilos en línea para el contenedor (span) */
   wrapperStyle?: React.CSSProperties;
 };
 
@@ -26,7 +21,7 @@ function getImageWrapper(
   shadow?: boolean,
   bordered?: boolean
 ) {
-  const base = "inline-block overflow-hidden bg-white";
+  const base = "inline-block overflow-hidden";
   const sizes = {
     small: "w-24 h-24",
     medium: "w-48 h-48",
@@ -41,7 +36,7 @@ function getImageWrapper(
   };
   return cntl`
     ${base}
-    ${sizes[size || "medium"]}
+    ${size ? sizes[size] : ""}
     ${radii["none"]}
     ${shadow ? "shadow" : ""}
     ${bordered ? "ring-1 ring-gray-200" : ""}
