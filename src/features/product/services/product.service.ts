@@ -2,7 +2,7 @@ import { apiClient } from '@/lib/api';
 import type {
   Product,
   CreateProductDto,
-  UpdateProductDto,
+  // UpdateProductDto, //falta interface
   ProductFilterDto,
   ProductPaginationDto,
   RateProductDto,
@@ -32,7 +32,7 @@ export class ProductService {
       throw error;
     }
   }
-
+/*
   static async update(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
     try {
       const response = await apiClient.patch<Product>(`${this.baseUrl}/${id}`, updateProductDto);
@@ -42,6 +42,7 @@ export class ProductService {
       throw error;
     }
   }
+    */
 
   static async remove(id: string): Promise<void> {
     try {

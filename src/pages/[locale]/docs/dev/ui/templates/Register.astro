@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { TemplateRegister } from "@/components/templates/TemplateRegister";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+<Layout title="Registro">
+  <TemplateRegister
+    client:load
+    imageUrl="https://imag.comage.jpg"
+  />
+</Layout>
+
+<!-- https://i.pinimg.com/736x/14/47/c3/1447c3dde903d7ac5681ca2e774a3411.jpg -->

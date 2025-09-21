@@ -4,15 +4,25 @@ import { Button } from "@/components/atoms/Button";
 import { FormDivider } from "@/components/molecules/FormDivider";
 import { SocialLoginButton } from "@/components/molecules/SocialLoginButton";
 import { cntl } from "@/utils/cntl";
+import { Icon } from "../atoms/Icon";
+import { Envelope, LockKey, User } from "phosphor-react";
 
 type RegisterFormProps = {
   className?: string;
-  icons?: {
-    name?: React.ReactNode;
-    phone?: React.ReactNode;
-    email?: React.ReactNode;
-    password?: React.ReactNode;
+  // icons?: {
+  //   name?: React.ReactNode;
+  //   email?: React.ReactNode;
+  //   password?: React.ReactNode;
+  //   gender?: React.ReactNode;
+  // };
+  values: {
+    userName: string;
+    email: string;
+    password: string;
+    gender: string;
   };
+  onChange: (field: keyof RegisterFormProps["values"], value: string) => void;
+  onSubmit?: () => void;
 };
 
 function getRegisterFormStyles() {
@@ -51,7 +61,19 @@ function getButtonGroupStyles() {
   `;
 }
 
-function RegisterForm({ className, icons }: RegisterFormProps) {
+export function RegisterForm({ className, values, onChange, onSubmit }: RegisterFormProps) {
+  function handleChange(field: keyof RegisterFormProps["values"]) {
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      onChange(field, e.target.value);
+    };
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    console.log(values);
+    e.preventDefault();
+    onSubmit?.();
+  }
+
   return (
     <div className={cntl`${getRegisterFormStyles()} ${className || ""}`}>
       <div className={getHeaderStyles()}>
@@ -59,42 +81,61 @@ function RegisterForm({ className, icons }: RegisterFormProps) {
         <div className={getTitleStyles()}>Register</div>
       </div>
 
-      <form className={getFormStyles()}>
+      <form className={getFormStyles()} onSubmit={handleSubmit}>
         <FormField
-          label="Text-Title"
+          label="Nombre"
           type="text"
-          placeholder="abc@gmail.com"
-          icon={icons?.name}
+          placeholder="Tu nombre"
+          icon={
+            <Icon variant="default" tamano="medium">
+              <User weight="fill" />
+            </Icon>
+          }
+          value={values.userName}
+          onChange={handleChange("userName")}
           fullWidth
           size="medium"
           variant="outline"
         />
-
+          {/* icon={icons?.email} */}
         <FormField
-          label="Text-Title"
-          type="password"
-          placeholder="••••••"
-          icon={icons?.phone}
-          fullWidth
-          size="medium"
-          variant="outline"
-        />
-
-        <FormField
-          label="Text-Title"
+          label="Email"
           type="email"
           placeholder="abc@gmail.com"
-          icon={icons?.email}
+          icon={
+            <Icon variant="default" tamano="medium">
+              <Envelope weight="fill" />
+            </Icon>
+          }
+          value={values.email}
+          onChange={handleChange("email")}
           fullWidth
           size="medium"
           variant="outline"
         />
 
         <FormField
-          label="Text-Title"
+          label="Contraseña"
           type="password"
-          placeholder="••••••"
-          icon={icons?.password}
+          placeholder="••••••••"
+          icon={
+            <Icon variant="default" tamano="medium">
+              <LockKey weight="fill" />
+            </Icon>
+          }
+          value={values.password}
+          onChange={handleChange("password")}
+          fullWidth
+          size="medium"
+          variant="outline"
+        />
+
+        <FormField
+          label="Género"
+          type="text"
+          placeholder="Masculino/Femenino"
+          value={values.gender}
+          onChange={handleChange("gender")}
           fullWidth
           size="medium"
           variant="outline"
@@ -105,19 +146,16 @@ function RegisterForm({ className, icons }: RegisterFormProps) {
           variant="danger"
           size="large"
           fullWidth
-          text="Button"
+          text="Registrar"
         />
       </form>
 
-      <FormDivider text="text" spacing="medium" />
+      <FormDivider text="o" spacing="medium" />
 
       <div className={getButtonGroupStyles()}>
         <Button variant="primary" size="large" fullWidth text="Sign in" />
-
         <SocialLoginButton provider="google" fullWidth size="large" />
       </div>
     </div>
   );
 }
-
-export { RegisterForm };

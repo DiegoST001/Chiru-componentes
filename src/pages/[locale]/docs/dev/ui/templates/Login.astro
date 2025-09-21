@@ -1,0 +1,16 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { TemplateLogin } from "@/components/templates/TemplateLogin";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const imageUrl = "https://hola";
+
+---
+<Layout title="Ejemplo TemplateLogin">
+  <TemplateLogin client:load imageUrl={imageUrl} imageAlt="Login" />
+</Layout>
+<!-- https://i.pinimg.com/736x/14/47/c3/1447c3dde903d7ac5681ca2e774a3411.jpg -->

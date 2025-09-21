@@ -22,7 +22,7 @@ function HeaderCompanyProfile() {
         <div className="flex flex-col justify-start gap-2 md:gap-3 px-4">
           <Heading
             color="white"
-            className="text-white text-2xl md:text-4xl font-semibold"
+            className="text-white text-3xl md:text-4xl  font-extrabold"
           >
             Chiru
           </Heading>
