@@ -1,0 +1,21 @@
+---
+export async function getStaticPaths() {
+  return [
+    { params: { locale: 'es' } },
+    { params: { locale: 'en' } }
+  ];
+}
+import { BannerImg } from "@/components/molecules/BannerImg";
+
+const images = [
+  { src: "https://dummyimage.com/160x160/bcbcbc/fff.png&text=productimage+160x160", alt: "productimage 160x160" },
+  { src: "https://dummyimage.com/160x160/bcbcbc/fff.png&text=productimage+160x160", alt: "productimage 160x160" },
+  { src: "https://dummyimage.com/160x160/bcbcbc/fff.png&text=productimage+160x160", alt: "productimage 160x160" },
+];
+---
+
+<div class="max-w-4xl mx-auto py-8">
+  <div class="overflow-x-auto">
+    <BannerImg images={images} gap="gap-6" client:load />
+  </div>
+</div>

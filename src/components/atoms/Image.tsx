@@ -42,7 +42,7 @@ function getImageWrapper(
   return cntl`
     ${base}
     ${sizes[size || "medium"]}
-    ${radii[radius || "md"]}
+    ${radii["none"]}
     ${shadow ? "shadow" : ""}
     ${bordered ? "ring-1 ring-gray-200" : ""}
   `;

@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { SuperOfertas } from "@/components/organisms/SuperOfertas";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const ofertas = [
+  { src: "https://dummyimage.com/160x160/cccccc/fff.png&text=productimage+160x160" },
+  { src: "https://dummyimage.com/160x160/cccccc/fff.png&text=productimage+160x160" },
+  { src: "https://dummyimage.com/160x160/cccccc/fff.png&text=productimage+160x160" },
+];
+---
+
+<Layout title="SuperOfertas">
+  <SuperOfertas client:load title="texto" ofertas={ofertas} />
+</Layout>
