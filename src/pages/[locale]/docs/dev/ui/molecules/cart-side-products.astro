@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { CartSideProducts } from "@/components/molecules/CartSideProducts";
+
+export async function getStaticPaths() { return getStaticLanguagePaths(); }
+
+const items = Array.from({ length: 4 }).map(() => ({
+  imageUrl: "https://placehold.co/200x280/E5E7EB/6B7280?text=ProductImage%20100x140",
+  title: "Text-Title",
+  leftLink:  { label: "Text-Title", href: "#" },
+  rightLink: { label: "Text-Title", href: "#" },
+}));
+---
+
+<Layout title="CartSideProducts">
+  <div class="p-4">
+    <CartSideProducts
+      client:load
+      title="Text-Title"
+      items={items}
+      width={160}
+      cardMinHeight={230}
+      imageWidth={100}
+      imageHeight={140}
+      topPadding={10} <!-- ↑ más aire; súbelo/bájalo a tu gusto -->
+    />
+  </div>
+</Layout>
