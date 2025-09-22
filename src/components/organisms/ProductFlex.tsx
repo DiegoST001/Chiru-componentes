@@ -38,7 +38,7 @@ function ProductsFlex({ query = { page: 1, limit: 24 } }: ProductsFlexProps) {
   return (
     <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mx-4 md:mx-6 lg:mx-8">
       {products.map((product) => (
-        <CartProduct key={product.id} product={product} className="hover:shadow-lg transition-shadow cursor-pointer" />
+        <CartProduct key={product.id} product={product} className="hover:shadow-lg transition-shadow " />
       ))}
     </section>
   );
