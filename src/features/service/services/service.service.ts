@@ -6,7 +6,7 @@ import type {
 } from '@/features/service/model/service.model';
 
 export class ServiceService {
-  private static baseUrl = '/services';
+  private static baseUrl = '/supplier-service';
 
   static async findAll(query: any): Promise<any> {
     try {

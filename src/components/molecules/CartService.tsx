@@ -3,19 +3,14 @@ import { cntl } from "@/utils/cntl";
 import { Image } from "@/components/atoms/Image";
 import { Text } from "@/components/atoms/Text";
 import { Paragraph } from "@/components/atoms/Paragraph";
+import type { Service } from "@/features/service/model/service.model";
 
 type CartServiceProps = {
   size?: "small" | "medium" | "large";
   cardWidth?: number;
   imageHeight?: number;
-  dataService: {
-    imageUrl: string;
-    title: string;
-    description: string;
-    price: number;
-    currency?: string;
-    metaRight?: string;
-  };
+  service: Service;
+  metaRightExtractor?: (service: Service) => string | undefined;
 };
 
 function getCardClass(size?: CartServiceProps["size"]) {
@@ -31,17 +26,27 @@ function CartService({
   size = "medium",
   cardWidth = 360,
   imageHeight = 220,
-  dataService,
+  service,
+  metaRightExtractor,
 }: CartServiceProps) {
   const cls = getCardClass(size);
-  const {
-    imageUrl,
-    title,
-    description,
-    price,
-    currency = "S/.",
-    metaRight,
-  } = dataService;
+
+  // Extraer datos del modelo Service
+  const title = service.name;
+  const description = service.description;
+  let price: number = 0;
+  if (service.price === null || service.price === undefined || service.price === ("" as any)) {
+    price = 0;
+  } else if (typeof service.price === "string") {
+    const parsed = parseFloat(service.price as any);
+    price = isNaN(parsed) ? 0 : parsed;
+  } else {
+    price = Number(service.price) || 0;
+  }
+  const currency = service.currency ?? "S/.";
+  const imageUrl = service.images?.[0]?.urlImage ||
+    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYwIiBoZWlnaHQ9IjIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWxsPScjZWVlJy8+PC9zdmc+";
+  const metaRight = metaRightExtractor ? metaRightExtractor(service) : service.estimatedDuration;
 
   return (
     <div className={cls} style={{ width: cardWidth }}>
@@ -70,14 +75,14 @@ function CartService({
 
         <div className="mt-3 flex items-end justify-between">
           <Text size="xl" weight="bold" color="danger">
-            {currency} {price.toFixed(2)}
+            {currency} {Number.isFinite(price) ? price.toFixed(2) : "0.00"}
           </Text>
 
-          {metaRight && (
-            <Paragraph variant="muted" size="small" className="ml-4 whitespace-nowrap">
-              {metaRight}
-            </Paragraph>
-          )}
+            {metaRight && (
+              <Paragraph variant="muted" size="small" className="ml-4 whitespace-nowrap">
+                {metaRight}
+              </Paragraph>
+            )}
         </div>
       </div>
     </div>
