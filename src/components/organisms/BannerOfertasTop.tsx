@@ -59,6 +59,7 @@ function BannerOfertasTop({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isOverflowing, setIsOverflowing] = useState(false);
   const [cards, setCards] = useState<PromotionCardData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -131,8 +132,31 @@ function BannerOfertasTop({
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+      setIsOverflowing(scrollWidth > clientWidth + 1);
     }
   };
+
+  const updateOverflow = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollWidth, clientWidth } = scrollContainerRef.current;
+    setIsOverflowing(scrollWidth > clientWidth + 1);
+    // Ajustar botones según estado actual de scroll
+    checkScrollButtons();
+  };
+
+  useEffect(() => {
+    // Recalcular después de que las tarjetas se monten/cambien
+    updateOverflow();
+  }, [cards]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Usamos requestAnimationFrame para evitar layout thrash
+      window.requestAnimationFrame(updateOverflow);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -155,12 +179,12 @@ function BannerOfertasTop({
   };
 
   const containerClasses = cntl`
-    relative w-full
+    relative w-full mx-auto
     ${className || ""}
   `;
 
   const scrollContainerClasses = cntl`
-    flex gap-4 overflow-x-auto scrollbar-hide
+    flex ${!isOverflowing ? 'justify-center' : ''} gap-4 overflow-x-auto scrollbar-hide
     scroll-smooth
     pb-2
   `;
@@ -186,7 +210,7 @@ function BannerOfertasTop({
 
       <div className="relative">
         {/* Botón Izquierdo */}
-        {showNavigation && (
+        {showNavigation && isOverflowing && (
           <button
             onClick={scrollLeft}
             disabled={!canScrollLeft}
@@ -223,7 +247,7 @@ function BannerOfertasTop({
         </div>
 
         {/* Botón Derecho */}
-        {showNavigation && (
+        {showNavigation && isOverflowing && (
           <button
             onClick={scrollRight}
             disabled={!canScrollRight}
