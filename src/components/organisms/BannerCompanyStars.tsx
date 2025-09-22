@@ -1,280 +1,151 @@
-import React, { useState, useRef } from "react";
-import { Icon } from "../atoms/Icon";
+import React, { useEffect, useState, useRef } from "react";
 import { Heading } from "../atoms/Heading";
-import { Text } from "../atoms/Text";
-import { Image } from "../atoms/Image";
-import { Badge } from "../atoms/Badge";
 import { cntl } from "@/utils/cntl";
-import { CaretLeft, CaretRight } from "phosphor-react";
-
-// Simple company card based on CartCompany structure but simplified
-interface CompanyCardProps {
-  id: string;
-  companyName: string;
-  category: string;
-  location: string;
-  logoUrl: string;
-  size?: "small" | "medium" | "large";
-}
-
-function CompanyCard({ 
-  companyName, 
-  category, 
-  location, 
-  logoUrl, 
-  size = "medium" 
-}: CompanyCardProps) {
-  const cardClasses = cntl`
-    bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300
-    flex flex-col items-center p-4 text-center min-w-0
-    ${size === "small" ? "w-40 p-3" : ""}
-    ${size === "medium" ? "w-52 p-4" : ""}
-    ${size === "large" ? "w-60 p-6" : ""}
-  `;
-
-  const logoSize = size === "small" ? 50 : size === "medium" ? 60 : 80;
-
-  return (
-    <div className={cardClasses}>
-      {/* Company Logo */}
-      <div className="mb-3">
-        <Image
-          src={logoUrl}
-          alt={`${companyName} logo`}
-          width={logoSize}
-          height={logoSize}
-          className="rounded-lg object-cover bg-gray-100"
-        />
-      </div>
-
-      {/* Company Name */}
-      <Text 
-        size={size === "small" ? "sm" : "base"} 
-        weight="semibold" 
-        className="mb-2 line-clamp-1"
-      >
-        {companyName}
-      </Text>
-
-      {/* Category Badge */}
-      <div className="mb-2">
-        <Badge 
-          variant="default" 
-          size={size === "small" ? "small" : "medium"}
-        >
-          {category}
-        </Badge>
-      </div>
-
-      {/* Location */}
-      <Text 
-        size="xs" 
-        color="muted" 
-        className="line-clamp-1"
-      >
-        {location}
-      </Text>
-    </div>
-  );
-}
-
-interface CompanyData extends Omit<CompanyCardProps, 'id'> {
-  id: string;
-}
+import { CartCompany } from "../molecules/CartCompany";
+import type { SponsoredSupplier } from "@/features/sponsorship/model/sponsorship.model";
+import { SponsorshipService } from "@/features/sponsorship/service/sponsorship.service";
 
 interface BannerCompanyStarsProps {
   title?: string;
-  companies?: CompanyData[];
-  showNavigation?: boolean;
+  autoFetchSuppliers?: boolean;
+  suppliers?: SponsoredSupplier[];
+  speed?: number; // px per second for marquee scroll
+  pauseOnHover?: boolean;
   cardSize?: "small" | "medium" | "large";
   className?: string;
+  showPrice?: boolean;
 }
 
-/**
- * BannerCompanyStars - Carrusel horizontal de empresas estrella
- * Muestra tarjetas de empresas en un carrusel scrolleable horizontal
- */
+/*
+  BannerCompanyStars
+  - Carrusel infinito tipo marquee (scroll continuo) de suppliers patrocinados
+  - Usa CartCompany con el modelo SponsoredSupplier
+*/
 function BannerCompanyStars({
   title = "Empresas Estrella",
-  companies = [
-    {
-      id: "company1",
-      companyName: "TechCorp",
-      category: "Tecnología",
-      location: "Lima, Perú",
-      logoUrl: "https://via.placeholder.com/80x80/3b82f6/ffffff?text=TC"
-    },
-    {
-      id: "company2", 
-      companyName: "EcoSolutions",
-      category: "Medio Ambiente",
-      location: "Arequipa, Perú",
-      logoUrl: "https://via.placeholder.com/80x80/10b981/ffffff?text=ES"
-    },
-    {
-      id: "company3",
-      companyName: "FinanceMax",
-      category: "Finanzas",
-      location: "Cusco, Perú", 
-      logoUrl: "https://via.placeholder.com/80x80/f59e0b/ffffff?text=FM"
-    },
-    {
-      id: "company4",
-      companyName: "HealthPlus",
-      category: "Salud",
-      location: "Trujillo, Perú",
-      logoUrl: "https://via.placeholder.com/80x80/ef4444/ffffff?text=HP"
-    },
-    {
-      id: "company5",
-      companyName: "EduTech",
-      category: "Educación", 
-      location: "Piura, Perú",
-      logoUrl: "https://via.placeholder.com/80x80/8b5cf6/ffffff?text=ET"
-    }
-  ],
-  showNavigation = true,
+  autoFetchSuppliers = true,
+  suppliers,
+  speed = 60, // px/s
+  pauseOnHover = true,
   cardSize = "medium",
-  className
+  className,
+  showPrice = true
 }: BannerCompanyStarsProps) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [data, setData] = useState<SponsoredSupplier[]>(suppliers || []);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const animRef = useRef<number | null>(null);
+  const lastTsRef = useRef<number | null>(null);
+  const offsetRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const checkScrollButtons = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+  // Fetch suppliers
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      if (!autoFetchSuppliers || (suppliers && suppliers.length)) return;
+      try {
+        setLoading(true); setError(null);
+        const resp = await SponsorshipService.getSponsoredSuppliers();
+        if (active && Array.isArray(resp) && resp.length) {
+          setData(resp);
+        }
+      } catch (e: any) {
+        if (active) setError(e.message || 'Error cargando patrocinadores');
+      } finally {
+        if (active) setLoading(false);
+      }
     }
-  };
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const cardWidth = cardSize === "small" ? 200 : cardSize === "medium" ? 250 : 300;
-      scrollContainerRef.current.scrollBy({
-        left: -cardWidth * 2,
-        behavior: 'smooth'
-      });
+    if (suppliers && suppliers.length) {
+      setData(suppliers);
+    } else {
+      load();
     }
-  };
+    return () => { active = false; };
+  }, [suppliers, autoFetchSuppliers]);
 
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const cardWidth = cardSize === "small" ? 200 : cardSize === "medium" ? 250 : 300;
-      scrollContainerRef.current.scrollBy({
-        left: cardWidth * 2,
-        behavior: 'smooth'
-      });
-    }
-  };
+  // Start marquee animation
+  useEffect(() => {
+    if (!trackRef.current || data.length === 0) return;
+    const track = trackRef.current;
+    let frame: number;
 
-  const containerClasses = cntl`
-    relative
-    w-full
-    bg-white
-    py-6
-    ${className}
-  `;
+    const step = (ts: number) => {
+      if (lastTsRef.current == null) lastTsRef.current = ts;
+      const delta = ts - lastTsRef.current;
+      lastTsRef.current = ts;
+      const distance = (speed * delta) / 1000; // px to move this frame
+      offsetRef.current += distance;
 
-  const scrollContainerClasses = cntl`
-    flex
-    gap-4
-    overflow-x-auto
-    scrollbar-hide
-    scroll-smooth
-    px-4
-    pb-2
-  `;
+      const firstChild = track.firstElementChild as HTMLElement | null;
+      if (firstChild) {
+        const firstWidth = firstChild.offsetWidth;
+        if (offsetRef.current >= firstWidth) {
+          // Move first to end and adjust offset
+            track.appendChild(firstChild);
+            offsetRef.current -= firstWidth;
+        }
+      }
+      track.style.transform = `translateX(-${offsetRef.current}px)`;
+      frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    animRef.current = frame;
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      animRef.current = null;
+      lastTsRef.current = null;
+    };
+  }, [data, speed]);
 
-  const navigationButtonClasses = cntl`
-    absolute
-    top-1/2
-    transform
-    -translate-y-1/2
-    z-10
-    w-10
-    h-10
-    bg-white
-    border
-    border-gray-300
-    rounded-full
-    flex
-    items-center
-    justify-center
-    shadow-md
-    hover:shadow-lg
-    transition-all
-    duration-200
-    hover:bg-gray-50
-    focus:outline-none
-    focus:ring-2
-    focus:ring-blue-500
-  `;
+  // Pause on hover
+  useEffect(() => {
+    if (!pauseOnHover) return;
+    const node = containerRef.current;
+    if (!node) return;
+    const handleEnter = () => { if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; } };
+    const handleLeave = () => { if (!animRef.current) { lastTsRef.current = null; animRef.current = requestAnimationFrame((ts)=>{ /* restart */ }); } };
+    node.addEventListener('mouseenter', handleEnter);
+    node.addEventListener('mouseleave', handleLeave);
+    return () => { node.removeEventListener('mouseenter', handleEnter); node.removeEventListener('mouseleave', handleLeave); };
+  }, [pauseOnHover]);
 
-  const titleClasses = cntl`
-    px-4
-    mb-6
-  `;
+  const containerClasses = cntl`relative w-full bg-white py-6 overflow-hidden ${className}`;
+  const titleClasses = cntl`px-4 mb-6`;
+  const viewportClasses = cntl`w-full overflow-hidden`;
+  const trackClasses = cntl`flex gap-4 items-stretch will-change-transform`;
+
+  if (loading) {
+    return <div className={containerClasses}><div className={titleClasses}><Heading level={2}> {title} </Heading></div><div className="px-4 text-sm text-gray-500">Cargando empresas...</div></div>;
+  }
+  if (error) {
+    return <div className={containerClasses}><div className={titleClasses}><Heading level={2}> {title} </Heading></div><div className="px-4 text-sm text-red-600">{error}</div></div>;
+  }
+  if (data.length === 0) return null;
+
+  // Duplicate initial list to ensure continuous scroll visual fullness
+  const renderList = [...data, ...data.slice(0, Math.min(data.length, 4))];
 
   return (
-    <div className={containerClasses}>
-      {/* Título */}
+    <div className={containerClasses} ref={containerRef}>
       {title && (
         <div className={titleClasses}>
-          <Heading level={2} className="text-gray-800">
-            {title}
-          </Heading>
+          <Heading level={2} className="text-gray-800">{title}</Heading>
         </div>
       )}
-
-      {/* Contenedor del carrusel */}
-      <div className="relative">
-        {/* Botón anterior */}
-        {showNavigation && canScrollLeft && (
-          <button
-            className={`${navigationButtonClasses} left-2`}
-            onClick={scrollLeft}
-            aria-label="Deslizar empresas hacia la izquierda"
-          >
-            <Icon tamano="small" className="text-gray-600">
-              <CaretLeft />
-            </Icon>
-          </button>
-        )}
-
-        {/* Container scrolleable */}
-        <div
-          ref={scrollContainerRef}
-          className={scrollContainerClasses}
-          onScroll={checkScrollButtons}
-        >
-          {companies.map((company) => (
-            <div key={company.id} className="flex-shrink-0">
-              <CompanyCard
-                {...company}
-                size={cardSize}
-              />
+      <div className={viewportClasses}>
+        <div ref={trackRef} className={trackClasses}>
+          {renderList.map((sup, idx) => (
+            <div key={sup.id + '-' + idx} className="flex-shrink-0">
+              <CartCompany supplier={sup} size={cardSize} showPrice={showPrice} />
             </div>
           ))}
         </div>
-
-        {/* Botón siguiente */}
-        {showNavigation && canScrollRight && (
-          <button
-            className={`${navigationButtonClasses} right-2`}
-            onClick={scrollRight}
-            aria-label="Deslizar empresas hacia la derecha"
-          >
-            <Icon tamano="small" className="text-gray-600">
-              <CaretRight />
-            </Icon>
-          </button>
-        )}
       </div>
     </div>
   );
 }
 
 export { BannerCompanyStars };
-export type { BannerCompanyStarsProps, CompanyData };
+export type { BannerCompanyStarsProps };

@@ -3,8 +3,9 @@ import { Avatar } from "../atoms/Avatar";
 import { Tag } from "../atoms/Tag";
 import { Text } from "../atoms/Text";
 import { cntl } from "@/utils/cntl";
+import type { SponsoredSupplier } from "@/features/sponsorship/model/sponsorship.model";
 
-type CartCompanyProps = {
+interface LegacyCartCompanyProps {
   size?: "small" | "medium" | "large";
   variant?: "default" | "primary" | "secondary";
   id: string;
@@ -12,7 +13,12 @@ type CartCompanyProps = {
   name: string;
   tagLabel: string;
   rightText: string;
-};
+}
+
+type CartCompanyProps = (
+  | { supplier: SponsoredSupplier; size?: "small" | "medium" | "large"; variant?: "default" | "primary" | "secondary"; tagLabelOverride?: string; showPrice?: boolean; }
+  | (LegacyCartCompanyProps & { supplier?: never })
+);
 
 function getCartCompanyStyles(size?: CartCompanyProps["size"], variant?: CartCompanyProps["variant"]) {
   const base = `
@@ -49,18 +55,38 @@ function getTagSize(size: CartCompanyProps["size"]) {
   return size === "small" ? "small" : "medium";
 }
 
-function CartCompany({
-  size = "medium",
-  variant = "default",
-  id,
-  avatarUrl,
-  name,
-  tagLabel,
-  rightText,
-}: CartCompanyProps) {
+function CartCompany(props: CartCompanyProps) {
+  // Determine if using supplier model or legacy props
+  const usingSupplier = (props as any).supplier;
+  const size = (props as any).size || "medium";
+  const variant = (props as any).variant || "default";
+
+  let id: string;
+  let avatarUrl: string;
+  let name: string;
+  let tagLabel: string;
+  let rightText: string;
+
+  if (usingSupplier) {
+    const { supplier, tagLabelOverride, showPrice = true } = props as { supplier: SponsoredSupplier; tagLabelOverride?: string; showPrice?: boolean };
+    id = supplier.id;
+    avatarUrl = supplier.supplierLogo || "";
+    name = supplier.supplierName;
+    tagLabel = tagLabelOverride || "Tecnología"; // default category placeholder
+    const priceRaw: any = (supplier as any).sponsorPrice;
+    const priceNum = typeof priceRaw === 'number' ? priceRaw : parseFloat(priceRaw || '0');
+    rightText = showPrice ? `S/ ${priceNum.toFixed(2)}` : '';
+  } else {
+    const legacy = props as LegacyCartCompanyProps;
+    id = legacy.id;
+    avatarUrl = legacy.avatarUrl;
+    name = legacy.name;
+    tagLabel = legacy.tagLabel;
+    rightText = legacy.rightText;
+  }
+
   return (
-    <div className={getCartCompanyStyles(size, variant)}>
-      {/* Avatar + Info */}
+    <div className={getCartCompanyStyles(size, variant)} data-id={id}>
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <Avatar
           src={avatarUrl || ""}
@@ -68,7 +94,6 @@ function CartCompany({
           size={getAvatarSize(size)}
           shape="circle"
         />
-
         <div className="flex flex-col gap-1 min-w-0 truncate">
           <Text size="base" weight="medium" className="truncate">
             {name}
@@ -83,11 +108,11 @@ function CartCompany({
           />
         </div>
       </div>
-
-      {/* Texto a la derecha */}
-      <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
-        {rightText}
-      </Text>
+      {/* {rightText && (
+        <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
+          {rightText}
+        </Text>
+      )} */}
     </div>
   );
 }

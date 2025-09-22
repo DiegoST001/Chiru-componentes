@@ -92,7 +92,7 @@ export class SponsorshipService {
 
   static async getSponsoredSuppliers(): Promise<SponsoredSupplier[]> {
     try {
-      const response = await apiClient.get(`${this.baseUrl}/sponsored-suppliers`);
+      const response = await apiClient.get(`${this.baseUrl}/suppliers`);
       return response.data;
     } catch (error) {
       this.handleError(error, 'Failed to get sponsored suppliers');
