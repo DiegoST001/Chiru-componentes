@@ -58,7 +58,7 @@ export class SponsorshipService {
 
   static async centralSponsor(): Promise<Category[]> {
     try {
-      const response = await apiClient.get(`${this.baseUrl}/central-sponsor`);
+      const response = await apiClient.get(`${this.baseUrl}/central-categories`);
       return response.data;
     } catch (error) {
       this.handleError(error, 'Failed to get central sponsor categories');
