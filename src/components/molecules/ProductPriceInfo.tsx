@@ -5,6 +5,7 @@ import { Badge } from "../atoms/Badge";
 
 export type ProductPriceInfoProps = {
   currentPrice: string;
+  discount?: number;
   oldPrice?: string;
   saving?: string;
   freeShipping?: boolean;

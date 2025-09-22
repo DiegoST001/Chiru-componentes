@@ -6,6 +6,7 @@ import { ProductPriceInfo } from "../molecules/ProductPriceInfo";
 import { ProductActions } from "../molecules/ProductActions";
 import { CartCompany } from "../molecules/CartCompany";
 import { ProductSpecsList } from "../molecules/ProductSpecsList";
+import type { Product } from "@/features/product/models/product.model";
 
 // Tipos de props para cada sección
 import type { ImgProduct } from "../molecules/ProductCarousel";
@@ -20,7 +21,7 @@ export type ProductDetailViewProps = {
   images: ImgProduct[];
   productList: ProductListImgProps["products"];
   description: ProductDescriptionProps;
-  priceInfo: ProductPriceInfoProps;
+  priceInfo: ProductPriceInfoProps; // discount va aquí, no fuera
   actions: ProductActionsProps;
   cartCompany: CartCompanyProps;
   specs: ProductSpecsListProps["specs"];
@@ -40,7 +41,11 @@ function ProductDetailView({
       {/* Sección de imágenes */}
       <div className="flex flex-col gap-6 flex-1 justify-between items-center bg-white rounded-xl shadow p-6">
         <ProductCarousel products={images} size="large" />
-        <ProductListImg products={productList} direction="horizontal" size="small" />
+        <ProductListImg
+          products={productList}
+          direction="horizontal"
+          size="small"
+        />
       </div>
       {/* Sección de información */}
       <div className="flex flex-col gap-6 flex-1 justify-between bg-white rounded-xl shadow p-6">
