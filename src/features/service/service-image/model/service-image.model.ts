@@ -3,9 +3,9 @@
 export interface ServiceImage {
   idImageService: number;
   urlImage: string;
-  service: Service;
+  service: ServiceRef;
 }
 
-export interface Service {
+export interface ServiceRef {
   id: number;
 }
