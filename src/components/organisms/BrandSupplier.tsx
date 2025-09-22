@@ -1,51 +1,67 @@
+import React, { useEffect, useState } from "react";
 import { Heading } from "@/components/atoms/Heading";
 import { Select } from "@/components/atoms/Select";
-import { BrandCart } from "@/components/molecules/BrandCart";
-import React from "react";
+import { BrandCart, type BrandCartProps } from "@/components/molecules/BrandCart";
+import { SupplierService } from "@/features/user/supplier/service/supplier.service";
+import type { Supplier } from "@/features/user/supplier/model/supplier.model";
 
 type BrandSupplierProps = {
-  brands?: {
-    name: string;
-    logoUrl: string;
-    websiteUrl: string;
-    color?: string;
-  }[];
   title?: string;
-    description?: string;
+  description?: string;
 };
 
-function BrandSupplier({ brands = [], title, description }: BrandSupplierProps) {
+function BrandSupplier({ title, description }: BrandSupplierProps) {
+  const [brands, setBrands] = useState<BrandCartProps[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    SupplierService.findAllMarked()
+      .then((result: Supplier[]) => {
+        const mapped: BrandCartProps[] = result.map((supplier) => ({
+          id: supplier.id ?? "",
+          name: supplier.name ?? "Sin nombre",
+          logo: supplier.logo ?? "/placeholder.png",
+          website: supplier.website ?? "#",
+          color: undefined,
+          showName: true,
+          bussinessCategory: supplier.bussinessCategory ?? "Sin categoría",
+        }));
+        setBrands(mapped);
+      })
+      .catch((err) => {
+        console.error("Error fetching brands:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div className="p-8 text-center">Cargando marcas...</div>;
+  if (!brands.length) return <div className="p-8 text-center">No hay marcas disponibles.</div>;
+
   return (
-    <div className="w-full">
+    <main className="mx-4 md:mx-6 lg:mx-8">
       {/* Encabezado */}
-      <div className="text-center mb-6 bg-red-600 text-white p-4 rounded">
-        <Heading level={1} color="white">{title}</Heading>
-        <Heading level={5} color="white">{description}</Heading>
+      <div className="text-center mb-6 bg-gray-900 text-white p-4 rounded">
+        <Heading color="white" className="text-4xl font-extrabold">{title}</Heading>
+        <Heading color="white" className="font-light">{description}</Heading>
       </div>
 
       {/* Selector */}
       <div className="w-full md:w-md m-auto">
         <Select
           options={brands.map((brand) => ({
-            value: brand.name.toLowerCase().replace(/\s+/g, "-"),
-            label: brand.name,
+            value: (brand.bussinessCategory ?? "Sin categoría").toLowerCase().replace(/\s+/g, "-"),
+            label: brand.bussinessCategory ?? "Sin categoría",
           }))}
         />
       </div>
 
       {/* Lista de marcas */}
-      <div className="flex flex-wrap justify-center items-center gap-8 mt-6 ">
-        {brands.map((brand, index) => (
-          <BrandCart
-            key={index}
-            name={brand.name}
-            logoUrl={brand.logoUrl}
-            websiteUrl={brand.websiteUrl}
-            color={brand.color}
-          />
+      <div className="flex flex-wrap justify-center items-center gap-6 mt-6">
+        {brands.map((brand) => (
+          <BrandCart key={brand.id} {...brand} />
         ))}
       </div>
-    </div>
+    </main>
   );
 }
 

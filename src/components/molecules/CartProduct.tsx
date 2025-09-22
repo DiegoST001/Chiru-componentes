@@ -9,8 +9,8 @@ import clsx from "clsx";
 import type { Product } from "@/features/cart-item/model/cart-item.model";
 
 export type ProductCard = Pick<Product, "id" | "name" | "description"> & {
-  price: number; // sobrescribimos para normalizarlo
-  imageUrl: string; // tomamos la primera imagen
+  price: number; 
+  imageUrl: string;
   discount?: number;
   brand?: string;
 };
@@ -65,9 +65,12 @@ function CartProduct({
           <Badge
             variant="black"
             size={size === "large" ? "medium" : size}
-            className="absolute top-3 right-3"
+            className="absolute top-3 right-3 max-w-[90px] truncate"
+            title={product.brand}
           >
-            {product.brand}
+            {product.brand.length > 12
+              ? product.brand.slice(0, 12) + "..."
+              : product.brand}
           </Badge>
         )}
       </div>
@@ -86,7 +89,7 @@ function CartProduct({
 
         <Text
           className={clsx(
-            "text-gray-600",
+            "text-gray-600 font-light",
             size === "small" && "text-xs",
             size === "medium" && "text-sm",
             size === "large" && "text-base"
