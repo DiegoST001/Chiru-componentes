@@ -4,10 +4,13 @@ import BrandSupplier from "../organisms/BrandSupplier";
 // import ProductsFlex from "../organisms/ProductsFlex";
 // import FeaturedProducts from "../organisms/FeaturedProducts";
 // import BrandsBanner from "../organisms/BrandsBanner";
-
+import { BannerCompanyStars } from "../organisms/BannerCompanyStars";
+import { BannerPromotional } from "../molecules/BannerPromotional";
 function TemplateHome() {
   return (
     <main className="w-full space-y-8 my-8">
+      <BannerPromotional />
+      <BannerCompanyStars />
       <ProductsFlex />
       <BrandSupplier
         title="Brand Supplier"

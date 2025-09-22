@@ -1,17 +1,40 @@
 ---
 import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  lang?: string;
+  description?: string;
+  bodyClass?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title = "Chiru",
+  lang = "es",
+  description = "Plataforma Chiru",
+  bodyClass = "antialiased bg-white text-gray-900",
+  noIndex = false
+} = Astro.props as Props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex,nofollow" />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
   </body>
 </html>

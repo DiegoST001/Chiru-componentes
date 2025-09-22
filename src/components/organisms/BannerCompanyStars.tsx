@@ -129,11 +129,11 @@ function BannerCompanyStars({
 
   return (
     <div className={containerClasses} ref={containerRef}>
-      {title && (
+      {/* {title && (
         <div className={titleClasses}>
           <Heading level={2} className="text-gray-800">{title}</Heading>
         </div>
-      )}
+      )} */}
       <div className={viewportClasses}>
         <div ref={trackRef} className={trackClasses}>
           {renderList.map((sup, idx) => (

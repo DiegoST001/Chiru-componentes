@@ -2,12 +2,15 @@
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
 import { TemplateHome } from "@/components/templates/TemplateHome";
+import AppShell from "@/layouts/AppShell.astro";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
 }
 ---
 
-<Layout title="Ejemplo TemplateHome">
-  <TemplateHome client:load />
+<Layout title="Home" description="Vista principal con AppShell" lang="es">
+  <AppShell>
+    <TemplateHome client:load />
+  </AppShell>
 </Layout>
