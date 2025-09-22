@@ -143,6 +143,7 @@ export function useLocalizePage(
  *
  * @returns Array of static path objects for Astro
  */
+
 export function getStaticLanguagePaths(): Array<{
   params: { locale: string };
 }> {
@@ -165,6 +166,16 @@ export function getStaticLanguagePathsWithParam(
     params: { [paramName]: locale },
   }));
 }
+
+// export function getStaticLanguagePathsWithIds(ids: string[]): Array<{
+//   params: { locale: string; productId: string };
+// }> {
+//   return Object.keys(languages).flatMap((locale) =>
+//     ids.map((productId) => ({
+//       params: { locale, productId },
+//     }))
+//   );
+// }
 
 // ========================================
 // ADVANCED UTILITIES

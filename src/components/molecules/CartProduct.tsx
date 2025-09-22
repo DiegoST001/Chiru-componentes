@@ -42,101 +42,106 @@ function CartProduct({
   const discount = Math.min(Math.max(product?.discount || 0, 0), 100);
   const discountedPrice = price - (price * discount) / 100;
 
+  // Construye la URL de detalle con el id del producto
+  const detailUrl = `/es/docs/dev/ui/templates/ProductDetail/${product?.id}`;
+
   return (
-    <div className={clsx(getCartProductStyles(size), "flex flex-col", className)}>
-      <div className="relative">
-        <Image
-          src={product?.imageUrl || "/placeholder.png"}
-          alt={product?.name || "Producto"}
-          className={clsx("w-full bg-gray-200", imageHeight)}
-          fit="cover"
-          radius="none"
-        />
-        {discount > 0 && (
-          <Badge
-            variant="dangerInvert"
-            size={size === "large" ? "medium" : size}
-            className="absolute top-3 left-3"
-          >
-            {discount}%
-          </Badge>
-        )}
-        {product?.brand && (
-          <Badge
-            variant="black"
-            size={size === "large" ? "medium" : size}
-            className="absolute top-3 right-3 max-w-[90px] truncate"
-            title={product.brand}
-          >
-            {product.brand.length > 12
-              ? product.brand.slice(0, 12) + "..."
-              : product.brand}
-          </Badge>
-        )}
-      </div>
-
-      <div className="flex flex-col flex-grow p-2 pt-0 sm:p-4 space-y-2">
-        <Heading
-          level={3}
-          className={clsx(
-            size === "small" && "text-base",
-            size === "medium" && "text-lg",
-            size === "large" && "text-2xl"
-          )}
-        >
-          {product?.name || "Text-Title"}
-        </Heading>
-
-        <Text
-          className={clsx(
-            "text-gray-600 font-light",
-            size === "small" && "text-xs",
-            size === "medium" && "text-sm",
-            size === "large" && "text-base"
-          )}
-        >
-          {product?.description ||
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-        </Text>
-
-        <div className="flex flex-col gap-2 mt-auto">
-          <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
-            {discount > 0 && (
-              <Text
-                className={clsx(
-                  "line-through text-gray-400 max-w-md",
-                  size === "small" ? "text-xs" : "text-sm"
-                )}
-              >
-                S/. {price.toFixed(2)}
-              </Text>
-            )}
-            <Text
-              className={clsx(
-                "font-bold text-gray-800",
-                size === "small" && "text-base",
-                size === "medium" && "text-lg",
-                size === "large" && "text-2xl"
-              )}
-            >
-              S/. {discountedPrice.toFixed(2)}
-            </Text>
-          </div>
-
-          {showFreeShipping && (
+    <a href={detailUrl} className="block hover:shadow-lg transition-shadow">
+      <div className={clsx(getCartProductStyles(size), "flex flex-col", className)}>
+        <div className="relative">
+          <Image
+            src={product?.imageUrl || "/placeholder.png"}
+            alt={product?.name || "Producto"}
+            className={clsx("w-full bg-gray-200", imageHeight)}
+            fit="cover"
+            radius="none"
+          />
+          {discount > 0 && (
             <Badge
-              variant="successInvert"
+              variant="dangerInvert"
               size={size === "large" ? "medium" : size}
-              className="w-fit"
+              className="absolute top-3 left-3"
             >
-              Envío gratuito
+              {discount}%
             </Badge>
           )}
+          {product?.brand && (
+            <Badge
+              variant="black"
+              size={size === "large" ? "medium" : size}
+              className="absolute top-3 right-3 max-w-[90px] truncate"
+              title={product.brand}
+            >
+              {product.brand.length > 12
+                ? product.brand.slice(0, 12) + "..."
+                : product.brand}
+            </Badge>
+          )}
+        </div>
 
-          <Button text="Agregar" variant="ghost" fullWidth size={size} />
+        <div className="flex flex-col flex-grow p-2 pt-0 sm:p-4 space-y-2">
+          <Heading
+            level={3}
+            className={clsx(
+              size === "small" && "text-base",
+              size === "medium" && "text-lg",
+              size === "large" && "text-2xl"
+            )}
+          >
+            {product?.name || "Text-Title"}
+          </Heading>
+
+          <Text
+            className={clsx(
+              "text-gray-600 font-light",
+              size === "small" && "text-xs",
+              size === "medium" && "text-sm",
+              size === "large" && "text-base"
+            )}
+          >
+            {product?.description ||
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+          </Text>
+
+          <div className="flex flex-col gap-2 mt-auto">
+            <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
+              {discount > 0 && (
+                <Text
+                  className={clsx(
+                    "line-through text-gray-400 max-w-md",
+                    size === "small" ? "text-xs" : "text-sm"
+                  )}
+                >
+                  S/. {price.toFixed(2)}
+                </Text>
+              )}
+              <Text
+                className={clsx(
+                  "font-bold text-gray-800",
+                  size === "small" && "text-base",
+                  size === "medium" && "text-lg",
+                  size === "large" && "text-2xl"
+                )}
+              >
+                S/. {discountedPrice.toFixed(2)}
+              </Text>
+            </div>
+
+            {showFreeShipping && (
+              <Badge
+                variant="successInvert"
+                size={size === "large" ? "medium" : size}
+                className="w-fit"
+              >
+                Envío gratuito
+              </Badge>
+            )}
+
+            <Button text="Agregar" variant="ghost" fullWidth size={size} />
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
