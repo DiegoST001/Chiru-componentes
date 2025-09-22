@@ -7,6 +7,7 @@ interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   color?: keyof typeof colors;
   level?: keyof typeof sizes;
   children: React.ReactNode;
+  
 }
 
 const sizes = {

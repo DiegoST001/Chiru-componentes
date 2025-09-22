@@ -9,6 +9,7 @@ type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   bordered?: boolean;
   fit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   wrapperStyle?: React.CSSProperties;
+  href?: string | undefined;
 };
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -74,9 +75,9 @@ function Image({
   const imgCls = getImageClass(fit);
 
   return (
-    <span className={cx(wrapper, className)} style={wrapperStyle}>
+    <a className={cx(wrapper, className)} style={wrapperStyle} href={props.href}>
       <img className={imgCls} alt={alt || ""} {...props} />
-    </span>
+    </a>
   );
 }
 

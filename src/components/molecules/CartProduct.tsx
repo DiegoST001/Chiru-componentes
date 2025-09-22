@@ -9,7 +9,7 @@ import clsx from "clsx";
 import type { Product } from "@/features/cart-item/model/cart-item.model";
 
 export type ProductCard = Pick<Product, "id" | "name" | "description"> & {
-  price: number; 
+  price: number;
   imageUrl: string;
   discount?: number;
   brand?: string;
@@ -41,9 +41,11 @@ function CartProduct({
   const price = product?.price || 0;
   const discount = Math.min(Math.max(product?.discount || 0, 0), 100);
   const discountedPrice = price - (price * discount) / 100;
-
+  const detailUrl = `/es/docs/dev/ui/templates/ProductDetail/${product?.id}`;
   return (
-    <div className={clsx(getCartProductStyles(size), "flex flex-col", className)}>
+    <div
+      className={clsx(getCartProductStyles(size), "flex flex-col", className)}
+    >
       <div className="relative">
         <Image
           src={product?.imageUrl || "/placeholder.png"}
@@ -51,6 +53,7 @@ function CartProduct({
           className={clsx("w-full bg-gray-200", imageHeight)}
           fit="cover"
           radius="none"
+          href={detailUrl}
         />
         {discount > 0 && (
           <Badge
@@ -76,28 +79,32 @@ function CartProduct({
       </div>
 
       <div className="flex flex-col flex-grow p-2 pt-0 sm:p-4 space-y-2">
-        <Heading
-          level={3}
-          className={clsx(
-            size === "small" && "text-base",
-            size === "medium" && "text-lg",
-            size === "large" && "text-2xl"
-          )}
-        >
-          {product?.name || "Text-Title"}
-        </Heading>
+        <a href={detailUrl}>
+          <Heading
+            level={3}
+            className={clsx(
+              size === "small" && "text-base",
+              size === "medium" && "text-lg",
+              size === "large" && "text-2xl",
+            )}
+          >
+            {product?.name || "Text-Title"}
+          </Heading>
+        </a>
 
-        <Text
-          className={clsx(
-            "text-gray-600 font-light",
-            size === "small" && "text-xs",
-            size === "medium" && "text-sm",
-            size === "large" && "text-base"
-          )}
-        >
-          {product?.description ||
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-        </Text>
+        <a href={detailUrl}>
+          <Text
+            className={clsx(
+              "text-gray-600 font-light",
+              size === "small" && "text-xs",
+              size === "medium" && "text-sm",
+              size === "large" && "text-base",
+            )}
+          >
+            {product?.description ||
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+          </Text>
+        </a>
 
         <div className="flex flex-col gap-2 mt-auto">
           <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
@@ -105,7 +112,7 @@ function CartProduct({
               <Text
                 className={clsx(
                   "line-through text-gray-400 max-w-md",
-                  size === "small" ? "text-xs" : "text-sm"
+                  size === "small" ? "text-xs" : "text-sm",
                 )}
               >
                 S/. {price.toFixed(2)}
@@ -116,7 +123,7 @@ function CartProduct({
                 "font-bold text-gray-800",
                 size === "small" && "text-base",
                 size === "medium" && "text-lg",
-                size === "large" && "text-2xl"
+                size === "large" && "text-2xl",
               )}
             >
               S/. {discountedPrice.toFixed(2)}
