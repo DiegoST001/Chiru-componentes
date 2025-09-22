@@ -9,8 +9,8 @@ import clsx from "clsx";
 import type { Product } from "@/features/cart-item/model/cart-item.model";
 
 export type ProductCard = Pick<Product, "id" | "name" | "description"> & {
-  price: number;      // sobrescribimos para normalizarlo
-  imageUrl: string;   // tomamos la primera imagen
+  price: number; // sobrescribimos para normalizarlo
+  imageUrl: string; // tomamos la primera imagen
   discount?: number;
   brand?: string;
 };
@@ -25,7 +25,7 @@ type CartProductProps = {
 
 function getCartProductStyles(size: CartProductProps["size"]) {
   return cntl`
-    flex flex-col bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200
+    flex flex-col bg-white rounded-lg overflow-hidden shadow-md border border-gray-200
     ${size === "small" ? "text-sm" : ""}
     ${size === "medium" ? "text-base" : ""}
   `;
@@ -43,7 +43,7 @@ function CartProduct({
   const discountedPrice = price - (price * discount) / 100;
 
   return (
-    <div className={clsx(getCartProductStyles(size), className)}>
+    <div className={clsx(getCartProductStyles(size), "flex flex-col", className)}>
       <div className="relative">
         <Image
           src={product?.imageUrl || "/placeholder.png"}
@@ -72,7 +72,7 @@ function CartProduct({
         )}
       </div>
 
-      <div className="p-2 pt-0 sm:p-4 space-y-2">
+      <div className="flex flex-col flex-grow p-2 pt-0 sm:p-4 space-y-2">
         <Heading
           level={3}
           className={clsx(
@@ -96,41 +96,40 @@ function CartProduct({
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
         </Text>
 
-        <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
-          {discount > 0 && (
+        <div className="flex flex-col gap-2 mt-auto">
+          <div className="flex flex-wrap sm:items-center max-sm:flex-col gap-x-4 gap-y-0.5">
+            {discount > 0 && (
+              <Text
+                className={clsx(
+                  "line-through text-gray-400 max-w-md",
+                  size === "small" ? "text-xs" : "text-sm"
+                )}
+              >
+                S/. {price.toFixed(2)}
+              </Text>
+            )}
             <Text
               className={clsx(
-                "line-through text-gray-400 max-w-md",
-                size === "small" ? "text-xs" : "text-sm"
+                "font-bold text-gray-800",
+                size === "small" && "text-base",
+                size === "medium" && "text-lg",
+                size === "large" && "text-2xl"
               )}
             >
-              S/. {price.toFixed(2)}
+              S/. {discountedPrice.toFixed(2)}
             </Text>
-          )}
-          <Text
-            className={clsx(
-              "font-bold text-gray-800",
-              size === "small" && "text-base",
-              size === "medium" && "text-lg",
-              size === "large" && "text-2xl"
-            )}
-          >
-            S/. {discountedPrice.toFixed(2)}
-          </Text>
-        </div>
+          </div>
 
-        {showFreeShipping && (
-          <div>
+          {showFreeShipping && (
             <Badge
               variant="successInvert"
               size={size === "large" ? "medium" : size}
+              className="w-fit"
             >
               Envío gratuito
             </Badge>
-          </div>
-        )}
+          )}
 
-        <div className="pt-2">
           <Button text="Agregar" variant="ghost" fullWidth size={size} />
         </div>
       </div>
