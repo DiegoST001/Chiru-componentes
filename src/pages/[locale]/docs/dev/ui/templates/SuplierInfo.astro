@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TemplateSupplierInfo from "@/components/templates/TemplateSuplierInfo";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+---
+
+
+<Layout title="Información del Proveedor">
+  <TemplateSupplierInfo client:load />
+</Layout>
