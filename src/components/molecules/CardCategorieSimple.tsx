@@ -10,8 +10,9 @@ export type CategoryData = {
 };
 
 type CardCategorieSimpleProps = {
-  size?: "small" | "medium" | "large" | "full";
+  size?: "small" | "medium" | "large" | "full" | "stretch"; // stretch: ocupar celda completa
   dataCategorie?: CategoryData;
+  imageWidth?: number; // ancho fijo para uniformidad (px)
 };
 
 function getCardCategorieStyles(size: CardCategorieSimpleProps["size"]) {
@@ -19,26 +20,27 @@ function getCardCategorieStyles(size: CardCategorieSimpleProps["size"]) {
     small: "h-24",
     medium: "h-28",
     large: "h-32",
-    full: "h-full", // 👈 nueva opción para ocupar toda la altura
-  };
+    full: "h-full",
+    stretch: "h-full", // alias semantic para grid controlada
+  } as const;
   return cntl`
-    flex flex-row items-center bg-gray-50 rounded-lg hover:shadow-md transition cursor-pointer overflow-hidden w-full
+    flex flex-row items-center bg-gray-50 rounded-lg hover:shadow-md transition cursor-pointer overflow-hidden w-full border border-transparent hover:border-gray-200
     ${sizes[size || "medium"]}
   `;
 }
 
-function CardCategorieSimple({ dataCategorie, size = "medium" }: CardCategorieSimpleProps) {
+function CardCategorieSimple({ dataCategorie, size = "medium", imageWidth = 112 }: CardCategorieSimpleProps) {
   return (
     <div className={getCardCategorieStyles(size)}>
       {/* Texto a la izquierda */}
-      <div className="flex-1 p-2 flex items-center">
+      <div className="flex-1 pl-2 pr-3 flex items-center">
         <Text size="lg" weight="semibold" color="default">
           {dataCategorie?.name}
         </Text>
       </div>
 
-      {/* Imagen ocupa 100% de la altura */}
-      <div className="h-full aspect-square flex-shrink-0">
+      {/* Imagen ancho fijo, altura se estira para alinear visual */}
+      <div className="h-full flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center bg-white" style={{ width: imageWidth }}>
         <Image
           src={dataCategorie?.urlImage}
           alt={dataCategorie?.name || "Categoria"}

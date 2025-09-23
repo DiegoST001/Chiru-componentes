@@ -14,7 +14,7 @@ export type ProductData = {
 };
 
 type CartProductPopularProps = {
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "fluid"; // fluid: ocupa todo el ancho disponible
   dataProduct?: ProductData;
 };
 
@@ -24,6 +24,7 @@ function getCartProductPopularStyles(size: CartProductPopularProps["size"]) {
     ${size === "small" ? "w-48" : ""}
     ${size === "medium" ? "w-60" : ""}
     ${size === "large" ? "w-72" : ""}
+    ${size === "fluid" ? "w-full" : ""}
   `;
 }
 

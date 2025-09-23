@@ -8,6 +8,7 @@ import { BannerCompanyStars } from "../organisms/BannerCompanyStars";
 import { BannerPromotional } from "../molecules/BannerPromotional";
 import { BannerOfertasTop } from "../organisms/BannerOfertasTop";
 import { BannerImg } from "../molecules/BannerImg";
+import { SectionOffersByCategory } from "../organisms/SectionOffersByCategory";
 function TemplateHome() {
   return (
     <main className="w-full space-y-8 my-8">
@@ -22,6 +23,7 @@ function TemplateHome() {
         title="Producto ofertas de temporada"
       />
       <ProductsFlex />
+      <SectionOffersByCategory />
       <BrandSupplier
         title="Brand Supplier"
         description="A section showcasing brand logos to build trust and credibility."
