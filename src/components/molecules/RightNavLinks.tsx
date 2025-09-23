@@ -32,7 +32,7 @@ function getSelectStyles() {
   return cntl`
     appearance-none bg-transparent border-none outline-none
     text-sm font-medium cursor-pointer text-black
-    pr-4
+    
   `;
 }
 
@@ -82,7 +82,7 @@ function RightNavLinks({ links = [], className }: RightNavLinksProps) {
     { 
       text: "text", 
       hasDropdown: true,
-      dropdownOptions: ["text", "option1", "option2"]
+      dropdownOptions: ["es", "en", "zh"]
     },
   ];
 

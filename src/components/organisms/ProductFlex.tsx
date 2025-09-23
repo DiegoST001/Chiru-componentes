@@ -36,9 +36,13 @@ function ProductsFlex({ query = { page: 1, limit: 24 } }: ProductsFlexProps) {
   if (!products.length) return <div className="p-8 text-center">No hay productos disponibles.</div>;
 
   return (
-    <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mx-4 md:mx-6 lg:mx-8">
+    <section className="flex flex-wrap gap-2 md:gap-4 mx-3 md:mx-15 lg:mx-20 justify-center">
       {products.map((product) => (
-        <CartProduct key={product.id} product={product} className="hover:shadow-lg transition-shadow " />
+        <CartProduct
+          key={product.id}
+          product={product}
+          className="hover:shadow-lg transition-shadow min-w-[160px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] flex-1 max-w-xs"
+        />
       ))}
     </section>
   );

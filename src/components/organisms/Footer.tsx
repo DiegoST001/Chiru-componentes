@@ -3,7 +3,6 @@ import React from "react";
 import { FooterNavigation } from "../molecules/FooterNavigation";
 import { FooterParagraphInline } from "../molecules/FooterParagraphInline";
 import { Icon } from "../atoms/Icon";
-
 import {
   FacebookLogo,
   InstagramLogo,
@@ -13,12 +12,12 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gray-100 border-t border-gray-300 py-8 text-sm text-gray-700">
-      <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 gap-10">
+    <footer className="bg-gray-400 border-t border-gray-300 py-8 text-sm text-gray-700">
+      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* 1️⃣ Columna izquierda */}
         <div className="flex flex-col justify-between h-full gap-10">
           {/* Primer contenedor (listas) */}
-          <div className="grid grid-cols-3 gap-6 h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 h-full">
             <FooterNavigation
               title="Atención al cliente"
               items={[
@@ -75,9 +74,9 @@ function Footer() {
         {/* 2️⃣ Columna derecha */}
         <div className="flex flex-col justify-between h-full gap-10">
           {/* Primer contenedor (pagar + iconos) */}
-          <div className="flex flex-row justify-between items-start w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-start w-full gap-6">
             {/* Pagar con */}
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-4 sm:mb-0">
               <p className="font-bold mb-2">Pagar con</p>
               <div className="flex flex-row gap-2">
                 <img

@@ -11,8 +11,10 @@ type NavbarProps = {
 function getNavbarStyles() {
   return cntl`
     w-full px-6 py-4
-    bg-white
+    bg-gray-100
     flex items-center justify-between
+    max-md:justify-between
+    
   `;
 }
 
@@ -24,7 +26,7 @@ function getLeftSectionStyles() {
 
 function getRightSectionStyles() {
   return cntl`
-    flex items-center
+    flex items-center max-md:items-end
   `;
 }
 

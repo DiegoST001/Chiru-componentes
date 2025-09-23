@@ -19,7 +19,7 @@ function ProductActions({
   disabledContact = false,
 }: ProductActionsProps) {
   return (
-    <div className="flex items-center gap-4 w-full">
+    <div className="flex items-center gap-1 md:gap-4 w-full ">
       <Button
         variant="primary"
         size="medium"

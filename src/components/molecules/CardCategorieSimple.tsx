@@ -10,44 +10,61 @@ export type CategoryData = {
 };
 
 type CardCategorieSimpleProps = {
-  size?: "small" | "medium" | "large" | "full" | "stretch"; // stretch: ocupar celda completa
+  size?: "small" | "medium" | "large" | "full" | "stretch";
   dataCategorie?: CategoryData;
-  imageWidth?: number; // ancho fijo para uniformidad (px)
+  imageWidth?: number;
 };
 
 function getCardCategorieStyles(size: CardCategorieSimpleProps["size"]) {
   const sizes = {
-    small: "h-24",
-    medium: "h-28",
-    large: "h-32",
+    small: "min-h-[140px] max-h-[180px]",
+    medium: "min-h-[160px] max-h-[220px]",
+    large: "min-h-[180px] max-h-[260px]",
     full: "h-full",
-    stretch: "h-full", // alias semantic para grid controlada
+    stretch: "h-full",
   } as const;
   return cntl`
-    flex flex-row items-center bg-gray-50 rounded-lg hover:shadow-md transition cursor-pointer overflow-hidden w-full border border-transparent hover:border-gray-200
+    flex flex-col items-center bg-gray-100 rounded-lg hover:shadow-md transition cursor-pointer overflow-hidden w-full border border-transparent hover:border-gray-200
     ${sizes[size || "medium"]}
+    p-2
   `;
 }
 
 function CardCategorieSimple({ dataCategorie, size = "medium", imageWidth = 112 }: CardCategorieSimpleProps) {
+  // Define tamaño máximo de imagen según el tamaño de la tarjeta
+  const imgMaxMap = {
+    small: 80,
+    medium: 96,
+    large: 112,
+    full: 128,
+    stretch: 128,
+  };
+  const imgMax = imgMaxMap[size] || 96;
+
   return (
     <div className={getCardCategorieStyles(size)}>
-      {/* Texto a la izquierda */}
-      <div className="flex-1 pl-2 pr-3 flex items-center">
-        <Text size="lg" weight="semibold" color="default">
-          {dataCategorie?.name}
-        </Text>
-      </div>
-
-      {/* Imagen ancho fijo, altura se estira para alinear visual */}
-      <div className="h-full flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center bg-white" style={{ width: imageWidth }}>
+      {/* Imagen ocupa todo el ancho y altura disponible */}
+      <div
+        className="rounded-md overflow-hidden flex items-center justify-center bg-white mb-2 w-full h-full"
+      >
         <Image
           src={dataCategorie?.urlImage}
           alt={dataCategorie?.name || "Categoria"}
-          fit="fill"
+          fit="cover"
           radius="none"
           className="w-full h-full object-cover"
         />
+      </div>
+      {/* Texto pegado debajo */}
+      <div className="w-full flex items-end justify-center text-center mt-0">
+        <Text
+          size="lg"
+          weight="semibold"
+          color="default"
+          className="truncate"
+        >
+          {dataCategorie?.name}
+        </Text>
       </div>
     </div>
   );

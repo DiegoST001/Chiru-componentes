@@ -14,23 +14,25 @@ export type ProductData = {
 };
 
 type CartProductPopularProps = {
-  size?: "small" | "medium" | "large" | "fluid"; // fluid: ocupa todo el ancho disponible
+  size?: "small" | "medium" | "large" | "fluid";
   dataProduct?: ProductData;
+  className?: string; // 👈 permite clases personalizadas
 };
 
-function getCartProductPopularStyles(size: CartProductPopularProps["size"]) {
+function getCartProductPopularStyles(size: CartProductPopularProps["size"], className?: string) {
   return cntl`
-    flex flex-col bg-white text-gray-900 rounded-md shadow-md overflow-hidden p-3
+    flex flex-col bg-white text-gray-900 rounded-md shadow-md overflow-hidden p-3 max-h-[320px] w-full
     ${size === "small" ? "w-48" : ""}
     ${size === "medium" ? "w-60" : ""}
     ${size === "large" ? "w-72" : ""}
     ${size === "fluid" ? "w-full" : ""}
+    ${className || ""}
   `;
 }
 
-function CartProductPopular({ size = "medium", dataProduct }: CartProductPopularProps) {
+function CartProductPopular({ size = "medium", dataProduct, className }: CartProductPopularProps) {
   return (
-    <div className={getCartProductPopularStyles(size)}>
+    <div className={getCartProductPopularStyles(size, className)}>
       <Image
         src={dataProduct?.urlImage}
         alt={dataProduct?.name || "Product Image"}

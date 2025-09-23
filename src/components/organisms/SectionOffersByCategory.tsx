@@ -1,8 +1,20 @@
-import React, { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import { Text } from "../atoms/Text";
 import { Button } from "../atoms/Button";
-import { CartProductPopular, type ProductData } from "../molecules/CartProductPopular";
-import { CardCategorieSimple, type CategoryData } from "../molecules/CardCategorieSimple";
+import {
+  CartProductPopular,
+  type ProductData,
+} from "../molecules/CartProductPopular";
+import {
+  CardCategorieSimple,
+  type CategoryData,
+} from "../molecules/CardCategorieSimple";
 import { ProductService } from "@/features/product/services/product.service";
 import { CategoryService } from "@/features/category/services/category.service";
 import type { Product } from "@/features/product/models/product.model";
@@ -24,30 +36,45 @@ const CATEGORY_PAGE_SIZE = 6;
 
 function mapProduct(p: Product): ProductData {
   const rawPrice = p.price ? Object.values(p.price)[0] : undefined;
-  const price = typeof rawPrice === 'number' ? rawPrice : parseFloat(String(rawPrice || 0)) || 0;
-  const avg = p.ratings?.length ? (p.ratings.reduce((a, r) => a + r.rating, 0) / p.ratings.length) : 0;
+  const price =
+    typeof rawPrice === "number"
+      ? rawPrice
+      : parseFloat(String(rawPrice || 0)) || 0;
+  const avg = p.ratings?.length
+    ? p.ratings.reduce((a, r) => a + r.rating, 0) / p.ratings.length
+    : 0;
   return {
     id: p.id,
-    urlImage: p.images?.[0]?.urlImage || 'https://placehold.co/300x350?text=Producto',
+    urlImage:
+      p.images?.[0]?.urlImage || "https://placehold.co/300x350?text=Producto",
     name: p.name,
     price,
     oldPrice: undefined,
     rating: parseFloat(avg.toFixed(1)),
-    description: p.category?.name
+    description: p.category?.name,
   };
 }
 
 function mapCategory(c: CategoryModel): CategoryData {
   return {
     id: c.id,
-    urlImage: c.image || 'https://placehold.co/200x200?text=Category',
-    name: c.name
+    urlImage: c.image || "https://placehold.co/200x200?text=Category",
+    name: c.name,
   };
 }
 
-function SectionOffersByCategory({ products, categories, autoFetch = true, className }: SectionOffersByCategoryProps) {
-  const [internalProducts, setInternalProducts] = useState<ProductData[]>(products || []);
-  const [internalCategories, setInternalCategories] = useState<CategoryData[]>(categories || []);
+function SectionOffersByCategory({
+  products,
+  categories,
+  autoFetch = true,
+  className,
+}: SectionOffersByCategoryProps) {
+  const [internalProducts, setInternalProducts] = useState<ProductData[]>(
+    products || [],
+  );
+  const [internalCategories, setInternalCategories] = useState<CategoryData[]>(
+    categories || [],
+  );
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [errorProducts, setErrorProducts] = useState<string | null>(null);
@@ -57,41 +84,53 @@ function SectionOffersByCategory({ products, categories, autoFetch = true, class
   const leftRef = useRef<HTMLDivElement | null>(null);
   const [leftHeight, setLeftHeight] = useState<number | null>(null);
 
-  const totalPages = Math.max(1, Math.ceil(internalCategories.length / CATEGORY_PAGE_SIZE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(internalCategories.length / CATEGORY_PAGE_SIZE),
+  );
 
   const loadData = useCallback(async () => {
     if (!autoFetch) return;
     try {
-      setLoadingCategories(true); setErrorCategories(null);
+      setLoadingCategories(true);
+      setErrorCategories(null);
       const cats = await CategoryService.findAll();
       const mappedCats = cats.map(mapCategory);
       setInternalCategories(mappedCats);
 
       if (mappedCats.length) {
-        setLoadingProducts(true); setErrorProducts(null);
+        setLoadingProducts(true);
+        setErrorProducts(null);
         // usar la primera categoría
         const firstCatId = mappedCats[0].id;
         const prods = await ProductService.findByCategoryId(firstCatId);
-        setInternalProducts(prods.slice(0,3).map(mapProduct));
+        setInternalProducts(prods.slice(0, 3).map(mapProduct));
       }
     } catch (e: any) {
-      if (!internalCategories.length) setErrorCategories(e.message || 'Error cargando categorías');
-      if (!internalProducts.length) setErrorProducts(e.message || 'Error cargando productos de la categoría');
+      if (!internalCategories.length)
+        setErrorCategories(e.message || "Error cargando categorías");
+      if (!internalProducts.length)
+        setErrorProducts(
+          e.message || "Error cargando productos de la categoría",
+        );
     } finally {
       setLoadingCategories(false);
       setLoadingProducts(false);
     }
   }, [autoFetch]);
 
-  useEffect(() => { loadData(); }, [loadData]);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const currentCategorySlice = internalCategories.slice(
     categoryPage * CATEGORY_PAGE_SIZE,
-    categoryPage * CATEGORY_PAGE_SIZE + CATEGORY_PAGE_SIZE
+    categoryPage * CATEGORY_PAGE_SIZE + CATEGORY_PAGE_SIZE,
   );
 
-  const nextPage = () => setCategoryPage(p => (p + 1 < totalPages ? p + 1 : p));
-  const prevPage = () => setCategoryPage(p => (p - 1 >= 0 ? p - 1 : p));
+  const nextPage = () =>
+    setCategoryPage((p) => (p + 1 < totalPages ? p + 1 : p));
+  const prevPage = () => setCategoryPage((p) => (p - 1 >= 0 ? p - 1 : p));
 
   // Observa cambios de tamaño del panel izquierdo para sincronizar altura del derecho
   // Medición inicial sin parpadeo
@@ -111,11 +150,16 @@ function SectionOffersByCategory({ products, categories, autoFetch = true, class
         let h: number | undefined;
         const anyEntry: any = entry as any;
         if (anyEntry.borderBoxSize) {
-          const box = Array.isArray(anyEntry.borderBoxSize) ? anyEntry.borderBoxSize[0] : anyEntry.borderBoxSize;
+          const box = Array.isArray(anyEntry.borderBoxSize)
+            ? anyEntry.borderBoxSize[0]
+            : anyEntry.borderBoxSize;
           h = box.blockSize;
         }
         if (!h) {
-          h = entry.target instanceof HTMLElement ? entry.target.offsetHeight : entry.contentRect.height;
+          h =
+            entry.target instanceof HTMLElement
+              ? entry.target.offsetHeight
+              : entry.contentRect.height;
         }
         if (h && h !== leftHeight) {
           setLeftHeight(h);
@@ -127,51 +171,84 @@ function SectionOffersByCategory({ products, categories, autoFetch = true, class
   }, [internalProducts, internalCategories, leftHeight]);
 
   return (
-    <section className={`w-full py-10 ${className || ''}`}>
-  <div className="max-w-7xl mx-auto flex flex-col items-center px-4">
+    <section className={`w-full py-10 ${className || ""}`}>
+      <div className=" mx-auto flex flex-col items-center px-4 md:px-16 lg:px-20">
         {/* Título */}
         <div className="text-center mb-8">
-          <Text size="xl" weight="bold">Ofertas por categoría</Text>
+          <Text size="xl" weight="bold">
+            Ofertas por categoría
+          </Text>
         </div>
 
         {/* Layout responsive - mismas alturas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch w-full">
           {/* Panel izquierdo (productos) */}
-          <div ref={leftRef} className="bg-sky-100 p-6 rounded-lg flex flex-col gap-6 w-full">
+          <div
+            ref={leftRef}
+            className="bg-sky-100 p-6 rounded-lg flex flex-col gap-6 w-full"
+          >
             <div className="flex flex-row items-center justify-between flex-wrap gap-4">
               <div className="flex flex-col gap-1">
-                <Text size="lg" weight="bold">{internalCategories[0]?.name || 'Categoría'}</Text>
-                <Text size="sm" color="muted">Los 3 primeros productos</Text>
+                <Text size="lg" weight="bold">
+                  {internalCategories[0]?.name || "Categoría"}
+                </Text>
+                <Text size="sm" color="muted">
+                  Los 3 primeros productos
+                </Text>
               </div>
               <Button text="Ver más" variant="primary" size="medium" />
             </div>
-            <div className="grid grid-cols-3 gap-5 w-full flex-1 items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full flex-1 items-stretch">
               {loadingProducts && !internalProducts.length && (
-                <Text size="sm" color="muted">Cargando productos...</Text>
+                <Text size="sm" color="muted">
+                  Cargando productos...
+                </Text>
               )}
               {errorProducts && !internalProducts.length && (
-                <Text size="sm" color="danger">{errorProducts}</Text>
+                <Text size="sm" color="danger">
+                  {errorProducts}
+                </Text>
               )}
-              {internalProducts.map(prod => (
-                <CartProductPopular key={prod.id} dataProduct={prod} size="fluid" />
-              ))}
+              {internalProducts.map((prod, idx) => {
+                // Solo aplica col-span-2 en sm y arriba
+                const isLastOdd =
+                  internalProducts.length % 2 === 1 &&
+                  idx === internalProducts.length - 1;
+                return (
+                  <CartProductPopular
+                    key={prod.id}
+                    dataProduct={prod}
+                    size="fluid"
+                    className={isLastOdd ? "w-full sm:col-span-2" : "w-full"}
+                  />
+                );
+              })}
             </div>
           </div>
 
           {/* Panel derecho (categorías) */}
           <div
-            className="relative w-full flex flex-col bg-gray-50 rounded-lg p-6 overflow-hidden"
+            className="relative w-full flex flex-col bg-gray-50 rounded-lg  overflow-hidden"
             style={leftHeight ? { height: `${leftHeight}px` } : undefined}
           >
-            <div className="grid grid-cols-2 grid-rows-3 gap-6 h-full">
+            <div className="grid grid-cols-2 grid-rows-3 gap-1.5 md:gap-6 h-full">
               {loadingCategories && !internalCategories.length && (
-                <Text size="sm" color="muted">Cargando categorías...</Text>
+                <Text size="sm" color="muted">
+                  Cargando categorías...
+                </Text>
               )}
               {errorCategories && !internalCategories.length && (
-                <Text size="sm" color="danger">{errorCategories}</Text>
+                <Text size="sm" color="danger">
+                  {errorCategories}
+                </Text>
               )}
-              {currentCategorySlice.map(cat => (
-                <CardCategorieSimple key={cat.id} dataCategorie={cat} size="stretch" imageWidth={120} />
+              {currentCategorySlice.map((cat) => (
+                <CardCategorieSimple
+                  key={cat.id}
+                  dataCategorie={cat}
+                  size="stretch"
+                  imageWidth={120}
+                />
               ))}
             </div>
             {/* Controles paginación */}
@@ -183,16 +260,22 @@ function SectionOffersByCategory({ products, categories, autoFetch = true, class
                   className="p-1.5 rounded-full bg-white shadow disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 transition"
                   aria-label="Anterior"
                 >
-                  <Icon tamano="small"><CaretLeft /></Icon>
+                  <Icon tamano="small">
+                    <CaretLeft />
+                  </Icon>
                 </button>
-                <Text size="xs" color="muted">{categoryPage + 1} / {totalPages}</Text>
+                <Text size="xs" color="muted">
+                  {categoryPage + 1} / {totalPages}
+                </Text>
                 <button
                   onClick={nextPage}
                   disabled={categoryPage + 1 === totalPages}
                   className="p-1.5 rounded-full bg-white shadow disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 transition"
                   aria-label="Siguiente"
                 >
-                  <Icon tamano="small"><CaretRight /></Icon>
+                  <Icon tamano="small">
+                    <CaretRight />
+                  </Icon>
                 </button>
               </div>
             )}
