@@ -41,7 +41,7 @@ function CartProduct({
   const price = product?.price || 0;
   const discount = Math.min(Math.max(product?.discount || 0, 0), 100);
   const discountedPrice = price - (price * discount) / 100;
-  const detailUrl = `/es/docs/dev/ui/templates/ProductDetail/${product?.id}`;
+  const detailUrl = `/es/docs/dev/ui/templates/product-detail/${product?.id}`;
   return (
     <div
       className={clsx(getCartProductStyles(size), "flex flex-col", className)}

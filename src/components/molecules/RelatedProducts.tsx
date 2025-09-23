@@ -55,7 +55,7 @@ export function RelatedProducts({
           <a
             key={p.id}
             className={cardCls()}
-            href={`/es/docs/dev/ui/templates/ProductDetail/${p.id}`}
+            href={`/es/docs/dev/ui/templates/product-detail/${p.id}`}
             style={{ minWidth: minColWidth }}
           >
             <div className="relative w-full bg-gray-300" style={{ aspectRatio: "1 / 1" }}>

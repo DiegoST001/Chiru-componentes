@@ -21,7 +21,7 @@ function Header({ className }: HeaderProps) {
       {/* Desktop layout */}
       <div className="hidden md:flex items-center w-full gap-6">
         {/* Logo a la izquierda */}
-        <a className="flex items-center min-w-fit" href="/es/docs/dev/ui/templates/Home">
+        <a className="flex items-center min-w-fit" href="/es/home">
           <Image
             src="/chiru_logo_full.svg"
             alt="Chiru Logo"
