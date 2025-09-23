@@ -18,6 +18,7 @@
     "astro": "^5.13.7",
     "axios": "^1.10.0",
     "cntl": "^1.0.0",
+    "keen-slider": "^6.8.6",
     "phosphor-astro": "^2.1.0",
     "phosphor-react": "^1.4.1",
     "react": "^19.1.1",

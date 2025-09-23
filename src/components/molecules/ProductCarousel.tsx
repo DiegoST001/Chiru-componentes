@@ -12,15 +12,25 @@ type ImgProduct = {
 type ProductCarouselProps = {
   products: ImgProduct[];
   size?: "small" | "medium" | "large";
+  current?: number;
+  setCurrent?: (idx: number) => void;
 };
 
-function ProductCarousel({ products, size = "medium" }: ProductCarouselProps) {
-  const [current, setCurrent] = useState(0);
+function ProductCarousel({
+  products,
+  size = "medium",
+  current,
+  setCurrent,
+}: ProductCarouselProps) {
+  // Si no se controla desde fuera, usa estado interno
+  const [internalCurrent, internalSetCurrent] = useState(0);
+  const idx = current ?? internalCurrent;
+  const updateCurrent = setCurrent ?? internalSetCurrent;
 
   const prev = () =>
-    setCurrent((prev) => (prev === 0 ? products.length - 1 : prev - 1));
+    updateCurrent(idx === 0 ? products.length - 1 : idx - 1);
   const next = () =>
-    setCurrent((prev) => (prev === products.length - 1 ? 0 : prev + 1));
+    updateCurrent(idx === products.length - 1 ? 0 : idx + 1);
 
   if (!products || products.length === 0) return null;
 
@@ -28,8 +38,8 @@ function ProductCarousel({ products, size = "medium" }: ProductCarouselProps) {
     <div className="relative w-full flex justify-center">
       {/* Imagen principal */}
       <Image
-        src={products[current].imgUrl}
-        alt={`Producto ${products[current].id}`}
+        src={products[idx].imgUrl}
+        alt={`Producto ${products[idx].id}`}
         size={size}
         radius="md"
         shadow

@@ -1,4 +1,6 @@
 import React from "react";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
 import { Image } from "@/components/atoms/Image";
 
 type ImgProduct = {
@@ -12,41 +14,70 @@ type ProductListImgProps = {
   direction?: "vertical" | "horizontal";
   /** Tamaño que se usará en las imágenes */
   size?: "small" | "medium" | "large";
+  onSelect?: (index: number) => void; // <-- Nuevo prop
+  selectedIndex?: number; // <-- Nuevo prop
 };
 
 const sizeMap: Record<NonNullable<ProductListImgProps["size"]>, number> = {
-  small: 96, // 24 * 4 = w-24
-  medium: 192, // 48 * 4 = w-48
-  large: 288, // 72 * 4 = w-72
+  small: 64, // Mejor proporción cuadrada
+  medium: 96, // 48 * 2 = w-48
+  large: 128, // 72 * 2 = w-72
 };
 
 function ProductListImg({
   products,
-  direction = "vertical",
+  direction = "horizontal",
   size = "medium",
+  onSelect,
+  selectedIndex,
 }: ProductListImgProps) {
-  const itemSize = sizeMap[size];
-  const min5 = itemSize * 5 + 40; // sumamos un gap aproximado
+  const [sliderRef] = useKeenSlider<HTMLDivElement>({
+    slides: { perView: 5, spacing: 12 },
+    breakpoints: {
+      "(min-width: 640px)": { slides: { perView: 7, spacing: 16 } },
+      "(min-width: 1024px)": { slides: { perView: 10, spacing: 20 } },
+    },
+    vertical: direction === "vertical",
+  });
 
-  const layout =
-    direction === "vertical"
-      ? `flex flex-col gap-6 max-h-[${min5}px] overflow-y-auto`
-      : `flex flex-row flex-wrap gap-6 max-w-[${min5}px] overflow-x-auto`;
+  const itemSize = sizeMap[size];
 
   return (
-    <div className={layout}>
-      {products.map((product) => (
+    <div ref={sliderRef} className="keen-slider">
+      {products.map((product, idx) => (
         <div
           key={product.id}
-          className="flex flex-col items-center text-center"
+          className="keen-slider__slide flex items-center justify-center cursor-pointer"
+          onClick={() => onSelect?.(idx)}
         >
-          <Image
-            src={product.imgUrl}
-            alt={`Producto ${product.id}`}
-            size={size}
-            radius="md"
-            shadow
-          />
+          <div
+            className={`transition-all duration-150 rounded-xl overflow-hidden border-2 m-2
+              ${
+                selectedIndex === idx
+                  ? "border-blue-500 shadow-lg"
+                  : "border-gray-200"
+              }
+            `}
+            style={{
+              width: itemSize,
+              height: itemSize,
+              minWidth: itemSize,
+              minHeight: itemSize,
+              background: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              src={product.imgUrl}
+              alt={`Producto ${product.id}`}
+              size={size}
+              radius="xl"
+              shadow={selectedIndex === idx}
+              className="object-cover w-full h-full"
+            />
+          </div>
         </div>
       ))}
     </div>

@@ -1,20 +1,24 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import TemplateProductDetails from "@/components/templates/TemplateProductDetails";
-import { getStaticLanguagePaths } from "@/i18n/utils";
+import { useLocalizePage } from "@/i18n/utils";
+import { isLanguageSupported } from "@/i18n/ui";
 import AppShell from "@/layouts/AppShell.astro";
-// Obtén el id desde la URL
 
-export async function getStaticPaths() {
-  return getStaticLanguagePaths();
+export const prerender = false;
+
+const { locale, ProductId } = Astro.params;
+
+if (!locale || !isLanguageSupported(locale as any)) {
+  console.log(`Locale not supported: ${locale}`);
 }
 
-const { ProductId } = Astro.params;
+const { t } = useLocalizePage(Astro);
 ---
 
 
 <Layout title="Detalle del producto">
   <AppShell>
-    <TemplateProductDetails productId={ProductId} client:load />
+    <TemplateProductDetails productId={String(ProductId)} client:load />
   </AppShell>
 </Layout>

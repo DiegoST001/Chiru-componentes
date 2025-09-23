@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProductCarousel } from "../molecules/ProductCarousel";
 import { ProductListImg } from "../molecules/ProductListImg";
 import { ProductDescription } from "../molecules/ProductDescription";
@@ -36,15 +36,24 @@ function ProductDetailView({
   cartCompany,
   specs,
 }: ProductDetailViewProps) {
+  const [current, setCurrent] = useState(0);
+
   return (
-    <div className="flex gap-8 w-full max-w-5xl mx-auto min-h-[600px]">
+    <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl mx-auto min-h-[600px]">
       {/* Sección de imágenes */}
-      <div className="flex flex-col gap-6 flex-1 justify-between items-center bg-white rounded-xl shadow p-6">
-        <ProductCarousel products={images} size="large" />
+      <div className="flex flex-col flex-1 justify-around gap-4 items-center bg-white rounded-xl shadow p-6">
+        <ProductCarousel
+          products={images}
+          size="large"
+          current={current}
+          setCurrent={setCurrent}
+        />
         <ProductListImg
           products={productList}
           direction="horizontal"
-          size="small"
+          size="small" // Cambia a "medium" o "large"
+          onSelect={setCurrent}
+          selectedIndex={current}
         />
       </div>
       {/* Sección de información */}
