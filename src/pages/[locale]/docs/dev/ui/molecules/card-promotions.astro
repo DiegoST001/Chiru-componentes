@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
-import { CardPromotions } from "@/components/molecules/CardPromotions";
+import { CardPromotions as CardPromotionsComponent } from "@/components/molecules/CardPromotions";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -19,6 +19,6 @@ const mock = {
 
 <Layout title="CardPromotions">
   <div class="my-10 flex justify-center">
-    <CardPromotions client:load dataCard={mock} />
+    <CardPromotionsComponent client:load dataCard={mock} />
   </div>
 </Layout>

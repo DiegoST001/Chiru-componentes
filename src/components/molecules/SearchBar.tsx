@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Input } from "@/components/atoms/Input";
-import { Select } from "@/components/atoms/Select";
 import { Icon } from "@/components/atoms/Icon";
 import { MagnifyingGlass } from "phosphor-react";
 import { cntl } from "@/utils/cntl";
@@ -21,49 +19,49 @@ type SearchBarProps = {
 
 function getSearchBarStyles({ fullWidth }: { fullWidth?: boolean }) {
   return cntl`
-    flex items-center gap-0 rounded-md border border-gray-400 bg-white overflow-hidden
+    flex flex-row items-center gap-1 w-full
+    rounded-md border border-gray-300 bg-white overflow-hidden
     focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500
     ${fullWidth ? "w-full" : "w-auto"}
+    h-10 lg:h-12
   `;
 }
 
 function getSelectStyles({ size }: { size?: "small" | "medium" | "large" }) {
-  const sizes = {
-    small: "h-8 px-2 text-sm",
-    medium: "h-10 px-3 text-base",
-    large: "h-12 px-4 text-lg",
-  };
-
   return cntl`
-    border-0 border-r border-gray-300 rounded-none bg-gray-50 focus:ring-0 focus:border-gray-300
-    ${sizes[size || "medium"]}
+    border-none bg-gray-50 focus:ring-0 focus:border-none
+    appearance-none
+    text-transparent lg:text-gray-900
+    px-0 min-w-[32px] w-[32px] h-full
+    lg:px-3 lg:min-w-[110px] lg:w-auto
+    transition-all
+    rounded-md
   `;
 }
 
 function getInputStyles({ size }: { size?: "small" | "medium" | "large" }) {
   const sizes = {
-    small: "h-8 px-3 text-sm",
-    medium: "h-10 px-4 text-base", 
-    large: "h-12 px-4 text-lg",
+    small: "h-8 px-2 text-xs",
+    medium: "h-10 px-3 text-sm",
+    large: "h-12 px-4 text-base",
   };
-
   return cntl`
-    flex-1 border-0 bg-transparent focus:ring-0 outline-none
+    flex-1 border-none bg-transparent focus:ring-0 outline-none
     ${sizes[size || "medium"]}
   `;
 }
 
 function getButtonStyles({ size }: { size?: "small" | "medium" | "large" }) {
   const sizes = {
-    small: "h-8 w-8",
-    medium: "h-10 w-10",
-    large: "h-12 w-12",
+    small: "w-8",
+    medium: "w-10",
+    large: "w-12",
   };
-
   return cntl`
+    h-full
     ${sizes[size || "medium"]}
     bg-gray-100 hover:bg-gray-200 transition-colors
-    flex items-center justify-center border-l border-gray-300
+    flex items-center justify-center border-none rounded-md
     text-gray-600 hover:text-gray-800
   `;
 }
@@ -116,19 +114,28 @@ function SearchBar({
   return (
     <div className={getSearchBarStyles({ fullWidth })}>
       {dropdownOptions && dropdownOptions.length > 0 && (
-        <select
-          value={selectedOption}
-          onChange={handleDropdownChange}
-          disabled={disabled}
-          className={getSelectStyles({ size })}
-        >
-          <option value="">Selecciona</option>
-          {processedOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative h-full flex items-center">
+          <select
+            value={selectedOption}
+            onChange={handleDropdownChange}
+            disabled={disabled}
+            className={getSelectStyles({ size })}
+          >
+            <option value="Todos" className="lg:block hidden">Selecciona</option>
+            <option value="Todos" className="block lg:hidden"></option>
+            {processedOptions.map((option) => (
+              <option key={option.value} value={option.value} className="text-gray-900">
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {/* Flecha personalizada */}
+          <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </span>
+        </div>
       )}
 
       <input

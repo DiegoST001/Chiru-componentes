@@ -41,7 +41,7 @@ function ProductDetailView({
   return (
     <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl mx-auto min-h-[600px]">
       {/* Sección de imágenes */}
-      <div className="flex flex-col flex-1 justify-around gap-4 items-center bg-white rounded-xl shadow p-6">
+      <div className="flex flex-col flex-1 justify-center gap-4 items-center bg-white rounded-xl shadow p-6">
         <ProductCarousel
           products={images}
           size="large"

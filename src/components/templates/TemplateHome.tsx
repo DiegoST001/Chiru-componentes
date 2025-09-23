@@ -6,14 +6,24 @@ import BrandSupplier from "../organisms/BrandSupplier";
 // import BrandsBanner from "../organisms/BrandsBanner";
 import { BannerCompanyStars } from "../organisms/BannerCompanyStars";
 import { BannerPromotional } from "../molecules/BannerPromotional";
-import { TopService } from "../organisms/TopService";
+import { BannerOfertasTop } from "../organisms/BannerOfertasTop";
+import { BannerImg } from "../molecules/BannerImg";
+import { SectionOffersByCategory } from "../organisms/SectionOffersByCategory";
 function TemplateHome() {
   return (
     <main className="w-full space-y-8 my-8">
       <BannerPromotional />
       <BannerCompanyStars />
+      <BannerOfertasTop />
+      <BannerImg
+        autoFetchTopSold
+        limit={3}
+        itemAspect="video" 
+        minItemWidth={100}
+        title="Producto ofertas de temporada"
+      />
       <ProductsFlex />
-      {/* <TopService /> */} {/* Falta responsive provoca desbordamiento */}
+      <SectionOffersByCategory />
       <BrandSupplier
         title="Brand Supplier"
         description="A section showcasing brand logos to build trust and credibility."

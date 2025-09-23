@@ -29,7 +29,11 @@ const variants = ["default", "primary", "secondary"] as const;
             client:load
             size={size}
             variant={variant}
-            dataCompany={mockCompany}
+            id={mockCompany.id}
+            avatarUrl={mockCompany.avatarUrl}
+            name={mockCompany.name}
+            tagLabel={mockCompany.tagLabel}
+            rightText={mockCompany.rightText}
           />
         ))
       ))}

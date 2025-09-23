@@ -26,9 +26,9 @@ const { hideHeader = false, hideNavbar = false, hideFooter = false, className = 
 ---
 
 <div class={`min-h-screen flex flex-col bg-gray-50 ${className}`}>
-  <!-- {!hideHeader && <Header client:load />}
-  {!hideNavbar && <Navbar client:load />} -->
-<!-- w-full max-w-7xl mx-auto px-4 py-6k -->
+  {!hideHeader && <Header client:load />}
+  <!-- {!hideNavbar && <Navbar client:load />} -->
+<!-- w-full mx-auto px-4 py-6 -->
   <main class="flex-1 ">
     <slot />
   </main>

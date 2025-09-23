@@ -187,7 +187,7 @@ export class ProductService {
 
   static async getTopMostSoldProducts(): Promise<Product[]> {
     try {
-      const response = await apiClient.get<Product[]>(`${this.baseUrl}/top-sold`);
+      const response = await apiClient.get<Product[]>(`${this.baseUrl}/most-sold`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, 'Error fetching top most sold products');

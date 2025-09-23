@@ -19,7 +19,8 @@ import {
   Calendar,
   ChartLine,
   PlusCircle,
-  UserCircle
+  UserCircle,
+  ShoppingCartSimple
 } from "phosphor-react";
 import { cntl } from "@/utils/cntl";
 
@@ -93,18 +94,23 @@ function NavIcon({ icon, label, onClick, active }: NavIconProps) {
   const iconElement = typeof icon === 'string' ? getIconFromString(icon) : icon;
 
   return (
-    <div className={getNavIconStyles(active)} onClick={onClick}>
-      <div className="relative">
-        <Icon variant={active ? "primary" : "default"} tamano="medium">
-          {iconElement}
-        </Icon>
-      </div>
-      {label && (
-        <Text size="xs" color={active ? "primary" : "muted"} weight="medium">
-          {label}
-        </Text>
-      )}
-    </div>
+    <a
+      className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center md:bg-transparent md:p-2 md:rounded-md md:inline-block md:h-auto md:w-auto md:cursor-pointer transition-colors md:text-gray-600 hover:text-gray-900 hover:bg-gray-50 md:hover:bg-gray-100 md:flex md:flex-col md:items-center md:justify-center"
+      href="#"
+      onClick={onClick}
+    >
+      <Icon variant={active ? "primary" : "default"} tamano="medium">
+        {iconElement}
+      </Icon>
+      {/* Solo muestra el label en md o superior */}
+      <span className="hidden md:block">
+        {label && (
+          <Text size="xs" color={active ? "primary" : "muted"} weight="medium">
+            {label}
+          </Text>
+        )}
+      </span>
+    </a>
   );
 }
 

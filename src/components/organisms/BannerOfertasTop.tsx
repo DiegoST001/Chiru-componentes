@@ -1,11 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Icon } from "../atoms/Icon";
 import { Heading } from "../atoms/Heading";
+// Update the import path if CardPromotions is in another folder, e.g. molecules
 import { CardPromotions } from "../molecules/CardPromotions";
 import { cntl } from "@/utils/cntl";
 import { CaretLeft, CaretRight } from "phosphor-react";
+import { ProductService } from "@/features/product/services/product.service";
+import type { Product } from "@/features/product/models/product.model";
 
-interface OfertaData {
+// Shape que consume CardPromotions (normalizada)
+interface PromotionCardData {
   id: string;
   imageUrl: string;
   title: string;
@@ -15,12 +19,24 @@ interface OfertaData {
   badge?: string;
 }
 
+/**
+ * Props para BannerOfertasTop
+ * - Se prioriza el uso del modelo Product (products) sobre la versión simplificada (ofertas).
+ * - Prop 'ofertas' queda DEPRECADA y se mantiene solo para compatibilidad temporal con ejemplos previos.
+ */
 interface BannerOfertasTopProps {
   title?: string;
-  ofertas?: OfertaData[];
+  /** DEPRECATED: usar 'products' */
+  ofertas?: PromotionCardData[];
+  /** Lista de productos completos ya obtenidos fuera del componente */
+  products?: Product[];
   showNavigation?: boolean;
   cardSize?: "small" | "medium" | "large";
   className?: string;
+  /** Si true y no se pasan products se hace fetch a /products/featured */
+  autoFetchFeatured?: boolean;
+  /** Permite personalizar el mapeo Product -> PromotionCardData */
+  mapProductToCard?: (product: Product) => PromotionCardData;
 }
 
 /**
@@ -31,69 +47,116 @@ interface BannerOfertasTopProps {
  * Ideal para secciones de ofertas especiales, productos destacados o promociones.
  */
 function BannerOfertasTop({
-  title = "Ofertas Top",
-  ofertas = [
-    {
-      id: "oferta1",
-      imageUrl: "https://placehold.co/260x300/FF6B6B/ffffff?text=Oferta+1",
-      title: "Smartphone Galaxy S23",
-      subtitle: "Samsung Galaxy",
-      rightText: "Desc. 25%",
-      price: 899.99,
-      badge: "HOT"
-    },
-    {
-      id: "oferta2", 
-      imageUrl: "https://placehold.co/260x300/4ECDC4/ffffff?text=Oferta+2",
-      title: "Laptop Gaming ROG",
-      subtitle: "ASUS ROG Strix",
-      rightText: "Desc. 30%",
-      price: 1299.99,
-      badge: "NUEVO"
-    },
-    {
-      id: "oferta3",
-      imageUrl: "https://placehold.co/260x300/45B7D1/ffffff?text=Oferta+3", 
-      title: "Auriculares Sony",
-      subtitle: "Sony WH-1000XM4",
-      rightText: "Desc. 40%",
-      price: 199.99,
-      badge: "POPULAR"
-    },
-    {
-      id: "oferta4",
-      imageUrl: "https://placehold.co/260x300/F7DC6F/ffffff?text=Oferta+4",
-      title: "Smart TV 55'",
-      subtitle: "LG OLED 4K",
-      rightText: "Desc. 20%",
-      price: 799.99,
-      badge: "LIMITADO"
-    },
-    {
-      id: "oferta5",
-      imageUrl: "https://placehold.co/260x300/BB8FCE/ffffff?text=Oferta+5",
-      title: "MacBook Air M2",
-      subtitle: "Apple MacBook",
-      rightText: "Desc. 15%",
-      price: 1199.99,
-      badge: "PREMIUM"
-    }
-  ],
+  title = "Top Ofertas",
+  ofertas,
+  products,
   showNavigation = true,
   cardSize = "medium",
-  className
+  className,
+  autoFetchFeatured = true,
+  mapProductToCard
 }: BannerOfertasTopProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const [cards, setCards] = useState<PromotionCardData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Evita refetch infinito cuando solo usamos autoFetchFeatured
+  const fetchedRef = useRef(false);
+
+  // Helper: extraer precio numérico de Product.price (Record)
+  const extractPrice = (p: Product): number | undefined => {
+    if (!p?.price) return undefined;
+    const first = Object.values(p.price)[0];
+    const n = typeof first === 'string' ? parseFloat(first) : typeof first === 'number' ? first : NaN;
+    return isNaN(n) ? undefined : n;
+  };
+
+  // Mapeo por defecto Product -> PromotionCardData
+  const defaultMap = (p: Product): PromotionCardData => ({
+    id: p.id,
+    imageUrl: p.images?.[0]?.urlImage || "https://placehold.co/260x300?text=Producto",
+    title: p.name,
+    subtitle: p.category?.name,
+    rightText: p.promotions?.[0] ? 'Promo' : undefined,
+    price: extractPrice(p),
+    badge: p.isFeatured ? 'TOP' : undefined
+  });
+
+  const mapProducts = (list: Product[]) => list.slice(0,5).map(p => (mapProductToCard ? mapProductToCard(p) : defaultMap(p)));
+
+  // Fetch 5 featured products
+  useEffect(() => {
+    let active = true;
+    const hasProducts = !!(products && products.length);
+    const hasLegacy = !!(ofertas && ofertas.length);
+
+    async function loadFeatured() {
+      try {
+        setLoading(true);
+        setError(null);
+        const resp: Product[] = await ProductService.getFeaturedProducts();
+        if (!active) return;
+        if (Array.isArray(resp) && resp.length) {
+          setCards(mapProducts(resp));
+        } else {
+          setCards([]);
+        }
+      } catch (e: any) {
+        if (active) setError(e.message || 'Error cargando productos destacados');
+      } finally {
+        if (active) setLoading(false);
+        fetchedRef.current = true;
+      }
+    }
+
+    // Prioridad: products -> ofertas -> (fetch si auto y aún no se ha hecho)
+    if (hasProducts) {
+      setCards(mapProducts(products!));
+      fetchedRef.current = true; // Consideramos cumplido
+    } else if (hasLegacy) {
+      setCards(ofertas!.slice(0,5));
+      fetchedRef.current = true;
+    } else if (autoFetchFeatured && !fetchedRef.current) {
+      loadFeatured();
+    }
+
+    return () => { active = false; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFetchFeatured, products, ofertas, mapProductToCard]);
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+      setIsOverflowing(scrollWidth > clientWidth + 1);
     }
   };
+
+  const updateOverflow = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollWidth, clientWidth } = scrollContainerRef.current;
+    setIsOverflowing(scrollWidth > clientWidth + 1);
+    // Ajustar botones según estado actual de scroll
+    checkScrollButtons();
+  };
+
+  useEffect(() => {
+    // Recalcular después de que las tarjetas se monten/cambien
+    updateOverflow();
+  }, [cards]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Usamos requestAnimationFrame para evitar layout thrash
+      window.requestAnimationFrame(updateOverflow);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -116,12 +179,12 @@ function BannerOfertasTop({
   };
 
   const containerClasses = cntl`
-    relative w-full
+    relative w-full mx-auto
     ${className || ""}
   `;
 
   const scrollContainerClasses = cntl`
-    flex gap-4 overflow-x-auto scrollbar-hide
+    flex ${!isOverflowing ? 'justify-center' : ''} gap-4 overflow-x-auto scrollbar-hide
     scroll-smooth
     pb-2
   `;
@@ -147,7 +210,7 @@ function BannerOfertasTop({
 
       <div className="relative">
         {/* Botón Izquierdo */}
-        {showNavigation && (
+        {showNavigation && isOverflowing && (
           <button
             onClick={scrollLeft}
             disabled={!canScrollLeft}
@@ -166,17 +229,17 @@ function BannerOfertasTop({
           className={scrollContainerClasses}
           onScroll={checkScrollButtons}
         >
-          {ofertas.map((oferta) => (
-            <div key={oferta.id} className="flex-shrink-0">
+          {cards.map(card => (
+            <div key={card.id} className="flex-shrink-0">
               <CardPromotions
                 size={cardSize}
                 dataCard={{
-                  imageUrl: oferta.imageUrl,
-                  title: oferta.title,
-                  subtitle: oferta.subtitle,
-                  rightText: oferta.rightText,
-                  price: oferta.price,
-                  badge: oferta.badge
+                  imageUrl: card.imageUrl,
+                  title: card.title,
+                  subtitle: card.subtitle,
+                  rightText: card.rightText,
+                  price: card.price,
+                  badge: card.badge
                 }}
               />
             </div>
@@ -184,7 +247,7 @@ function BannerOfertasTop({
         </div>
 
         {/* Botón Derecho */}
-        {showNavigation && (
+        {showNavigation && isOverflowing && (
           <button
             onClick={scrollRight}
             disabled={!canScrollRight}
@@ -197,9 +260,16 @@ function BannerOfertasTop({
           </button>
         )}
       </div>
+      {loading && (
+        <div className="mt-4 text-center text-xs text-gray-500">Cargando productos...</div>
+      )}
+      {error && (
+        <div className="mt-4 text-center text-xs text-red-600">{error}</div>
+      )}
     </div>
   );
 }
 
 export { BannerOfertasTop };
-export type { BannerOfertasTopProps, OfertaData };
+export default BannerOfertasTop;
+export type { BannerOfertasTopProps, PromotionCardData };
