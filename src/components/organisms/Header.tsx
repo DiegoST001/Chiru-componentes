@@ -1,7 +1,6 @@
 import React from "react";
 import { SearchBar } from "@/components/molecules/SearchBar";
 import { NavIcons } from "@/components/molecules/NavIcons";
-import { Text } from "@/components/atoms/Text";
 import { cntl } from "@/utils/cntl";
 import { Image } from "../atoms/Image";
 import { List } from "phosphor-react";
@@ -10,56 +9,19 @@ type HeaderProps = {
   className?: string;
 };
 
-function getHeaderStyles() {
-  return cntl`
-    flex items-center justify-between gap-6 px-6 py-4
-    bg-white border-b border-gray-200
-    shadow-sm h-16
-
-  `;
-}
-
-function getLogoStyles() {
-  return cntl`
-    flex items-center
-    min-w-fit
-  `;
-}
-
-function getSearchSectionStyles() {
-  return cntl`
-    flex-1 mx-6
-  `;
-}
-
-function getNavSectionStyles() {
-  return cntl`
-    flex items-center gap-1
-    min-w-fit
-  `;
-}
-
 function Header({ className }: HeaderProps) {
   return (
     <header
       className={cntl`
         bg-white border-b border-gray-200 shadow-sm w-full
-        flex flex-col md:flex-row items-center md:justify-between gap-0
         px-4 py-3 md:px-6 md:py-4
         ${className || ""}
       `}
     >
-      {/* Top row: menú, logo, iconos */}
-      <div className="w-full flex items-center justify-between md:w-auto md:flex-row md:items-center">
-        {/* Menú sandwich (solo móvil) */}
-        <a
-          className="h-10 w-10 rounded-full order-1 md:order-none md:hidden p-1 bg-gray-200 flex items-center justify-center"
-          href="/"
-        >
-          <List size={20} className="text-gray-600" />
-        </a>
-        {/* Logo centrado en mobile, alineado en desktop */}
-        <a className="flex-1 flex justify-center md:justify-start min-w-fit order-2 md:order-none" href="/es/docs/dev/ui/templates/Home">
+      {/* Desktop layout */}
+      <div className="hidden md:flex items-center w-full ">
+        {/* Logo a la izquierda */}
+        <a className="flex items-center min-w-fit" href="/es/docs/dev/ui/templates/Home">
           <Image
             src="/chiru_logo_full.svg"
             alt="Chiru Logo"
@@ -67,8 +29,20 @@ function Header({ className }: HeaderProps) {
             className="h-10 lg:h-12 w-auto"
           />
         </a>
-        {/* Nav icons a la derecha */}
-        <div className="flex items-center gap-1 min-w-fit order-3 md:order-none">
+        {/* Barra de búsqueda centrada y ocupando todo el espacio */}
+        <div className="flex-1 flex justify-center">
+          <div className="w-full max-w-3xl">
+            <SearchBar
+              placeholder="Buscar"
+              fullWidth
+              size="medium"
+              dropdownOptions={["Productos", "Servicios"]}
+              defaultDropdownValue="Selecciona"
+            />
+          </div>
+        </div>
+        {/* Iconos a la derecha */}
+        <div className="flex items-center gap-6 min-w-fit">
           <NavIcons
             items={[
               {
@@ -92,15 +66,60 @@ function Header({ className }: HeaderProps) {
           />
         </div>
       </div>
-      {/* Search bar debajo en mobile, inline en desktop */}
-      <div className="w-full mt-3 md:mt-0 md:w-auto md:flex-1">
-        <SearchBar
-          placeholder="Buscar"
-          fullWidth
-          size="medium"
-          dropdownOptions={["Productos", "Servicios"]}
-          defaultDropdownValue="Selecciona"
-        />
+      {/* Mobile layout */}
+      <div className="flex flex-col md:hidden w-full gap-2">
+        <div className="flex items-center justify-between w-full mb-2">
+          {/* Menú sandwich */}
+          <a
+            className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center"
+            href="/"
+          >
+            <List size={20} className="text-gray-600" />
+          </a>
+          {/* Logo centrado */}
+          <a className="flex-1 flex justify-center min-w-fit" href="/es/docs/dev/ui/templates/Home">
+            <Image
+              src="/chiru_logo_full.svg"
+              alt="Chiru Logo"
+              fit="contain"
+              className="h-10 w-auto"
+            />
+          </a>
+          {/* Iconos a la derecha */}
+          <div className="flex items-center gap-1 min-w-fit">
+            <NavIcons
+              items={[
+                {
+                  icon: "user",
+                  label: "",
+                  onClick: () => console.log("User clicked"),
+                },
+                {
+                  icon: "envelope",
+                  label: "",
+                  onClick: () => console.log("Mail clicked"),
+                },
+                {
+                  icon: "ShoppingCartSimple",
+                  label: "",
+                  onClick: () => console.log("ShoppingCartSimple clicked"),
+                },
+              ]}
+              orientation="horizontal"
+              showLabels={false}
+            />
+          </div>
+        </div>
+        {/* Buscador debajo, ocupa casi todo el ancho */}
+        <div className="w-full">
+          <SearchBar
+            placeholder="Buscar"
+            fullWidth
+            size="medium"
+            dropdownOptions={["Productos", "Servicios"]}
+            defaultDropdownValue="Selecciona"
+          />
+        </div>
       </div>
     </header>
   );

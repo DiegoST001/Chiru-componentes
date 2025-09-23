@@ -19,9 +19,9 @@ type SearchBarProps = {
 
 function getSearchBarStyles({ fullWidth }: { fullWidth?: boolean }) {
   return cntl`
-    flex flex-row items-center gap-1 w-full
-    rounded-md border border-gray-300 bg-white overflow-hidden
-    focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500
+    flex flex-row items-center w-full
+    rounded-full  bg-white overflow-hidden
+    focus-within:ring-1 focus-within:ring-gray-200 focus-within:border-gray-200
     ${fullWidth ? "w-full" : "w-auto"}
     h-10 lg:h-12
   `;
@@ -29,13 +29,13 @@ function getSearchBarStyles({ fullWidth }: { fullWidth?: boolean }) {
 
 function getSelectStyles({ size }: { size?: "small" | "medium" | "large" }) {
   return cntl`
-    border-none bg-gray-50 focus:ring-0 focus:border-none
+    border-none bg-gray-200 focus:ring-0 focus:border-none
     appearance-none
     text-transparent lg:text-gray-900
     px-0 min-w-[32px] w-[32px] h-full
     lg:px-3 lg:min-w-[110px] lg:w-auto
     transition-all
-    rounded-md
+    rounded-l-full 
   `;
 }
 
@@ -46,7 +46,7 @@ function getInputStyles({ size }: { size?: "small" | "medium" | "large" }) {
     large: "h-12 px-4 text-base",
   };
   return cntl`
-    flex-1 border-none bg-transparent focus:ring-0 outline-none
+    flex-1 border-none bg-gray-100 focus:ring-0 outline-none h-full
     ${sizes[size || "medium"]}
   `;
 }
@@ -60,9 +60,9 @@ function getButtonStyles({ size }: { size?: "small" | "medium" | "large" }) {
   return cntl`
     h-full
     ${sizes[size || "medium"]}
-    bg-gray-100 hover:bg-gray-200 transition-colors
-    flex items-center justify-center border-none rounded-md
-    text-gray-600 hover:text-gray-800
+    bg-gray-200 hover:bg-gray-200 transition-colors
+    flex items-center justify-center border-none rounded-r-full
+    text-gray-600 hover:text-gray-800 
   `;
 }
 
@@ -155,7 +155,7 @@ function SearchBar({
           className={getButtonStyles({ size })}
           type="button"
         >
-          <Icon tamano={size === "small" ? "small" : "medium"}>
+          <Icon tamano={size === "small" ? "small" : "medium"} color="red">
             <MagnifyingGlass />
           </Icon>
         </button>

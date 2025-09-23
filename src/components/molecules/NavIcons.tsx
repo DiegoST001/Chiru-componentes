@@ -95,21 +95,28 @@ function NavIcon({ icon, label, onClick, active }: NavIconProps) {
 
   return (
     <a
-      className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center md:bg-transparent md:p-2 md:rounded-md md:inline-block md:h-auto md:w-auto md:cursor-pointer transition-colors md:text-gray-600 hover:text-gray-900 hover:bg-gray-50 md:hover:bg-gray-100 md:flex md:flex-col md:items-center md:justify-center"
+      className={cntl`
+        flex flex-col items-center justify-center
+        h-10 w-10 rounded-full p-1 bg-gray-200
+        md:bg-transparent md:p-2 md:rounded-md md:h-auto md:w-auto md:cursor-pointer
+        transition-colors
+        md:text-gray-600 hover:text-gray-900 hover:bg-gray-50 md:hover:bg-gray-100
+        md:flex md:flex-col md:items-center md:justify-center
+      `}
       href="#"
       onClick={onClick}
     >
       <Icon variant={active ? "primary" : "default"} tamano="medium">
         {iconElement}
       </Icon>
-      {/* Solo muestra el label en md o superior */}
-      <span className="hidden md:block">
-        {label && (
+      {/* Texto debajo y centrado siempre */}
+      {label && (
+        <span className="block text-center text-xs mt-1 text-gray-700 md:text-base md:mt-2">
           <Text size="xs" color={active ? "primary" : "muted"} weight="medium">
             {label}
           </Text>
-        )}
-      </span>
+        </span>
+      )}
     </a>
   );
 }
