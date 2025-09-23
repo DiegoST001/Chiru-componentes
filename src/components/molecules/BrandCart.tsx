@@ -30,7 +30,6 @@ function BrandCart({ id, name, logo, website, color, showName = true }: BrandCar
         }}
       />
 
-      {/* 👇 Solo renderiza el nombre si showName es true */}
       {showName && name && (
         <Heading level={6} className="text-center mt-2">
           {name}
@@ -41,4 +40,3 @@ function BrandCart({ id, name, logo, website, color, showName = true }: BrandCar
 }
 
 export { BrandCart };
-export type { BrandCartProps };

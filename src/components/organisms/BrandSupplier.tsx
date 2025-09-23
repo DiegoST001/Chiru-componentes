@@ -58,7 +58,7 @@ function BrandSupplier({ title, description }: BrandSupplierProps) {
       {/* Lista de marcas */}
       <div className="flex flex-wrap justify-center items-center gap-6 mt-6">
         {brands.map((brand) => (
-          <BrandCart key={brand.id} {...brand} />
+          <BrandCart showName={false} key={brand.id} {...brand} />
         ))}
       </div>
     </main>
