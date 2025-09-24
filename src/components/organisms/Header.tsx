@@ -4,6 +4,7 @@ import { NavIcons } from "@/components/molecules/NavIcons";
 import { cntl } from "@/utils/cntl";
 import { Image } from "../atoms/Image";
 import { List } from "phosphor-react";
+import { CategoryDropdown } from "@/components/molecules/CategoryDropdown";
 
 type HeaderProps = {
   className?: string;
@@ -29,8 +30,9 @@ function Header({ className }: HeaderProps) {
             className="h-10 lg:h-12 w-auto"
           />
         </a>
-        {/* Barra de búsqueda centrada y ocupando todo el espacio */}
-        <div className="flex-1 flex justify-center">
+        {/* Categorías y barra de búsqueda */}
+         {/* Barra de búsqueda centrada y ocupando todo el espacio */}
+         <div className="flex-1 flex justify-center">
           <div className="w-full max-w-3xl">
             <SearchBar
               placeholder="Buscar"
@@ -70,12 +72,18 @@ function Header({ className }: HeaderProps) {
       <div className="flex flex-col md:hidden w-full gap-2">
         <div className="flex items-center justify-between w-full mb-2">
           {/* Menú sandwich */}
-          <a
+          <button
             className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center"
-            href="/"
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new Event("open-categories"));
+              }
+            }}
+            aria-label="Abrir menú"
+            type="button"
           >
             <List size={20} className="text-gray-600" />
-          </a>
+          </button>
           {/* Logo centrado */}
           <a className="flex-1 flex justify-center min-w-fit" href="/es/docs/dev/ui/templates/Home">
             <Image
