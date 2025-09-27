@@ -16,6 +16,7 @@ import type { ProductPriceInfoProps } from "../molecules/ProductPriceInfo";
 import type { ProductActionsProps } from "../molecules/ProductActions";
 import type { CartCompanyProps } from "../molecules/CartCompany";
 import type { ProductSpecsListProps } from "../molecules/ProductSpecsList";
+import { TopService } from "../organisms/TopService";
 
 export type ProductDetailViewProps = {
   images: ImgProduct[];
@@ -61,6 +62,7 @@ function ProductDetailView({
         <ProductDescription {...description} />
         <ProductPriceInfo {...priceInfo} />
         <ProductActions {...actions} />
+        <TopService />
         <CartCompany
           size={cartCompany.size}
           variant={cartCompany.variant}

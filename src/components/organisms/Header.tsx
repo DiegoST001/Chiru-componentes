@@ -72,12 +72,12 @@ function Header({ className }: HeaderProps) {
           {/* Menú sandwich */}
           <a
             className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center"
-            href="/"
+            href="/es/home"
           >
             <List size={20} className="text-gray-600" />
           </a>
           {/* Logo centrado */}
-          <a className="flex-1 flex justify-center min-w-fit" href="/es/docs/dev/ui/templates/Home">
+          <a className="flex-1 flex justify-center min-w-fit" href="/es/home">
             <Image
               src="/chiru_logo_full.svg"
               alt="Chiru Logo"
@@ -94,11 +94,11 @@ function Header({ className }: HeaderProps) {
                   label: "",
                   onClick: () => console.log("User clicked"),
                 },
-                {
-                  icon: "envelope",
-                  label: "",
-                  onClick: () => console.log("Mail clicked"),
-                },
+                // {
+                //   icon: "envelope",
+                //   label: "",
+                //   onClick: () => console.log("Mail clicked"),
+                // },
                 {
                   icon: "ShoppingCartSimple",
                   label: "",

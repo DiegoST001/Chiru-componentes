@@ -9,6 +9,7 @@ import { BannerPromotional } from "../molecules/BannerPromotional";
 import { BannerOfertasTop } from "../organisms/BannerOfertasTop";
 import { BannerImg } from "../molecules/BannerImg";
 import { SectionOffersByCategory } from "../organisms/SectionOffersByCategory";
+import { TopService } from "../organisms/TopService";
 function TemplateHome() {
   return (
     <main className="w-full space-y-8 my-8">
@@ -22,6 +23,7 @@ function TemplateHome() {
         minItemWidth={100}
         title="Producto ofertas de temporada"
       />
+      <TopService />
       <ProductsFlex />
       <SectionOffersByCategory />
       <BrandSupplier

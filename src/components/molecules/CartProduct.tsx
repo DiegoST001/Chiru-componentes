@@ -95,7 +95,7 @@ function CartProduct({
         <a href={detailUrl}>
           <Text
             className={clsx(
-              "text-gray-600 font-light",
+              "text-gray-600 font-light hidden sm:block",
               size === "small" && "text-xs",
               size === "medium" && "text-sm",
               size === "large" && "text-base",
