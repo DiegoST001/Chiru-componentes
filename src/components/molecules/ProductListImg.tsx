@@ -2,6 +2,7 @@ import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { Image } from "@/components/atoms/Image";
+import { cntl } from "@/utils/cntl";
 
 type ImgProduct = {
   id: number | string;
@@ -43,37 +44,40 @@ function ProductListImg({
   const itemSize = sizeMap[size];
 
   return (
-    <div ref={sliderRef} className="keen-slider">
+    // permitir overflow visible (para sombras) y asegurar que cada slide tenga
+    // un ancho fijo igual a itemSize para evitar que el padre lo comprima.
+    <div ref={sliderRef} className="keen-slider" style={{ overflow: "visible" }}>
       {products.map((product, idx) => (
         <div
           key={product.id}
-          className="keen-slider__slide flex items-center justify-center cursor-pointer"
+          // fuerza ancho fijo del slide para que no cambie al redimensionar
+          className="keen-slider__slide flex items-center justify-center cursor-pointer box-border"
+          style={{
+            flex: `0 0 ${itemSize}px`,
+            width: itemSize,
+            minWidth: itemSize,
+          }}
           onClick={() => onSelect?.(idx)}
         >
           <div
-            className={`transition-all duration-150 rounded-xl overflow-hidden border-2 m-2
-              ${
-                selectedIndex === idx
-                  ? "border-blue-500 shadow-lg"
-                  : "border-gray-200"
-              }
-            `}
+            className={cntl`transition-all duration-150 rounded-xl overflow-hidden border-2 
+              ${selectedIndex === idx ? "border-blue-500 shadow-lg" : "border-gray-200"}`}
             style={{
-              width: itemSize,
+              width: "100%", // ocupa el ancho fijo del slide
               height: itemSize,
-              minWidth: itemSize,
               minHeight: itemSize,
               background: "#fff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxSizing: "border-box", // incluir border en las dimensiones
             }}
           >
             <Image
               src={product.imgUrl}
               alt={`Producto ${product.id}`}
               size={size}
-              radius="xl"
+              radius="lg"
               shadow={selectedIndex === idx}
               className="object-cover w-full h-full"
             />

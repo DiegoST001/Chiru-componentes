@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Image } from "@/components/atoms/Image";
+import { Text } from "@/components/atoms/Text";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+
+
+const topPad = "pt-6 md:pt-20 lg:pt-24"; // ej. "pt-24 md:pt-40"
+---
+
+<Layout title="Abre tu tienda" lang={locale}>
+  <section class="relative min-h-[85vh] flex justify-center">
+    <div class={`mx-auto w-full max-w-7xl px-4 lg:px-6 ${topPad}`}>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <!-- Columna izquierda -->
+        <div>
+          <Text size="xl" weight="bold">¡Bienvenido!</Text>
+          <Text size="lg" weight="semibold" class="mt-1">¿Cómo podemos ayudarte?</Text>
+
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <!-- Tarjeta 1 -->
+            <div class="bg-white rounded-xl p-4 shadow-sm">
+              <Image
+                alt="Imagen 250x250"
+                src="https://i.pinimg.com/1200x/a4/ae/ab/a4aeabe8f2163fefbaa3be136ab7d937.jpg"
+                fit="contain"
+                className="w-full max-w-[250px] aspect-square rounded-lg bg-gray-100"
+              />
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="bg-white rounded-xl p-4 shadow-sm">
+              <Image
+                alt="Imagen 250x250"
+                src="https://i.pinimg.com/1200x/cb/ab/fe/cbabfef1ff11ff30540dc88b226cc5e4.jpg"
+                fit="contain"
+                className="w-full max-w-[250px] aspect-square rounded-lg bg-gray-100"
+              />
+            </div>
+
+            <!-- Banner informativo -->
+            <div class="col-span-2 bg-white rounded-xl p-3 shadow-sm">
+              <Image
+                alt="Banner 600x120"
+                src="https://i.pinimg.com/1200x/fa/f3/52/faf35225beef5673a5c5235573f1e171.jpg"
+                fit="cover"
+                className="w-full h-[90px] rounded-lg bg-gray-100"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="w-full flex justify-center lg:justify-end">
+          <Image
+            alt="Imagen 500x500"
+            src="https://img.freepik.com/vector-premium/mujer-que-trabaja-computadora-portatil-soporte-concepto-dibujos-animados-oficina-virtual-independiente_94753-2014.jpg?semt=ais_incoming&w=740&q=80"
+            fit="contain"
+            className="w-full max-w-[500px] aspect-square rounded-2xl bg-gray-50 shadow-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

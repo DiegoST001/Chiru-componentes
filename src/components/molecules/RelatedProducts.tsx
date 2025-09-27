@@ -23,7 +23,7 @@ export type RelatedProductsProps = {
 };
 
 function cardCls() {
-  return cntl`bg-white rounded-md shadow-sm overflow-hidden border keen-slider__slide`;
+  return cntl`bg-white rounded-md shadow-sm overflow-hidden keen-slider__slide`;
 }
 
 export function RelatedProducts({
@@ -32,11 +32,12 @@ export function RelatedProducts({
   gap = 16,
   className,
 }: RelatedProductsProps) {
+  // minimizar spacing en pantallas pequeñas, usar gap completo en breakpoints mayores
+  const smallGap = Math.min(gap, 8); // gap mínimo en móvil
+  const defaultPerView = 1.15; // muestra ~1 tarjeta + parte de la siguiente en móvil
+
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
-      "(min-width: 640px)": {
-        slides: { perView: 2, spacing: gap },
-      },
       "(min-width: 1024px)": {
         slides: { perView: 3, spacing: gap },
       },
@@ -44,13 +45,14 @@ export function RelatedProducts({
         slides: { perView: 4, spacing: gap },
       },
     },
-    slides: { perView: 1, spacing: gap },
+    // configuración por defecto (móvil): perView reducido y spacing mínimo
+    slides: { perView: defaultPerView, spacing: smallGap },
     loop: true,
   });
 
   return (
     <div className={cntl`w-full ${className || ""}`}>
-      <div ref={sliderRef} className="keen-slider">
+      <div ref={sliderRef} className="keen-slider py-5">
         {items.map((p) => (
           <a
             key={p.id}
@@ -58,7 +60,7 @@ export function RelatedProducts({
             href={`/es/docs/dev/ui/templates/product-detail/${p.id}`}
             style={{ minWidth: minColWidth }}
           >
-            <div className="relative w-full bg-gray-300" style={{ aspectRatio: "1 / 1" }}>
+            <div className="relative w-full bg-gray-300 max-h-[300px]" style={{ aspectRatio: "1 / 1" }}>
               <Image
                 src={p.imageUrl}
                 alt={p.title}

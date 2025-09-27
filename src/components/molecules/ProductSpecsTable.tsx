@@ -8,7 +8,7 @@ export type ProductSpecsTableProps = {
 
 export function ProductSpecsTable({ title = "Información Básica", specs }: ProductSpecsTableProps) {
   return (
-    <div className="w-full bg-gray-50 rounded-lg p-4">
+    <div className="w-full bg-gray-50 rounded-lg">
       <Text size="base" weight="bold" color="default" className="mb-2">{title}</Text>
       <table className="w-full text-left border-collapse">
         <tbody>

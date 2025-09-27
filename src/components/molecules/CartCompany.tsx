@@ -13,17 +13,35 @@ interface LegacyCartCompanyProps {
   name: string;
   tagLabel: string;
   rightText: string;
+  className?: string; // <-- permite pasar clases
+  noBorder?: boolean; // <-- permite quitar border
+  noShadow?: boolean; // <-- permite quitar shadow
 }
 
 type CartCompanyProps = (
-  | { supplier: SponsoredSupplier; size?: "small" | "medium" | "large"; variant?: "default" | "primary" | "secondary"; tagLabelOverride?: string; showPrice?: boolean; }
+  | {
+      supplier: SponsoredSupplier;
+      size?: "small" | "medium" | "large";
+      variant?: "default" | "primary" | "secondary";
+      tagLabelOverride?: string;
+      showPrice?: boolean;
+      className?: string; // <-- permite pasar clases
+      noBorder?: boolean;
+      noShadow?: boolean;
+    }
   | (LegacyCartCompanyProps & { supplier?: never })
 );
 
-function getCartCompanyStyles(size?: CartCompanyProps["size"], variant?: CartCompanyProps["variant"]) {
+function getCartCompanyStyles(
+  size?: CartCompanyProps["size"],
+  variant?: CartCompanyProps["variant"],
+  className?: string,
+  noBorder?: boolean,
+  noShadow?: boolean
+) {
   const base = `
     flex items-center justify-between gap-4
-    rounded-md shadow-sm border w-full
+    rounded-md ${noShadow ? "" : "shadow-sm"} ${noBorder ? "" : "border"} w-full
   `;
 
   const sizeStyles = {
@@ -33,15 +51,21 @@ function getCartCompanyStyles(size?: CartCompanyProps["size"], variant?: CartCom
   };
 
   const variantStyles = {
-    default: "bg-white border-gray-200",
-    primary: "bg-blue-50 border-blue-200",
-    secondary: "bg-gray-50 border-gray-300",
+    default: "border-gray-200",
+    primary: "border-blue-200",
+    secondary: "border-gray-300",
   };
+
+  // Si se pidió noBorder, no añadimos clases de borde
+  const variantSafe = noBorder
+    ? { default: "", primary: "", secondary: "" }
+    : variantStyles;
 
   return cntl`
     ${base}
     ${sizeStyles[size || "medium"]}
-    ${variantStyles[variant || "default"]}
+    ${variantSafe[variant || "default"]}
+    ${className || ""}
   `;
 }
 
@@ -60,6 +84,9 @@ function CartCompany(props: CartCompanyProps) {
   const usingSupplier = (props as any).supplier;
   const size = (props as any).size || "medium";
   const variant = (props as any).variant || "default";
+  const className = (props as any).className as string | undefined;
+  const noBorder = (props as any).noBorder as boolean | undefined;
+  const noShadow = (props as any).noShadow as boolean | undefined;
 
   let id: string;
   let avatarUrl: string;
@@ -68,14 +95,18 @@ function CartCompany(props: CartCompanyProps) {
   let rightText: string;
 
   if (usingSupplier) {
-    const { supplier, tagLabelOverride, showPrice = true } = props as { supplier: SponsoredSupplier; tagLabelOverride?: string; showPrice?: boolean };
+    const { supplier, tagLabelOverride, showPrice = true } = props as {
+      supplier: SponsoredSupplier;
+      tagLabelOverride?: string;
+      showPrice?: boolean;
+    };
     id = supplier.id;
     avatarUrl = supplier.supplierLogo || "";
     name = supplier.supplierName;
     tagLabel = tagLabelOverride || "Tecnología"; // default category placeholder
     const priceRaw: any = (supplier as any).sponsorPrice;
-    const priceNum = typeof priceRaw === 'number' ? priceRaw : parseFloat(priceRaw || '0');
-    rightText = showPrice ? `S/ ${priceNum.toFixed(2)}` : '';
+    const priceNum = typeof priceRaw === "number" ? priceRaw : parseFloat(priceRaw || "0");
+    rightText = showPrice ? `S/ ${priceNum.toFixed(2)}` : "";
   } else {
     const legacy = props as LegacyCartCompanyProps;
     id = legacy.id;
@@ -86,14 +117,9 @@ function CartCompany(props: CartCompanyProps) {
   }
 
   return (
-    <div className={getCartCompanyStyles(size, variant)} data-id={id}>
+    <div className={getCartCompanyStyles(size, variant, className, noBorder, noShadow)} data-id={id}>
       <div className="flex items-center gap-3 flex-1 min-w-0">
-        <Avatar
-          src={avatarUrl || ""}
-          alt={name || "Company"}
-          size={getAvatarSize(size)}
-          shape="circle"
-        />
+        <Avatar src={avatarUrl || ""} alt={name || "Company"} size={getAvatarSize(size)} shape="circle" />
         <div className="flex flex-col gap-1 min-w-0 truncate">
           <Text size="base" weight="medium" className="truncate">
             {name}
@@ -103,7 +129,7 @@ function CartCompany(props: CartCompanyProps) {
             size={getTagSize(size)}
             variant="primary"
             textColor="white"
-            weight="bold"
+            weight="normal"
             rounded="md"
           />
         </div>

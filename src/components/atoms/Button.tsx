@@ -20,7 +20,7 @@ function getButtonStyles(
   positionIcon?: "left" | "right"
 ) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none gap-2 cursor-pointer";
+    cntl`inline-flex items-center justify-center font-extralight md:font-light lg:font-normal rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none gap-2 cursor-pointer`;
   const stylesVariant = {
     primary: cntl`bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:ring-indigo-700`,
     secondary: cntl`bg-gray-600 text-white hover:bg-gray-700 focus-visible:ring-gray-500`,

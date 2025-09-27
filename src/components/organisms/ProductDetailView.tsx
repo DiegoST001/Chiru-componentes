@@ -40,7 +40,7 @@ function ProductDetailView({
   const [current, setCurrent] = useState(0);
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl mx-auto min-h-[600px]">
+    <div className="flex flex-col md:flex-row gap-8  mx-auto min-h-[600px]">
       {/* Sección de imágenes */}
       <div className="flex flex-col flex-1 justify-center gap-4 items-center bg-white rounded-xl shadow p-6">
         <ProductCarousel
@@ -62,15 +62,13 @@ function ProductDetailView({
         <ProductDescription {...description} />
         <ProductPriceInfo {...priceInfo} />
         <ProductActions {...actions} />
-        <TopService />
+        {/* pasar el objeto tal cual para respetar la variante (supplier vs legacy) */}
         <CartCompany
-          size={cartCompany.size}
-          variant={cartCompany.variant}
-          id={cartCompany.id}
-          avatarUrl={cartCompany.avatarUrl}
-          name={cartCompany.name}
-          tagLabel={cartCompany.tagLabel}
-          rightText={cartCompany.rightText}
+          {...cartCompany}
+          className="bg-gray-50 p-0"
+          noBorder
+          noShadow
+          size="medium"
         />
         <ProductSpecsList specs={specs} />
       </div>

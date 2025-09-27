@@ -13,7 +13,7 @@ export type ProductDetailsTabsProps = {
 export function ProductDetailsTabs({ specs, descriptions, companyInfo }: ProductDetailsTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
   return (
-    <div className="w-full bg-gray-50 rounded-lg p-4">
+    <div className=" bg-gray-50 rounded-lg p-4">
       <div className="flex border-b mb-4">
         <TabItem active={activeTab === 0} onClick={() => setActiveTab(0)}>
           Descripción del Producto

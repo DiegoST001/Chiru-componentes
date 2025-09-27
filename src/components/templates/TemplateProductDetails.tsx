@@ -6,7 +6,7 @@ import type { ProductDetailViewProps } from "../organisms/ProductDetailView";
 import { RelatedProducts } from "../molecules/RelatedProducts";
 import type { RelatedProduct } from "../molecules/RelatedProducts";
 import { ProductDetailsTabs } from "../organisms/ProductDetailsTabs";
-
+import type { CartCompanyProps } from "../molecules/CartCompany";
 type TemplateProductDetailsProps = {
   productId: string;
 };
@@ -144,7 +144,7 @@ function TemplateProductDetails({ productId }: TemplateProductDetailsProps) {
     return <main className="p-8 text-center">Producto no encontrado.</main>;
 
   return (
-    <main className="max-w-7xl mx-auto space-y-8 px-4 md:px-6 lg:px-8 my-8">
+    <main className="max-w-7xl mx-auto  px-4 md:px-6 lg:px-8 my-8">
       <ProductDetailView {...productDetail} />
       <RelatedProducts items={related} minColWidth={50} gap={24} />
       <ProductDetailsTabs

@@ -7,7 +7,7 @@ import AppShell from "@/layouts/AppShell.astro";
 
 export const prerender = false;
 
-const { locale, ProductId } = Astro.params;
+const { locale, ProductId: productId } = Astro.params;
 
 if (!locale || !isLanguageSupported(locale as any)) {
   console.log(`Locale not supported: ${locale}`);
@@ -19,6 +19,6 @@ const { t } = useLocalizePage(Astro);
 
 <Layout title="Detalle del producto">
   <AppShell>
-    <TemplateProductDetails productId={String(ProductId)} client:load />
+    <TemplateProductDetails productId={String(productId)} client:load />
   </AppShell>
 </Layout>

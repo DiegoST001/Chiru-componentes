@@ -33,9 +33,18 @@ function CartService({
 
   // Extraer datos del modelo Service
   const title = service.name;
-  const description = service.description;
+  const rawDescription = service.description;
+  // Limitar descripción a 120 caracteres
+  const description =
+    rawDescription && rawDescription.length > 120
+      ? rawDescription.substring(0, 120) + "..."
+      : rawDescription;
   let price: number = 0;
-  if (service.price === null || service.price === undefined || service.price === ("" as any)) {
+  if (
+    service.price === null ||
+    service.price === undefined ||
+    service.price === ("" as any)
+  ) {
     price = 0;
   } else if (typeof service.price === "string") {
     const parsed = parseFloat(service.price as any);
@@ -44,13 +53,19 @@ function CartService({
     price = Number(service.price) || 0;
   }
   const currency = service.currency ?? "S/.";
-  const imageUrl = service.images?.[0]?.urlImage ||
+  const imageUrl =
+    service.images?.[0]?.urlImage ||
     "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYwIiBoZWlnaHQ9IjIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWxsPScjZWVlJy8+PC9zdmc+";
-  const metaRight = metaRightExtractor ? metaRightExtractor(service) : service.estimatedDuration;
+  const metaRight = metaRightExtractor
+    ? metaRightExtractor(service)
+    : service.estimatedDuration;
 
   return (
     <div className={cls} style={{ width: cardWidth }}>
-      <div className="relative w-full bg-gray-200" style={{ height: imageHeight }}>
+      <div
+        className="relative w-full bg-gray-200"
+        style={{ height: imageHeight }}
+      >
         <Image
           src={imageUrl}
           alt={title}
@@ -62,14 +77,32 @@ function CartService({
 
       <div className="border-t border-gray-200" />
 
-      <div className="p-4">
-        <Text className="font-semibold text-lg">{title}</Text>
+      <div className="p-4 flex flex-col" style={{ minHeight: "140px" }}>
+        <Text
+          className="font-semibold text-lg overflow-hidden"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            lineHeight: "1.2em",
+            maxHeight: "2.4em",
+          }}
+        >
+          {title}
+        </Text>
 
         <Paragraph
           variant="muted"
           size="small"
           leading="relaxed"
-          className="mt-1"
+          className="mt-1 flex-1 overflow-hidden"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            lineHeight: "1.4em",
+            maxHeight: "4.2em",
+          }}
           text={description}
         />
 
@@ -78,11 +111,15 @@ function CartService({
             {currency} {Number.isFinite(price) ? price.toFixed(2) : "0.00"}
           </Text>
 
-            {metaRight && (
-              <Paragraph variant="muted" size="small" className="ml-4 whitespace-nowrap">
-                {metaRight}
-              </Paragraph>
-            )}
+          {metaRight && (
+            <Paragraph
+              variant="muted"
+              size="small"
+              className="ml-4 whitespace-nowrap"
+            >
+              {metaRight}
+            </Paragraph>
+          )}
         </div>
       </div>
     </div>

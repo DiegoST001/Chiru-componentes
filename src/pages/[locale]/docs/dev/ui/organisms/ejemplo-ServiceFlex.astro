@@ -1,0 +1,17 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import { ServiceFlex } from "@/components/organisms/ServiceFlex";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+
+export function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const { locale } = Astro.params;
+---
+
+<DocsLayout title="">
+  <div class="container mx-auto py-8">
+    <ServiceFlex title="Todos los Servicios" limit={12} client:load />
+  </div>
+</DocsLayout>

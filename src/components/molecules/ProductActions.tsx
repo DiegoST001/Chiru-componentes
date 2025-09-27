@@ -32,7 +32,7 @@ function ProductActions({
       <Button
         variant="secondary"
         size="medium"
-        text="Contactar proveedor"
+        text="Contactar"
         icon={<ChatCircle />}
         positionIcon="left"
         onClick={onContact}

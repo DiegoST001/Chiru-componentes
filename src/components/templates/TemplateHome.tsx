@@ -10,6 +10,7 @@ import { BannerOfertasTop } from "../organisms/BannerOfertasTop";
 import { BannerImg } from "../molecules/BannerImg";
 import { SectionOffersByCategory } from "../organisms/SectionOffersByCategory";
 import { TopService } from "../organisms/TopService";
+import type { TopServiceProps, TopServiceData } from "../organisms/TopService";
 function TemplateHome() {
   return (
     <main className="w-full space-y-8 my-8">
@@ -26,6 +27,11 @@ function TemplateHome() {
       <TopService />
       <ProductsFlex />
       <SectionOffersByCategory />
+      <TopService
+        title="Nuestros Servicios Destacados"
+        buttonText="Ver todos los servicios"
+        autoFetch={true}
+      />
       <BrandSupplier
         title="Brand Supplier"
         description="A section showcasing brand logos to build trust and credibility."

@@ -1,0 +1,35 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AppShell from "@/layouts/AppShell.astro";
+import { TemplateUserProfile } from "@/components/templates/TemplateUserProfile";
+
+export async function getStaticPaths() {
+  return [
+    { params: { locale: 'es' } },
+    { params: { locale: 'en' } },
+  ];
+}
+---
+
+<Layout title="Perfil de Usuario" lang="es">
+  <AppShell>
+    <TemplateUserProfile 
+      client:load
+      userData={{
+        email: "jallbor@gmail.com",
+        password: "null",
+        isActive: "true",
+        isAdmin: "true",
+        role: "1",
+        userName: "Administrador",
+        createdAt: "2023-05-07T14:11:55.611Z",
+        userInformation: {
+          userName: "Jose Albor",
+          contactName: "Jose Antonio Albor",
+          contactEmail: "jose.contact@gmail.com",
+          contactPhone: "0123456789"
+        }
+      }}
+    />
+  </AppShell>
+</Layout>

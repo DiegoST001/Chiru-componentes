@@ -11,7 +11,7 @@ import { CheckCircle } from "phosphor-react";
 function HeaderCompanyProfile() {
   return (
     <div className="w-full bg-white space-y-2 md:space-y-4 ">
-      <div className="flex flex-col md:flex-row items-center justify-start gap-4 md:gap-6 lg:gap-8 w-full bg-gray-900 p-2 md:p-4 lg:p-6 rounded-2xl">
+      <div className="flex flex-col md:flex-row items-center justify-start gap-4 md:gap-6 lg:gap-8 w-full bg-gray-900 p-2 md:p-4 lg:p-6">
         <Image
           radius="full"
           src="/chiru_logo_full.svg"
