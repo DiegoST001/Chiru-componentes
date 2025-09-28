@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "../atoms/Icon";
 import { Text } from "../atoms/Text";
 import { cntl } from "@/utils/cntl";
 import {
   House,
   MagnifyingGlass,
+  Package,
   Calendar,
   FileText,
   User,
   ChartBar,
   Gear,
   List, // ícono de hamburguesa
-  X // ícono de cerrar
+  X, // ícono de cerrar
+  Wrench // nuevo ícono para servicios
 } from "phosphor-react";
 
-interface NavItem {
+export interface NavItem {
   id: string;
   icon: React.ReactNode;
   label: string;
@@ -26,12 +28,19 @@ interface NavegationSupplierProps {
   items?: NavItem[];
   onItemClick?: (itemId: string) => void;
   className?: string;
+  /** id del item que debe estar activo inicialmente (uncontrolled). Default: 'home' */
+  defaultActiveId?: string;
+  /** Modo controlado: si se pasa activeId se ignora el estado interno */
+  activeId?: string;
+  /** Callback adicional cuando cambia el activo */
+  onActiveChange?: (itemId: string) => void;
 }
 
 function NavegationSupplier({
   items = [
-    { id: "home", icon: <House />, label: "Inicio", active: false },
-    { id: "search", icon: <MagnifyingGlass />, label: "Buscar", active: false },
+  { id: "home", icon: <House />, label: "Inicio", active: false },
+  { id: "products", icon: <Package />, label: "Productos", active: false },
+  { id: "services", icon: <Wrench />, label: "Servicios", active: false },
     { id: "calendar", icon: <Calendar />, label: "Calendario", active: false },
     { id: "files", icon: <FileText />, label: "Archivos", active: true, variant: "danger" },
     { id: "user", icon: <User />, label: "Perfil", active: false },
@@ -39,14 +48,27 @@ function NavegationSupplier({
     { id: "settings", icon: <Gear />, label: "Ajustes", active: false }
   ],
   onItemClick,
-  className
+  className,
+  defaultActiveId = 'home',
+  activeId: controlledActiveId,
+  onActiveChange
 }: NavegationSupplierProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [internalActive, setInternalActive] = useState<string>(defaultActiveId);
+
+  // Sync if defaultActiveId changes (rare)
+  useEffect(() => {
+    if (!controlledActiveId) {
+      setInternalActive(defaultActiveId);
+    }
+  }, [defaultActiveId, controlledActiveId]);
+
+  const activeId = controlledActiveId || internalActive;
 
   const containerClasses = cntl`
     hidden sm:flex   
-    items-center
-    justify-space-around
+  items-center
+  justify-start
     gap-0.5
     md:gap-1
     lg:gap-2
@@ -59,29 +81,24 @@ function NavegationSupplier({
     ${className}
   `;
 
-  const getItemClasses = (item: NavItem) => cntl`
-    flex
-    flex-col
-    items-center
-    gap-0.5
-    px-4
-    py-2
-    rounded-lg
-    cursor-pointer
-    transition-all
-    duration-200
-    hover:bg-gray-50
-    ${item.active && item.variant === "danger"
-      ? "bg-red-50 text-red-600"
-      : item.active
-      ? "bg-blue-50 text-blue-600"
-      : "text-gray-600 hover:text-gray-800"
-    }
-  `;
+  const getItemClasses = (item: NavItem) => {
+    const isActive = activeId === item.id;
+    const danger = isActive && item.variant === 'danger';
+    return cntl`
+      relative
+      flex flex-col items-center gap-0.5
+      px-4 py-2 rounded-lg cursor-pointer
+      transition-all duration-200
+      ${danger ? 'bg-red-50 text-red-600' : isActive ? 'bg-red-50 text-red-600 shadow-inner' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'}
+      ${isActive ? 'ring-1 ring-offset-1 ring-red-300/60' : ''}
+    `;
+  };
 
   const handleItemClick = (itemId: string) => {
-    if (onItemClick) onItemClick(itemId);
-    setIsOpen(false); // cerrar menú en mobile al seleccionar
+    if (!controlledActiveId) setInternalActive(itemId);
+    onActiveChange?.(itemId);
+    onItemClick?.(itemId);
+    setIsOpen(false); // cerrar menú en mobile
   };
 
   return (
@@ -96,56 +113,53 @@ function NavegationSupplier({
 
       {/* Navegación normal en desktop */}
       <nav className={containerClasses}>
-        {items.map((item) => (
-          <button
-            key={item.id}
-            className={getItemClasses(item)}
-            onClick={() => handleItemClick(item.id)}
-            type="button"
-          >
-            <Icon
-              tamano="medium"
-              variant={
-                item.active && item.variant === "danger"
-                  ? "danger"
-                  : item.active
-                  ? "primary"
-                  : "default"
-              }
+        {items.map((item) => {
+          const isActive = activeId === item.id;
+          const danger = isActive && item.variant === 'danger';
+          return (
+            <button
+              key={item.id}
+              className={getItemClasses(item)}
+              onClick={() => handleItemClick(item.id)}
+              type="button"
+              aria-current={isActive ? 'page' : undefined}
             >
-              {item.icon}
-            </Icon>
-            <Text
-              size="xs"
-              weight="medium"
-              color={
-                item.active && item.variant === "danger"
-                  ? "danger"
-                  : item.active
-                  ? "primary"
-                  : "default"
-              }
-            >
-              {item.label}
-            </Text>
-          </button>
-        ))}
+              <Icon
+                tamano="medium"
+                variant={danger ? 'danger' : isActive ? 'danger' : 'default'}
+              >
+                {item.icon}
+              </Icon>
+              <Text
+                size="xs"
+                weight="medium"
+                color={danger ? 'danger' : isActive ? 'danger' : 'default'}
+              >
+                {item.label}
+              </Text>
+              {isActive && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-6 rounded-full bg-current" />}
+            </button>
+          );
+        })}
       </nav>
 
       {/* Menú flotante en mobile */}
       {isOpen && (
         <div className="sm:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start">
           <div className="bg-white rounded-lg shadow-lg mt-16 w-10/12 flex flex-col p-4 gap-2">
-            {items.map((item) => (
-              <button
-                key={item.id}
-                className="flex items-center gap-2 p-2 rounded hover:bg-gray-100"
-                onClick={() => handleItemClick(item.id)}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
+            {items.map((item) => {
+              const isActive = activeId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  className={`flex items-center gap-2 p-2 rounded hover:bg-gray-100 text-sm w-full justify-start ${isActive ? 'bg-red-50 text-red-600 font-medium' : 'text-gray-700'}`}
+                  onClick={() => handleItemClick(item.id)}
+                >
+                  {item.icon}
+                  <span className="truncate">{item.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -154,3 +168,4 @@ function NavegationSupplier({
 }
 
 export default NavegationSupplier;
+export type { NavegationSupplierProps };

@@ -14,22 +14,21 @@ interface BannerCompanyStarsProps {
   cardSize?: "small" | "medium" | "large";
   className?: string;
   showPrice?: boolean;
+  locale?: string;
+  supplierRouteBase?: string;
 }
 
-/*
-  BannerCompanyStars
-  - Carrusel infinito tipo marquee (scroll continuo) de suppliers patrocinados
-  - Usa CartCompany con el modelo SponsoredSupplier
-*/
 function BannerCompanyStars({
   title = "Empresas Estrella",
   autoFetchSuppliers = true,
   suppliers,
-  speed = 60, // px/s
+  speed = 60,
   pauseOnHover = true,
   cardSize = "medium",
   className,
-  showPrice = true
+  showPrice = true,
+  locale: localeProp,
+  supplierRouteBase = 'SuplierInfo'
 }: BannerCompanyStarsProps) {
   const [data, setData] = useState<SponsoredSupplier[]>(suppliers || []);
   const [loading, setLoading] = useState(false);
@@ -116,6 +115,15 @@ function BannerCompanyStars({
   const viewportClasses = cntl`w-full overflow-hidden`;
   const trackClasses = cntl`flex gap-4 items-stretch will-change-transform`;
 
+  // Locale detection (client side) fallback
+  const [locale, setLocale] = useState<string | undefined>(localeProp);
+  useEffect(() => {
+    if (!localeProp && typeof window !== 'undefined') {
+      const seg = window.location.pathname.split('/').filter(Boolean)[0];
+      if (seg && seg.length <= 5) setLocale(seg);
+    }
+  }, [localeProp]);
+
   if (loading) {
     return <div className={containerClasses}><div className={titleClasses}><Heading level={2}> {title} </Heading></div><div className="px-4 text-sm text-gray-500">Cargando empresas...</div></div>;
   }
@@ -127,20 +135,36 @@ function BannerCompanyStars({
   // Duplicate initial list to ensure continuous scroll visual fullness
   const renderList = [...data, ...data.slice(0, Math.min(data.length, 4))];
 
+  // Helper para obtener siempre el supplierId real
+  const getRealSupplierId = (sup: SponsoredSupplier): string | undefined => {
+    // El modelo trae ambos: id (del sponsorship) y supplierId (del proveedor real)
+    // Solo debemos usar supplierId en la URL
+    if ((sup as any).supplierId) return (sup as any).supplierId as string;
+    return undefined;
+  };
+
   return (
     <div className={containerClasses} ref={containerRef}>
-      {/* {title && (
-        <div className={titleClasses}>
-          <Heading level={2} className="text-gray-800">{title}</Heading>
-        </div>
-      )} */}
       <div className={viewportClasses}>
         <div ref={trackRef} className={trackClasses}>
-          {renderList.map((sup, idx) => (
-            <div key={sup.id + '-' + idx} className="flex-shrink-0">
-              <CartCompany supplier={sup} size={cardSize} showPrice={showPrice} />
-            </div>
-          ))}
+          {renderList.map((sup, idx) => {
+            const supplierId = getRealSupplierId(sup); // usar siempre supplierId real
+            if (!supplierId) return null; // si no existe, omitimos (evita navegar con id interno de sponsorship)
+            const loc = locale || 'es';
+            const href = `/${encodeURIComponent(loc)}/${supplierRouteBase}/${encodeURIComponent(supplierId)}`;
+            return (
+              <div key={supplierId + '-' + idx} className="flex-shrink-0">
+                <a
+                  href={href}
+                  aria-label={`Ver proveedor ${sup.supplierName}`}
+                  data-supplier-id={supplierId}
+                  className="block focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md hover:shadow-md transition-shadow"
+                >
+                  <CartCompany supplier={sup} size={cardSize} showPrice={showPrice} />
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -100,13 +100,47 @@ function CartCompany(props: CartCompanyProps) {
       tagLabelOverride?: string;
       showPrice?: boolean;
     };
-    id = supplier.id;
+    // Mantener id interno (sponsorship) pero también exponer supplierId real vía data attributes.
+    id = supplier.id; // sponsorship id (backend entity id)
+    const realSupplierId = (supplier as any).supplierId || supplier.id;
     avatarUrl = supplier.supplierLogo || "";
     name = supplier.supplierName;
     tagLabel = tagLabelOverride || "Tecnología"; // default category placeholder
     const priceRaw: any = (supplier as any).sponsorPrice;
     const priceNum = typeof priceRaw === "number" ? priceRaw : parseFloat(priceRaw || "0");
     rightText = showPrice ? `S/ ${priceNum.toFixed(2)}` : "";
+
+    return (
+      <div
+        className={getCartCompanyStyles(size, variant, className, noBorder, noShadow)}
+        data-id={id}
+        data-supplier-id={realSupplierId}
+        data-sponsorship-id={id}
+      >
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <Avatar src={avatarUrl || ""} alt={name || "Company"} size={getAvatarSize(size)} shape="circle" />
+          <div className="flex flex-col gap-1 min-w-0 truncate">
+            <Text size="base" weight="medium" className="truncate">
+              {name}
+            </Text>
+            <Tag
+              text={tagLabel || ""}
+              size={getTagSize(size)}
+              variant="primary"
+              textColor="white"
+              weight="normal"
+              rounded="md"
+            />
+          </div>
+        </div>
+        {/* Eliminado rightText visual (comentado originalmente). Si se necesita mostrar el precio, descomentar: */}
+        {/* {rightText && (
+          <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
+            {rightText}
+          </Text>
+        )} */}
+      </div>
+    );
   } else {
     const legacy = props as LegacyCartCompanyProps;
     id = legacy.id;
@@ -115,9 +149,13 @@ function CartCompany(props: CartCompanyProps) {
     tagLabel = legacy.tagLabel;
     rightText = legacy.rightText;
   }
-
   return (
-    <div className={getCartCompanyStyles(size, variant, className, noBorder, noShadow)} data-id={id}>
+    <div
+      className={getCartCompanyStyles(size, variant, className, noBorder, noShadow)}
+      data-id={id}
+      data-supplier-id={id}
+      data-sponsorship-id={id}
+    >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <Avatar src={avatarUrl || ""} alt={name || "Company"} size={getAvatarSize(size)} shape="circle" />
         <div className="flex flex-col gap-1 min-w-0 truncate">
@@ -134,11 +172,6 @@ function CartCompany(props: CartCompanyProps) {
           />
         </div>
       </div>
-      {/* {rightText && (
-        <Text size="base" weight="normal" color="default" className="whitespace-nowrap">
-          {rightText}
-        </Text>
-      )} */}
     </div>
   );
 }
