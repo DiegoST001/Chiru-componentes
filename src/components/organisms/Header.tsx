@@ -23,6 +23,12 @@ function Header({ className }: HeaderProps) {
     window.location.href = `/${locale}/docs/dev/ui/templates/abrir-tienda`;
   };
 
+  const navigateToViewCart = () => {
+    const locale =
+      (typeof window !== "undefined" && window.location.pathname.split("/")[1]) || "es";
+    window.location.href = `/${locale}/docs/dev/ui/templates/carView`;
+  }
+
   return (
     <header
       className={cntl`
@@ -124,7 +130,7 @@ function Header({ className }: HeaderProps) {
               {
                 icon: <ShoppingCartSimple />,
                 label: "Carrito",
-                onClick: () => console.log("ShoppingCartSimple clicked"),
+                onClick: navigateToViewCart,
               },
             ]}
             orientation="horizontal"
@@ -214,7 +220,8 @@ function Header({ className }: HeaderProps) {
                 {
                   icon: <ShoppingCartSimple />,
                   label: "",
-                  onClick: () => console.log("ShoppingCartSimple clicked"),
+                  onClick: navigateToViewCart,
+                  
                 },
               ]}
               orientation="horizontal"

@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
 import { TemplateHome } from "@/components/templates/TemplateHome";
 import AppShell from "@/layouts/AppShell.astro";
+import { TemplateCarView } from "@/components/templates/TemplateCarView";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -12,5 +13,6 @@ export async function getStaticPaths() {
 <Layout title="Home" description="Vista principal con AppShell" lang="es">
   <AppShell>
     <!-- <TemplateHome client:load /> -->
+     <TemplateCarView client:load />
   </AppShell>
 </Layout>
