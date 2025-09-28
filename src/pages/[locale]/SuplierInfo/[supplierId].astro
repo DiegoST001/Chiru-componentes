@@ -1,0 +1,15 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TemplateSupplierInfo from "@/components/templates/TemplateSuplierInfo";
+import { isLanguageSupported } from "@/i18n/ui";
+
+export const prerender = false; // permitir IDs dinámicos
+
+const { supplierId, locale } = Astro.params as { supplierId: string; locale: string };
+if (!locale || !isLanguageSupported(locale as any)) {
+  console.warn(`Locale not supported: ${locale}`);
+}
+---
+<Layout title={`Proveedor ${supplierId}`}> 
+  <TemplateSupplierInfo client:load supplierId={supplierId} />
+</Layout>

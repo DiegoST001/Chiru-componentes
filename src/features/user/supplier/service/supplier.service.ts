@@ -91,7 +91,7 @@ export class SupplierService {
 
   static async findSupplierByProduct(productId: string): Promise<Supplier> {
     try {
-      const response = await apiClient.get<Supplier>(`${this.baseUrl}/by-product/${productId}`);
+      const response = await apiClient.get<Supplier>(`${this.baseUrl}/product/${productId}`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, `Error finding supplier by product: ${productId}`);
@@ -177,7 +177,7 @@ export class SupplierService {
 
   static async getCategoriesAndProductsBySupplierId(supplierId: string): Promise<{ categoryId: string; categoryName: string; products: any[] }[]> {
     try {
-      const response = await apiClient.get<{ categoryId: string; categoryName: string; products: any[] }[]>(`${this.baseUrl}/${supplierId}/categories-products`);
+      const response = await apiClient.get<{ categoryId: string; categoryName: string; products: any[] }[]>(`${this.baseUrl}/supplier/${supplierId}/categories-products`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, `Error getting categories and products by supplier: ${supplierId}`);
@@ -187,7 +187,7 @@ export class SupplierService {
 
   static async getCategoriesAndServicesySupplierId(supplierId: string): Promise<{ categoryId: string; categoryName: string; services: any[] }[]> {
     try {
-      const response = await apiClient.get<{ categoryId: string; categoryName: string; services: any[] }[]>(`${this.baseUrl}/${supplierId}/categories-services`);
+      const response = await apiClient.get<{ categoryId: string; categoryName: string; services: any[] }[]>(`${this.baseUrl}/supplier/${supplierId}/categories-services`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, `Error getting categories and services by supplier: ${supplierId}`);
@@ -207,7 +207,7 @@ export class SupplierService {
 
   static async getCategoriesBySupplierId(supplierId: string): Promise<{ categoryId: string; categoryName: string }[]> {
     try {
-      const response = await apiClient.get<{ categoryId: string; categoryName: string }[]>(`${this.baseUrl}/${supplierId}/categories`);
+      const response = await apiClient.get<{ categoryId: string; categoryName: string }[]>(`${this.baseUrl}/categories/supplier/${supplierId}`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, `Error getting categories by supplier: ${supplierId}`);
@@ -227,7 +227,7 @@ export class SupplierService {
 
   static async getFeaturedCategoriesBySupplierId(supplierId: string): Promise<{ categoryId: string; categoryName: string }[]> {
     try {
-      const response = await apiClient.get<{ categoryId: string; categoryName: string }[]>(`${this.baseUrl}/${supplierId}/featured-categories`);
+      const response = await apiClient.get<{ categoryId: string; categoryName: string }[]>(`${this.baseUrl}/featured-categories/supplier/${supplierId}`);
       return response.data;
     } catch (error: any) {
       this.handleError(error, `Error getting featured categories by supplier: ${supplierId}`);
