@@ -4,10 +4,12 @@ import { cntl } from "@/utils/cntl";
 import { UserProfileSidebar } from "./UserProfile/UserProfileSidebar";
 import { PersonalInfoSection } from "./UserProfile/PersonalInfoSection";
 import { ChangePasswordSection } from "./UserProfile/ChangePasswordSection";
+import { MyOrdersSection } from "./UserProfile/MyOrdersSection";
 
 export type UserData = {
   email: string;
   userName: string;
+  userId?: number; // Agregando userId opcional
   userInformation: {
     userName: string;
     contactName: string;
@@ -81,7 +83,7 @@ function UserProfile({ userData, className, initialSection }: UserProfileProps) 
           )}
 
           {activeSection === 2 && <div className="text-center py-12"><h1 className="text-2xl font-bold text-gray-900 mb-4">Direcciones</h1><p className="text-gray-600">Esta sección estará disponible próximamente.</p></div>}
-          {activeSection === 3 && <div className="text-center py-12"><h1 className="text-2xl font-bold text-gray-900 mb-4">Pedidos</h1><p className="text-gray-600">Esta sección estará disponible próximamente.</p></div>}
+          {activeSection === 3 && <MyOrdersSection userId={userData?.userId || 3} />}
           {activeSection === 4 && <div className="text-center py-12"><h1 className="text-2xl font-bold text-gray-900 mb-4">Facturas</h1><p className="text-gray-600">Esta sección estará disponible próximamente.</p></div>}
           {activeSection === 5 && <div className="text-center py-12"><h1 className="text-2xl font-bold text-gray-900 mb-4">Configuración</h1><p className="text-gray-600">Esta sección estará disponible próximamente.</p></div>}
         </div>
