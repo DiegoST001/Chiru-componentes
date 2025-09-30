@@ -1,5 +1,6 @@
 import React from "react";
 import { cntl } from "@/utils/cntl"; // tagged template para clases
+import { cx } from "@/utils/cx";
 
 type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   /** Color/tono del link */
@@ -13,11 +14,6 @@ type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   /** Simular deshabilitado (bloquea click y navegación) */
   disabled?: boolean;
 };
-
-// util para unir clases
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function getLinkStyles(
   variant: LinkProps["variant"],

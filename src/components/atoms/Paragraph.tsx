@@ -1,5 +1,6 @@
 import React from "react";
 import { cntl } from "@/utils/cntl";
+import { cx } from "@/utils/cx";
 
 type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & {
   /** Color/tono del texto */
@@ -12,10 +13,6 @@ type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> & {
   leading?: "tight" | "normal" | "relaxed";
   text?: string | "text";
 };
-
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function getParagraphClass(
   variant?: ParagraphProps["variant"],

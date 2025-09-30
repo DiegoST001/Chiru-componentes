@@ -1,5 +1,6 @@
 import React from "react";
 import { cntl } from "@/utils/cntl"; // tagged template para clases
+import { cx } from "@/utils/cx";
 
 type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   /** Tamaño visual del contenedor (si no se pasa, no fuerza ancho/alto) */
@@ -11,10 +12,6 @@ type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   style?: React.CSSProperties;
   href?: string | undefined;
 };
-
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function getImageWrapper(
   size?: ImageProps["size"],
