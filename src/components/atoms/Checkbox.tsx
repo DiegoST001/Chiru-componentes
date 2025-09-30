@@ -3,10 +3,10 @@ import { cntl } from "@/utils/cntl";
 
 type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & {
   variant?: "default" | "success" | "danger";
-  tams?: "small" | "medium" | "large"; 
+  size?: "small" | "medium" | "large"; 
 };
 
-function Checkbox({ variant = "default", tams = "small", ...props }: CheckboxProps) {
+function Checkbox({ variant = "default", size = "small", ...props }: CheckboxProps) {
   const sizes = {
     small: "w-3 h-3",
     medium: "w-4 h-4",
@@ -22,7 +22,7 @@ function Checkbox({ variant = "default", tams = "small", ...props }: CheckboxPro
   return (
     <input
       type="checkbox"
-      className={cntl`rounded ${sizes[tams]} ${variants[variant]}`}
+      className={cntl`rounded ${sizes[size]} ${variants[variant]}`}
       {...props}
     />
   );
