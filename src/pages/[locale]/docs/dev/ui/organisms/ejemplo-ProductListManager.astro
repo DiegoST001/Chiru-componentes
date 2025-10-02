@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { ProductListManager } from "@/components/organisms/ProductListManager";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+//MOSTRAR PROVEEDOR REAL
+const SUPPLIER_ID_PARA_PROBAR = "1ec2538d-29b0-4470-b05e-d5956b1c0cb1";
+---
+
+<Layout title="Gestor de Productos">
+  <div class="bg-white min-h-screen p-4 sm:p-8 flex items-center justify-center">
+    <div class="w-full max-w-5xl mx-auto">
+      <ProductListManager
+        client:load
+        supplierId={SUPPLIER_ID_PARA_PROBAR}
+      />
+    </div>
+  </div>
+</Layout>
