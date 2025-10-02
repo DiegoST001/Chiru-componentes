@@ -56,6 +56,7 @@ function HeaderCompanyProfile({ supplierId, autoFetch = true, supplier: supplier
     { id: 'home', icon: <House />, label: 'Inicio' },
     { id: 'products', icon: <Package />, label: 'Productos' },
     ...(hasServices ? [{ id: 'services', icon: <Wrench />, label: 'Servicios' }] : []),
+    { id: 'about', icon: <span className='font-semibold'>i</span>, label: 'Sobre' }
   ];
 
   return (
