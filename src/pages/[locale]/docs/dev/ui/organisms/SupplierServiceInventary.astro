@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import SupplierServiceInventary from "@/components/organisms/SupplierServiceInventary";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const SUPPLIER_ID = "45e63354-a42a-49d6-b38f-2fd7c536342a";
+---
+
+<Layout title="Servicios del Proveedor">
+  <div class="bg-white min-h-screen p-4 sm:p-8">
+    <div class="w-full max-w-6xl mx-auto">
+      <SupplierServiceInventary client:load supplierId={SUPPLIER_ID} />
+    </div>
+  </div>
+</Layout>

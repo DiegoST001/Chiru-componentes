@@ -5,6 +5,7 @@ import { HeaderCompanyProfile } from "../organisms/HeaderCompanyProfile";
 import SupplierHomeSection from "../organisms/SupplierHomeSection";
 import SupplierProductSection from "../organisms/SupplierProductSection";
 import SupplierServiceSection from "../organisms/SupplierServiceSection";
+import SupplierAboutSection from "../organisms/SupplierAboutSection";
 import { SupplierService } from "@/features/user/supplier/service/supplier.service";
 
 interface TemplateSupplierInfoProps {
@@ -12,7 +13,7 @@ interface TemplateSupplierInfoProps {
 }
 
 const TemplateSupplierInfo = ({ supplierId }: TemplateSupplierInfoProps) => {
-  const [activeSection, setActiveSection] = useState<string>('home');
+  const [activeSection, setActiveSection] = useState<string>('home'); // home | products | services | about
   const [selectedCategoryForProducts, setSelectedCategoryForProducts] = useState<string | undefined>();
   const [hasServices, setHasServices] = useState<boolean>(false);
 
@@ -41,6 +42,7 @@ const TemplateSupplierInfo = ({ supplierId }: TemplateSupplierInfoProps) => {
           }} />}
           {activeSection === 'products' && <SupplierProductSection supplierId={supplierId} initialCategoryId={selectedCategoryForProducts} />}
           {activeSection === 'services' && hasServices && <SupplierServiceSection supplierId={supplierId} />}
+          {activeSection === 'about' && <SupplierAboutSection supplierId={supplierId} />}
         </div>
       )}
     </div>

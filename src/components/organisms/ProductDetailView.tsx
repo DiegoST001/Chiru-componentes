@@ -38,6 +38,16 @@ function ProductDetailView({
   specs,
 }: ProductDetailViewProps) {
   const [current, setCurrent] = useState(0);
+  // Detect locale from URL (first path segment) fallback 'es'
+  const locale = typeof window !== 'undefined'
+    ? (() => {
+        const seg = window.location.pathname.split('/').filter(Boolean)[0];
+        if (seg && seg.length <= 5) return seg; // simple heuristic for locale codes
+        return 'es';
+      })()
+    : 'es';
+  const supplierId = (cartCompany as any)?.id as string | undefined;
+  const supplierHref = supplierId ? `/${encodeURIComponent(locale)}/SuplierInfo/${encodeURIComponent(supplierId)}` : undefined;
 
   return (
     <div className="flex flex-col md:flex-row gap-8  mx-auto min-h-[600px]">
@@ -63,13 +73,30 @@ function ProductDetailView({
         <ProductPriceInfo {...priceInfo} />
         <ProductActions {...actions} />
         {/* pasar el objeto tal cual para respetar la variante (supplier vs legacy) */}
-        <CartCompany
-          {...cartCompany}
-          className="bg-gray-50 p-0"
-          noBorder
-          noShadow
-          size="medium"
-        />
+        {supplierHref ? (
+          <a
+            href={supplierHref}
+            aria-label={`Ver proveedor ${(cartCompany as any)?.name || ''}`}
+            className="block focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
+            data-supplier-id={supplierId}
+          >
+            <CartCompany
+              {...cartCompany}
+              className="bg-gray-50 p-0 hover:shadow-sm transition-shadow"
+              noBorder
+              noShadow
+              size="medium"
+            />
+          </a>
+        ) : (
+          <CartCompany
+            {...cartCompany}
+            className="bg-gray-50 p-0"
+            noBorder
+            noShadow
+            size="medium"
+          />
+        )}
         <ProductSpecsList specs={specs} />
       </div>
     </div>

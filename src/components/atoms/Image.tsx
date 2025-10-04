@@ -1,5 +1,6 @@
 import React from "react";
 import { cntl } from "@/utils/cntl"; // tagged template para clases
+import { cx } from "@/utils/cx";
 
 type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   /** Tamaño visual del contenedor (si no se pasa, no fuerza ancho/alto) */
@@ -8,13 +9,9 @@ type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   shadow?: boolean;
   bordered?: boolean;
   fit?: "cover" | "contain" | "fill" | "none" | "scale-down";
-  wrapperStyle?: React.CSSProperties;
+  style?: React.CSSProperties;
   href?: string | undefined;
 };
-
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function getImageWrapper(
   size?: ImageProps["size"],
@@ -63,7 +60,7 @@ function Image({
   bordered,
   fit = "cover",
   className,
-  wrapperStyle,
+  style,
   alt,
   ...props
 }: ImageProps) {
@@ -75,7 +72,7 @@ function Image({
   const imgCls = getImageClass(fit);
 
   return (
-    <a className={cx(wrapper, className)} style={wrapperStyle} href={props.href}>
+    <a className={cx(wrapper, className)} style={style} href={props.href}>
       <img className={imgCls} alt={alt || ""} {...props} />
     </a>
   );

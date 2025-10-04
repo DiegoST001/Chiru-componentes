@@ -25,7 +25,7 @@ function BrandCart({ id, name, logo, website, color, showName = true }: BrandCar
         fit="contain"
         radius="md"
         className="p-2"
-        wrapperStyle={{
+        style={{
           backgroundColor: color ?? "white",
         }}
       />

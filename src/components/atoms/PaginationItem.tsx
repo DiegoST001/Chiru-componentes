@@ -8,10 +8,12 @@ type PaginationItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 function PaginationItem({ active = false, disabled = false, children, ...props }: PaginationItemProps) {
   const base =
-    "w-8 h-8 flex items-center justify-center rounded-md border text-sm font-medium transition-colors";
+    "w-9 h-9 flex items-center justify-center rounded-md border text-sm font-medium transition-colors select-none";
+
   const activeStyle = active
-    ? "bg-indigo-600 text-white border-indigo-600"
+    ? "bg-red-600 text-white border-red-600"
     : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100";
+
   const disabledStyle = disabled ? "opacity-50 cursor-not-allowed" : "";
 
   return (

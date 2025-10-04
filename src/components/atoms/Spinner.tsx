@@ -1,5 +1,6 @@
 import React from "react";
 import { cntl } from "@/utils/cntl";
+import { cx } from "@/utils/cx";
 
 type SpinnerProps = React.HTMLAttributes<HTMLDivElement> & {
   /** Tamaño del spinner */
@@ -9,11 +10,6 @@ type SpinnerProps = React.HTMLAttributes<HTMLDivElement> & {
   /** Texto que acompaña al spinner (visible y para accesibilidad) */
   label?: string;
 };
-
-// util para unir clases
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
 
 /** Clases del contenedor (alineación + color de texto para el label) */
 function getContainerClass(color?: SpinnerProps["color"]) {
