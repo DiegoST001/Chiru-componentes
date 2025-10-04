@@ -24,7 +24,6 @@ function TemplateHome() {
         minItemWidth={100}
         title="Producto ofertas de temporada"
       />
-      <TopService />
       <ProductsFlex />
       <SectionOffersByCategory />
       <TopService

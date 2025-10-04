@@ -21,6 +21,7 @@ export interface Product {
   updatedAt: Date;
 }
 
+
 export interface CartItem {
   id: number;
   shoppingCart: ShoppingCart;

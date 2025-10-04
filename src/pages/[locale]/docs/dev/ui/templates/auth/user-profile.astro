@@ -14,8 +14,12 @@ export async function getStaticPaths() {
 <Layout title="Perfil de Usuario" lang="es">
   <AppShell>
     <TemplateUserProfile 
-      client:load
-      userData={{
+      client:visible
+    />
+  </AppShell>
+</Layout>
+
+<!-- userData={{
         email: "jallbor@gmail.com",
         password: "null",
         isActive: "true",
@@ -29,7 +33,4 @@ export async function getStaticPaths() {
           contactEmail: "jose.contact@gmail.com",
           contactPhone: "0123456789"
         }
-      }}
-    />
-  </AppShell>
-</Layout>
+      }} -->

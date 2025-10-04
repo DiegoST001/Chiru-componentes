@@ -1,8 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
-import { TemplateHome } from "@/components/templates/TemplateHome";
-import AppShell from "@/layouts/AppShell.astro";
+import { TemplatePurchasingProcess } from "@/components/templates/TemplatePurchasingProcess";
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
@@ -10,8 +9,5 @@ export async function getStaticPaths() {
 ---
 
 <Layout title="Home" description="Vista principal con AppShell" lang="es">
-  <!-- Hydrate AppShell so AuthProvider + children are a single client island -->
-  <AppShell client:load>
-    <TemplateHome client:load/>
-  </AppShell>
+  <TemplatePurchasingProcess client:load />
 </Layout>

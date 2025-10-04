@@ -1,16 +1,17 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
-import { TemplateLogin } from "@/components/templates/TemplateLogin";
+import { UnifiedAuthIsland } from "@/components/islands/UnifiedAuthIsland";
+
 
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
 }
 
-const imageUrl = "https://hola";
-
+const imageUrl = "https://i.pinimg.com/736x/14/47/c3/1447c3dde903d7ac5681ca2e774a3411.jpg";
 ---
+
 <Layout title="Ejemplo TemplateLogin">
-  <TemplateLogin client:load imageUrl={imageUrl} imageAlt="Login" />
+  <!-- elegir mode: "auto" | "login" | "app" | "register" -->
+  <UnifiedAuthIsland client:visible mode="login" imageUrl={imageUrl} imageAlt="Login" />
 </Layout>
-<!-- https://i.pinimg.com/736x/14/47/c3/1447c3dde903d7ac5681ca2e774a3411.jpg -->

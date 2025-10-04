@@ -10,7 +10,7 @@
  *  - className?: string -> clases para el contenedor principal
  * Exclusiones: Páginas de login / register pueden omitir este template y usar Layout base.
  */
-import { Header } from "@/components/organisms/Header";
+import { HeaderIsland } from "@/components/islands/HeaderIsland";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 
@@ -24,14 +24,11 @@ interface Props {
 
 const { hideHeader = false, hideNavbar = false, hideFooter = false, className = "" } = Astro.props as Props;
 ---
-
 <div class={`min-h-screen flex flex-col bg-gray-50 ${className}`}>
-  {!hideHeader && <Header client:load />}
+  {!hideHeader && <HeaderIsland client:load />}
   {!hideNavbar && <Navbar client:load />}
-<!-- w-full mx-auto px-4 py-6 -->
   <main class="flex-1 ">
     <slot />
   </main>
-
-  {!hideFooter && <Footer client:load />}
+  {!hideFooter && <Footer client:visible />}
 </div>

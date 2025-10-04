@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Image } from "../atoms/Image";
 import { LoginForm } from "../organisms/LoginForm";
-import { AuthService } from "@/features/auth/service/auth.service";
-import { STORAGE_KEYS } from "@/constants/storage";
+import { useAuth } from "@/contexts/AuthProvider";
 import type { LoginRequest } from "@/features/auth/model/auth.model";
 
 export type TemplateLoginProps = {
   imageUrl: string;
   imageAlt?: string;
+  /**
+   * Handler externo opcional. Si se proporciona, se usará en lugar
+   * de useAuth().login. Debe devolver { ok: boolean; error?: any }.
+   */
+  onSubmit?: (credentials: LoginRequest, clientIp?: string) => Promise<{ ok: boolean; error?: any }>;
+  /**
+   * URL de redirección por defecto tras login si no se provee onSuccess.
+   */
+  redirectUrl?: string;
+  /**
+   * Callback opcional que se ejecuta tras un login exitoso.
+   */
+  onSuccess?: (res: any) => void;
 };
 
-export function TemplateLogin({ imageUrl, imageAlt = "Login image" }: TemplateLoginProps) {
+export function TemplateLogin({
+  imageUrl,
+  imageAlt = "Login image",
+  onSubmit,
+  redirectUrl = "/es/home",
+  onSuccess,
+}: TemplateLoginProps) {
   const [clientIp, setClientIp] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
+  const { login: authLogin } = useAuth();
 
   useEffect(() => {
     let mounted = true;
@@ -25,7 +44,9 @@ export function TemplateLogin({ imageUrl, imageAlt = "Login image" }: TemplateLo
         // sin IP: el backend puede resolverla o ignorar la cabecera
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   async function handleSubmit(data: { email: string; password: string }) {
@@ -35,26 +56,31 @@ export function TemplateLogin({ imageUrl, imageAlt = "Login image" }: TemplateLo
       const credentials = {
         emailOrUsername: data.email,
         password: data.password,
-      } as unknown as LoginRequest;
+      } as LoginRequest;
 
       if (import.meta.env.DEV) {
-        console.log("[TemplateLogin] payload:", { ...credentials, password: "***" }, "ip:", clientIp || "(none)");
+        console.log(
+          "[TemplateLogin] payload:",
+          { ...credentials, password: "***" },
+          "ip:",
+          clientIp || "(none)"
+        );
       }
 
-      const res = await AuthService.login(credentials, clientIp);
+      const submitFn = onSubmit ?? authLogin;
+      const result = await submitFn(credentials, clientIp);
 
-      const accessToken = (res as any)?.accessToken ?? (res as any)?.token;
-      const refreshToken = (res as any)?.refreshToken;
-      if (typeof window !== "undefined" && accessToken) {
-        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, String(accessToken));
-        if (refreshToken && (STORAGE_KEYS as any).REFRESH_TOKEN) {
-          localStorage.setItem((STORAGE_KEYS as any).REFRESH_TOKEN, String(refreshToken));
+      if (result.ok) {
+        // Preferir callback de éxito si se proporciona
+        if (typeof onSuccess === "function") {
+          onSuccess(result);
+        } else {
+          // Comportamiento por defecto: redirigir
+          window.location.href = redirectUrl;
         }
+      } else {
+        throw result.error ?? new Error("Login failed");
       }
-
-      alert((res as any)?.message || "Inicio de sesión exitoso");
-      // opcional: redirección
-      window.location.href = "/es";
     } catch (err) {
       console.error("[TemplateLogin] error:", err);
       alert(err instanceof Error ? err.message : "Ocurrió un error desconocido.");

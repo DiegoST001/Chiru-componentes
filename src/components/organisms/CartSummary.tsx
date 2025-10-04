@@ -9,12 +9,13 @@ type Product = {
 };
 
 type CartSummaryProps = {
-  products: Product[];
+  products?: Product[];
   discountsCount?: number;
-  discountsTotal?: number; // positive number (will be shown as negative)
-  cmrSaved?: number; // amount saved with CMR
-  cmrTotal?: number; // final total with CMR
+  discountsTotal?: number;
+  cmrSaved?: number;
+  cmrTotal?: number;
   className?: string;
+  onContinue?: () => void; // <-- nueva prop
 };
 
 function formatCurrency(value: number) {
@@ -22,28 +23,41 @@ function formatCurrency(value: number) {
 }
 
 function CartSummary({
-  products,
+  products = [],
   discountsCount = 0,
   discountsTotal = 0,
   cmrSaved = 0,
   cmrTotal,
   className,
+  onContinue,
 }: CartSummaryProps) {
-  const totalItems = products.length;
-  const subtotal = products.reduce((sum, product) => sum + product.price, 0);
-  const total = subtotal - discountsTotal;
-  const finalWithCmr = cmrTotal ?? total - cmrSaved;
+  const safeProducts = products || [];
+  const totalItems = safeProducts.length;
+  const subtotal = safeProducts.reduce(
+    (sum, product) => sum + (product?.price ?? 0),
+    0,
+  );
+  const total = subtotal - (discountsTotal ?? 0);
+  const finalWithCmr = cmrTotal ?? total - (cmrSaved ?? 0);
+  const navigateToOpenStore = () => {
+    const locale =
+      (typeof window !== "undefined" &&
+        window.location.pathname.split("/")[1]) ||
+      "es";
+    window.location.href = `/${locale}/docs/dev/ui/templates/abrir-tienda`;
+  };
 
   return (
     <aside className={className}>
-      <Heading level={2} className="text-2xl font-bold mb-4">
-        Resumen de orden
-      </Heading>
+            <Heading level={2} className="text-2xl font-bold mb-4">
+                Resumen de la orden
+            </Heading>
       <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden w-full">
+        
         <div className="p-6">
-          <Heading level={2} className="text-xl font-semibold mb-4">
+          {/* <Heading level={2} className="text-xl font-semibold mb-4">
             Resumen de la orden
-          </Heading>
+          </Heading> */}
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -73,28 +87,19 @@ function CartSummary({
                 {formatCurrency(total)}
               </div>
             </div>
-
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex items-center gap-3">
-                <div className="text-sm text-gray-700">Total con CMR:</div>
-                {/* small badges similar visual */}
-                <div className="flex items-center gap-1">
-                  <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-red-500 text-white rounded-full">
-                    única
-                  </span>
-                  <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold bg-green-600 text-white rounded-full">
-                    CMR
-                  </span>
-                </div>
-              </div>
-              <div className="text-lg font-bold text-red-600">
-                {formatCurrency(finalWithCmr)}
-              </div>
-            </div>
           </div>
 
           <div className="mt-6">
-            <Button variant="danger" fullWidth >
+            <Button
+              variant="danger"
+              fullWidth
+              onClick={() => {
+                if (onContinue) return onContinue();
+                // fallback (legacy)
+                window.location.href =
+                  "/es/docs/dev/ui/templates/PurchasingProcess";
+              }}
+            >
               Continuar compra
             </Button>
           </div>

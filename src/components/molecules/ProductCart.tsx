@@ -48,17 +48,18 @@ function ProductCart({
 
   return (
     <article
-      className={`w-full bg-white rounded-lg border border-gray-100 p-4 flex items-center gap-4 ${className || ""}`}
+      className={`w-full bg-white rounded-lg border border-gray-100 p-4 flex items-center gap-2 md:gap-3 ${className || ""}`}
       data-id={product.id}
-    >
-      <div className="flex items-center gap-3 min-w-0">
-        <input
+    > 
+    {/* seccion2 */}
+      <div className="flex items-center gap-2 md:gap-3 min-w-0">
+        {/* <input
           type="checkbox"
           checked={selected}
           onChange={toggle}
           className="w-5 h-5 mt-1 text-blue-600"
           aria-label={`Seleccionar ${product.name}`}
-        />
+        /> */}
         <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-50 flex-shrink-0">
           <Image
             src={product.imageUrl ?? "/placeholder.png"}
@@ -70,7 +71,7 @@ function ProductCart({
         </div>
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 flex flex-col items-start gap-2">
         <Text weight="bold" className="truncate">
           {product.name}
         </Text>
@@ -92,6 +93,7 @@ function ProductCart({
         </div>
       </div>
 
+          {/* seccion1 */}
       <div className="flex flex-col items-end gap-3 min-w-[140px]">
         <div className="text-right">
           <Text weight="bold" className="text-lg">

@@ -21,6 +21,7 @@ type CartProductProps = {
   imageHeight?: string;
   product?: ProductCard;
   showFreeShipping?: boolean;
+  onAdd?: (product: ProductCard) => void; // nuevo prop
 };
 
 function getCartProductStyles(size: CartProductProps["size"]) {
@@ -37,6 +38,7 @@ function CartProduct({
   product,
   className,
   showFreeShipping = true,
+  onAdd,
 }: CartProductProps) {
   const price = product?.price || 0;
   const discount = Math.min(Math.max(product?.discount || 0, 0), 100);
@@ -140,7 +142,13 @@ function CartProduct({
             </Badge>
           )}
 
-          <Button text="Agregar" variant="ghost" fullWidth size={size} />
+          <Button
+            text="Agregar"
+            variant="ghost"
+            fullWidth
+            size={size}
+            onClick={() => product && onAdd?.(product)}
+          />
         </div>
       </div>
     </div>

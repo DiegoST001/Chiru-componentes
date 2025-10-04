@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SearchBar } from "@/components/molecules/SearchBar";
 import { NavIcons } from "@/components/molecules/NavIcons";
 import { cntl } from "@/utils/cntl";
@@ -7,27 +7,105 @@ import { List, Storefront, User, ShoppingCartSimple } from "phosphor-react";
 import { Button } from "@/components/atoms/Button";
 import { Icon } from "@/components/atoms/Icon";
 import { Text } from "@/components/atoms/Text";
+import { useAuth } from "@/contexts/AuthProvider";
+import { STORAGE_KEYS, clearAuthStorage } from "@/constants/storage";
+// import { ShoppingCartService } from "@/services/ShoppingCartService";
+
+// --- rutas centralizadas (usar array para poder modificar fácilmente) ---
+type RouteItem = { key: string; path: string };
+const ROUTES: RouteItem[] = [
+  { key: "home", path: "/{locale}/home" },
+  { key: "login", path: "/{locale}/docs/dev/ui/templates/auth/login" },
+  { key: "register", path: "/{locale}/docs/dev/ui/templates/auth/register" },
+  { key: "profile", path: "/{locale}/docs/dev/ui/templates/auth/user-profile" },
+  { key: "openStore", path: "/{locale}/docs/dev/ui/templates/abrir-tienda" },
+  { key: "viewCart", path: "/{locale}/docs/dev/ui/templates/carView" },
+];
+
+function resolveRoute(key: string, locale?: string) {
+  const item = ROUTES.find((r) => r.key === key);
+  const loc =
+    locale ??
+    (typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "es" : "es");
+  if (!item) return `/${loc}`;
+  return item.path.replace("{locale}", loc);
+}
 
 type HeaderProps = {
   className?: string;
 };
 
+function getInitials(name?: string) {
+  if (!name) return "";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 function Header({ className }: HeaderProps) {
   const [accountOpen, setAccountOpen] = useState(false);
   const [accountOpenMobile, setAccountOpenMobile] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const userId = user ? Number((user as any).userId ?? (user as any).id) : undefined;
 
-  
+  // Fallback: leer session desde localStorage si el provider aún no inicializó
+  const [fallbackName, setFallbackName] = useState<string | null>(null);
+  const [fallbackAbbr, setFallbackAbbr] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.USER_SESSION);
+      if (raw) {
+        const s = JSON.parse(raw);
+        const name = s?.contactName ?? s?.userName ?? null;
+        const abbr = s?.userAbbreviation ?? (name ? getInitials(String(name)) : null);
+        if (name) setFallbackName(String(name));
+        if (abbr) setFallbackAbbr(String(abbr));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // derived display values (prefer context user, fallback to localStorage)
+  const displayName =
+    (user as any)?.contactName ?? (user as any)?.userName ?? fallbackName ?? "";
+  const displayAbbr =
+    (user as any)?.userAbbreviation ?? fallbackAbbr ?? (displayName ? getInitials(displayName) : "");
+
+  // consider authenticated if context says so or fallback session exists
+  const isLogged = Boolean(isAuthenticated) || Boolean(fallbackName);
+
   const navigateToOpenStore = () => {
-    const locale =
-      (typeof window !== "undefined" && window.location.pathname.split("/")[1]) || "es";
-    window.location.href = `/${locale}/docs/dev/ui/templates/abrir-tienda`;
+    window.location.href = resolveRoute("openStore");
   };
 
   const navigateToViewCart = () => {
-    const locale =
-      (typeof window !== "undefined" && window.location.pathname.split("/")[1]) || "es";
-    window.location.href = `/${locale}/docs/dev/ui/templates/carView`;
-  }
+    window.location.href = resolveRoute("viewCart");
+  };
+
+  const handleLogout = async () => {
+    try {
+      if (typeof logout === "function") {
+        // soportar logout sincrónico o asíncrono sin lanzar error de TS al chequear truthiness
+        await Promise.resolve(logout());
+      }
+    } catch (e) {
+      // opcional: log para debug
+      // console.error("[Header] logout error:", e);
+    } finally {
+      try {
+        clearAuthStorage();
+      } catch {
+        /* ignore */
+      }
+      if (typeof window !== "undefined") {
+        // redirigir al home (usa resolveRoute para respetar locale)
+        window.location.href = resolveRoute("home");
+      }
+    }
+  };
 
   return (
     <header
@@ -39,7 +117,7 @@ function Header({ className }: HeaderProps) {
     >
       {/* Desktop layout */}
       <div className="hidden md:flex items-center w-full gap-6">
-        <a className="flex items-center min-w-fit" href="/es/home">
+        <a className="flex items-center min-w-fit" href={resolveRoute("home")}>
           <Image
             src="/chiru_logo_full.svg"
             alt="Chiru Logo"
@@ -82,12 +160,26 @@ function Header({ className }: HeaderProps) {
               `}
               aria-haspopup="menu"
               aria-expanded={accountOpen}
+              aria-label={isLogged ? `Cuenta de ${displayName || "usuario"}` : "Cuenta"}
             >
-              <Icon variant="default" tamano="medium">
-                <User />
-              </Icon>
+              {isLogged ? (
+                // show initials bubble when authenticated
+                <span
+                  className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-600 text-white text-sm font-medium"
+                  aria-hidden="true"
+                >
+                  {displayAbbr || "U"}
+                </span>
+              ) : (
+                <Icon variant="default" tamano="medium">
+                  <User />
+                </Icon>
+              )}
+
               <span className="block text-center text-xs mt-1 text-gray-700 md:text-base md:mt-2">
-                <Text size="xs" color="muted" weight="medium">Cuenta</Text>
+                <Text size="xs" color="muted" weight="medium">
+                  {isLogged ? (displayName ? displayName.split(" ")[0] : "Cuenta") : "Cuenta"}
+                </Text>
               </span>
             </button>
 
@@ -101,20 +193,41 @@ function Header({ className }: HeaderProps) {
               role="menu"
             >
               <div className="p-2 grid gap-2">
-                <Button
-                  variant="outline"
-                  size="small"
-                  fullWidth
-                  text="Iniciar sesión"
-                  onClick={() => { window.location.href = "/es/docs/dev/ui/templates/auth/login"; }}
-                />
-                <Button
-                  variant="primary"
-                  size="small"
-                  fullWidth
-                  text="Registrarse"
-                  onClick={() => { window.location.href = "/es/docs/dev/ui/templates/auth/register"; }}
-                />
+                {isLogged ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="small"
+                      fullWidth
+                      text="Mi cuenta"
+                      onClick={() => { window.location.href = resolveRoute("profile"); }}
+                    />
+                    <Button
+                      variant="primary"
+                      size="small"
+                      fullWidth
+                      text="Cerrar sesión"
+                      onClick={handleLogout}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="small"
+                      fullWidth
+                      text="Iniciar sesión"
+                      onClick={() => { window.location.href = resolveRoute("login"); }}
+                    />
+                    <Button
+                      variant="primary"
+                      size="small"
+                      fullWidth
+                      text="Registrarse"
+                      onClick={() => { window.location.href = resolveRoute("register"); }}
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -125,7 +238,7 @@ function Header({ className }: HeaderProps) {
               {
                 icon: <Storefront />,
                 label: "Abre tu tienda",
-                onClick: navigateToOpenStore, 
+                onClick: navigateToOpenStore,
               },
               {
                 icon: <ShoppingCartSimple />,
@@ -157,7 +270,7 @@ function Header({ className }: HeaderProps) {
           </button>
 
           {/* Logo centrado */}
-          <a className="flex-1 flex justify-center min-w-fit" href="/es/home">
+          <a className="flex-1 flex justify-center min-w-fit" href={resolveRoute("home")}>
             <Image
               src="/chiru_logo_full.svg"
               alt="Chiru Logo"
@@ -176,10 +289,17 @@ function Header({ className }: HeaderProps) {
                 className="h-10 w-10 rounded-full p-1 bg-gray-200 flex items-center justify-center"
                 aria-haspopup="menu"
                 aria-expanded={accountOpenMobile}
+                aria-label={isLogged ? `Cuenta de ${displayName || "usuario"}` : "Cuenta"}
               >
-                <Icon variant="default" tamano="medium">
-                  <User />
-                </Icon>
+                {isLogged ? (
+                  <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-600 text-white text-sm font-medium" aria-hidden="true">
+                    {displayAbbr || "U"}
+                  </span>
+                ) : (
+                  <Icon variant="default" tamano="medium">
+                    <User />
+                  </Icon>
+                )}
               </button>
 
               {/* Panel dropdown mobile */}
@@ -192,36 +312,51 @@ function Header({ className }: HeaderProps) {
                 role="menu"
               >
                 <div className="p-2 grid gap-2">
-                  <Button
-                    variant="outline"
-                    size="small"
-                    fullWidth
-                    text="Iniciar sesión"
-                    onClick={() => { window.location.href = "/es/docs/dev/ui/templates/auth/login"; }}
-                  />
-                  <Button
-                    variant="primary"
-                    size="small"
-                    fullWidth
-                    text="Registrarse"
-                    onClick={() => { window.location.href = "/es/docs/dev/ui/templates/auth/register"; }}
-                  />
+                  {isLogged ? (
+                    <>
+                      <Button
+                        variant="outline"
+                        size="small"
+                        fullWidth
+                        text="Mi cuenta"
+                        onClick={() => { window.location.href = resolveRoute("profile"); }}
+                      />
+                      <Button
+                        variant="primary"
+                        size="small"
+                        fullWidth
+                        text="Cerrar sesión"
+                        onClick={handleLogout}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant="outline"
+                        size="small"
+                        fullWidth
+                        text="Iniciar sesión"
+                        onClick={() => { window.location.href = resolveRoute("login"); }}
+                      />
+                      <Button
+                        variant="primary"
+                        size="small"
+                        fullWidth
+                        text="Registrarse"
+                        onClick={() => { window.location.href = resolveRoute("register"); }}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
 
             <NavIcons
               items={[
-                // {
-                //   icon: <Storefront />,
-                //   label: "",
-                //   onClick: navigateToOpenStore, // ← ahora apunta a /{locale}/docs/dev/ui/templates/abrir-tienda
-                // },
                 {
                   icon: <ShoppingCartSimple />,
                   label: "",
                   onClick: navigateToViewCart,
-                  
                 },
               ]}
               orientation="horizontal"
