@@ -55,14 +55,14 @@ export function CartOrderProductSupplier({
         <Text size="sm" color="muted">text:</Text>
       </div>
 
-      <div className="relative flex bg-gray-50 rounded-lg p-3 items-center gap-3 min-h-[120px]">
-        <Image
-          src={productInfo.imageUrl}
-          alt="ProductImage"
-          width={100}
-          height={100}
-          className="rounded-md object-cover bg-gray-200"
-        />
+      <div className="relative flex bg-gray-50 rounded-lg p-2 items-center gap-2 min-h-[80px]">
+        <div className="w-16 h-16 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
+          <img
+            src={productInfo.imageUrl}
+            alt="ProductImage"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <div className="flex flex-col min-w-0">
           <Text size="md" weight="semibold">{productInfo.title}</Text>
           <HelperText>{productInfo.subtitle}</HelperText>

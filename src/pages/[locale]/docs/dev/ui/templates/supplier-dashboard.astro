@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Header } from "@/components/organisms/Header";
+import { Sidebar } from "@/components/organisms/Sidebar";
+import { Button } from "@/components/atoms/Button";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos de ejemplo para el sidebar
+const sidebarItems = [
+  {
+    text: "#0",
+    isActive: true,
+    onClick: () => console.log('Item #0 clicked')
+  },
+  {
+    text: "#0",
+    isActive: false,
+    onClick: () => console.log('Item #0 clicked')
+  }
+];
+
+// Datos de ejemplo para los servicios/productos
+const mockServices = [
+  {
+    id: 1,
+    name: "Text-Title",
+    description: "text",
+    price: "0.00",
+    imageUrl: "/placeholder-image.jpg",
+    category: { name: "Servicios" },
+    supplier: { companyName: "Empresa" },
+    isActive: true
+  },
+  {
+    id: 2,
+    name: "Text-Title", 
+    description: "text",
+    price: "0.00",
+    imageUrl: "/placeholder-image.jpg",
+    category: { name: "Servicios" },
+    supplier: { companyName: "Empresa" },
+    isActive: true
+  }
+];
+---
+
+<Layout title="Supplier Dashboard - Marketplace">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <Header client:load />
+    
+    <div class="flex">
+      <!-- Sidebar -->
+      <div class="w-64 bg-white border-r border-gray-200 min-h-screen">
+        <div class="p-4">
+          <!-- Título del sidebar -->
+          <div class="mb-4">
+            <span class="text-sm text-gray-500">Text-Title</span>
+          </div>
+          
+          <!-- Items del sidebar -->
+          <div class="space-y-2">
+            {sidebarItems.map((item, index) => (
+              <div class={`p-3 rounded-lg cursor-pointer transition-colors ${
+                item.isActive 
+                  ? 'bg-red-50 border border-red-200 text-red-600' 
+                  : 'hover:bg-gray-50 text-gray-700'
+              }`}>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">{item.text}</span>
+                  <div class="flex items-center space-x-2">
+                    <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+                    <span class="text-xs text-gray-500">text</span>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2 mt-2">
+                  <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+                  <span class="text-xs text-gray-400">text</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contenido principal -->
+      <div class="flex-1 p-6">
+        <!-- Header del contenido -->
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="text-base">Text-Title</span>
+            <select class="border border-gray-300 rounded-md px-3 py-2 bg-white">
+              <option>Text-Title</option>
+            </select>
+            <span class="text-base">Text-Title</span>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">text</span>
+            <Button client:load variant="primary" size="small">
+              text
+            </Button>
+          </div>
+        </div>
+        
+        <!-- Grid de servicios/productos -->
+        <div class="space-y-4">
+          {mockServices.map((service, index) => (
+            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                  <!-- Imagen placeholder -->
+                  <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span class="text-xs text-gray-500">Imagen</span>
+                  </div>
+                  
+                  <div>
+                    <span class="text-base font-medium">{service.name}</span>
+                    <div class="text-sm text-gray-600">S/. {service.price}</div>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">text</span>
+                  <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+                  <span class="text-sm text-gray-500">text</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Botones inferiores -->
+        <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+          <Button client:load variant="outline" size="medium">
+            text
+          </Button>
+          
+          <Button client:load variant="danger" size="medium">
+            text
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

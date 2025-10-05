@@ -12,10 +12,10 @@ type FilterSupplierProps = {
 
 function getFilterSupplierStyles(size: FilterSupplierProps["size"]) {
   return cntl`
-    flex items-center gap-3 bg-transparent
+    flex items-center gap-4 bg-transparent w-full
     ${size === "small" ? "text-sm" : ""}
     ${size === "medium" ? "text-base" : ""}
-    ${size === "large" ? "text-lg gap-4" : ""}
+    ${size === "large" ? "text-lg gap-6" : ""}
   `;
 }
 
@@ -48,39 +48,47 @@ function FilterSupplier({ size = "medium", onFilter }: FilterSupplierProps) {
 
   return (
     <div className={getFilterSupplierStyles(size)}>
-      <Input
-        type="text"
-        placeholder="Text-Title"
-        size={size}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <div className="flex-1">
+        <Input
+          type="text"
+          placeholder="Text-Title"
+          size={size}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
 
-      <Select
-        size={(size as "small" | "medium" | "large") ?? "medium"}
-        value={option}
-        onChange={(e) => setOption(e.target.value)}
-        options={[
-          { value: "", label: "Text-Title" },
-          { value: "opt1", label: "Opción 1" },
-          { value: "opt2", label: "Opción 2" },
-        ]}
-      />
+      <div className="flex-1">
+        <Select
+          size={(size as "small" | "medium" | "large") ?? "medium"}
+          value={option}
+          onChange={(e) => setOption(e.target.value)}
+          options={[
+            { value: "", label: "Text-Title" },
+            { value: "opt1", label: "Opción 1" },
+            { value: "opt2", label: "Opción 2" },
+          ]}
+        />
+      </div>
 
-      <Input
-        type="date"
-        placeholder="Text-Title"
-        size={size}
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
+      <div className="flex-1">
+        <Input
+          type="date"
+          placeholder="Text-Title"
+          size={size}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+      </div>
 
-      <Button
-        text="text"
-        variant="primary"
-        size={size}
-        onClick={handleSubmit}
-      />
+      <div className="flex-shrink-0">
+        <Button
+          text="text"
+          variant="primary"
+          size={size}
+          onClick={handleSubmit}
+        />
+      </div>
     </div>
   );
 }
