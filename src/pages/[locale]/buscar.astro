@@ -1,0 +1,23 @@
+---
+export const prerender = false; // ⬅️ evita el mismo error en esta ruta
+
+import SearchResultsTemplate from "@/components/templates/SearchResultsTemplate";
+
+const { locale } = Astro.params;
+const url = new URL(Astro.request.url);
+const q = url.searchParams.get("q") ?? "";
+const type = (url.searchParams.get("type") ?? "all") as "all" | "products" | "services";
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Resultados de búsqueda</title>
+  </head>
+  <body>
+    <div id="page" class="min-h-screen bg-gray-50">
+      <SearchResultsTemplate client:load initialQuery={q} initialType={type} locale={String(locale)} />
+    </div>
+  </body>
+</html>

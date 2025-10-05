@@ -142,4 +142,5 @@ function ProductCart({
 }
 
 export { ProductCart };
+
 export type { ProductCartProps, ProductCartItem };

@@ -8,3 +8,13 @@
   0% { transform: translateY(0); }
   100% { transform: translateY(-50%); }
 }
+
+/* Oculta secciones marcadas cuando la búsqueda inline está activa */
+body.search-active .hide-when-search {
+  display: none !important;
+}
+
+/* (opcional) ajusta el fondo para que todo lo oculto no “parpadee” */
+body.search-active {
+  background-color: #f9fafb; /* gris claro */
+}
