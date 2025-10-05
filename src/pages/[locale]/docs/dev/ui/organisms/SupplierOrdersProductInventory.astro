@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+
+// 👇 Cambia el alias para evitar el conflicto con el nombre del archivo .astro
+import SupplierOrdersProductInventoryView from "@/components/organisms/SupplierOrdersProductInventory";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+const SUPPLIER_ID = "45e63354-a42a-49d6-b38f-2fd7c536342a";
+---
+
+<Layout title="Inventario de Productos del Proveedor">
+  <div class="bg-white min-h-screen p-4 sm:p-8">
+    <div class="w-full max-w-6xl mx-auto">
+      <!-- usa el alias aquí -->
+      <SupplierOrdersProductInventoryView client:load supplierId={SUPPLIER_ID} />
+    </div>
+  </div>
+</Layout>
