@@ -7,6 +7,7 @@ import { Spinner } from "@/components/atoms/Spinner";
 import { Heading } from "@/components/atoms/Heading";
 import { Image } from "@/components/atoms/Image";
 import { PaginationItem } from "@/components/atoms/PaginationItem";
+import { Badge } from "@/components/atoms/Badge";
 import {
   CalendarBlank,
   CaretLeft,
@@ -17,6 +18,68 @@ const API_BASE_URL = "https://eyes-lodging-vegas-contracts.trycloudflare.com";
 const SUPPLIER_ID = "1ec2538d-29b0-4470-b05e-d5956b1c0cb1";
 const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJtZ29tZXpAZW1wcmVzYS5jb20iLCJpc1Zpc2libGUiOjEsImlzQWN0aXZlIjoxLCJ0b2tlblJlZnJlc2hQYXNzd29yZCI6bnVsbCwidG9rZW5FeHBpcnlEYXRlIjpudWxsLCJjcmVhdGVkQXQiOiIyMDI1LTA5LTIzVDIyOjU1OjI1LjI0M1oiLCJyb2xlIjp7ImlkIjoyLCJuYW1lIjoiU3VwcGxpZXIifSwidXNlckluZm9ybWF0aW9uIjp7ImlkIjoyLCJ1c2VyTmFtZSI6Ik1hcsOtYSBHw7NtZXoiLCJ1c2VyQWJicmV2aWF0aW9uIjoiTUciLCJtYWluQWRkcmVzcyI6MSwiY29udGFjdE5hbWUiOiJNYXLDrWEgR8OzbWV6IiwiY29udGFjdEVtYWlsIjoibWdvbWV6QGVtcHJlc2EuY29tIiwiY29udGFjdFBob25lIjoiKzUxOTg3NjU0MzIxIiwiZ2VuZGVyIjpudWxsLCJjcmVhdGVkQXQiOiIyMDI1LTA5LTIzVDIyOjU1OjI1LjI0M1oifSwidXNlckFkZHJlc3MiOlt7ImlkIjoxLCJ1c2VyIjp7ImlkIjoyLCJlbWFpbCI6Im1nb21lekBlbXByZXNhLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JEtGTmpFVWdKL0FoYWFvbkxtUDIxWXUuaHdUQ25yMS8zQzVBTFRRdTY4MXVKZDZGZVVONEQyIiwibGFzdExvZ2luRGF0ZSI6IjIwMjUtMDktMjNUMjI6NTU6MjUuMjQzWiIsImlzVmlzaWJsZSI6MSwiaXNBY3RpdmUiOjEsInRva2VuUmVmcmVzaFBhc3N3b3JkIjpudWxsLCJ0b2tlbkV4cGlyeURhdGUiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjUtMDktMjNUMjI6NTU6MjUuMjQzWiIsInRlbXBQYXNzd29yZCI6IiQyYSQwOCRLRk5qRVVnSi9BaGFhb25MbVAyMVl1Lmh3VENucjEvM0M1QUxUUXU2ODF1SmQ2RmVVTjREMiJ9LCJsYWJlbCI6Ik9maWNpbmEgUHJpbmNpcGFsIiwiY29udGFjdE5hbWUiOiJNYXLDrWEgR8OzbWV6IiwiY29udGFjdEVtYWlsIjoibWdvbWV6QGVtcHJlc2EuY29tIiwiY29udGFjdFBob25lIjoiKzUxOTg3NjU0MzIxIiwiYWRkcmVzcyI6IkF2LiBMb3MgT2xpdm9zIDEyMyIsImNpdHkiOiJMaW1hIiwic3RhdGUiOiJMaW1hIiwiemlwQ29kZSI6IjE1MDQ4IiwiY291bnRyeSI6IlBlcsO6IiwiY3JlYXRlQXQiOiIyMDI1LTA5LTIzVDIyOjU1OjI1LjI0M1oiLCJ1cGRhdGVBdCI6IjIwMjUtMDktMjNUMjI6NTU6MjUuMjQzWiJ9XSwic3VwcGxpZXIiOlt7ImlkIjoiMWVjMjUzOGQtMjliMC00NDcwLWIwNWUtZDU5NTZiMWMwY2IxIiwibmFtZSI6IlRlY2hQZXLDuiBTQUMiLCJhZGRyZXNzIjoiQXYuIFRlY25vbMOzZ2ljYSA3ODkiLCJidXNzaW5lc3NDYXRlZ29yeSI6IlRlY25vbG9nw61hIiwiY2l0eSI6IkxpbWEiLCJzdGF0ZSI6IkxpbWEiLCJjb3VudHJ5IjoiUGVyw7oiLCJwb3N0YWxDb2RlIjoiMTUwNDgiLCJ3ZWJzaXRlIjoiaHR0cHM6Ly90ZWNocGVydS5jb20iLCJ5ZWFyc09mRXhwZXJpZW5jZSI6IjEwIiwidmVyaWZpY2F0aW9uU3RhdHVzIjoiVmVyaWZpZWQiLCJsb2dvIjoiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvODc0My84NzQzOTk2LnBuZyIsImNvbW1lcmNpYWxDYXBhY2l0eSI6IkhpZ2gtdm9sdW1lIEIyQiBzYWxlcyIsInByb2R1Y3Rpb25DYXBhY2l0eSI6IjIwMDAwIHRvbnMvbW9udGgiLCJtYXJjYSI6ZmFsc2UsInN1cHBsaWVyUGVyZmlsIjpudWxsLCJzdXBwbGllcm51bWJlciI6Ijk5MjgwMDEyNCIsInNvY2lhbG1lZGlhIjp7InR3aXR0ZXIiOiJodHRwczovL3R3aXR0ZXIuY29tL3RlY2hwZXJ1IiwiZmFjZWJvb2siOiJodHRwczovL2ZhY2Vib29rLmNvbS90ZWNocGVydSIsImxpbmtlZGluIjoiaHR0cHM6Ly9saW5rZWRpbi5jb20vaW4vdGVjaHBlcnUifX1dLCJ0ZW1wUGFzc3dvcmQiOiIkMmEkMDgkS0ZOakVVZ0ovQWhhYW9uTG1QMjFZdS5od1RDbnIxLzNDNUFMVFF1NjgxdUpkNkZlVU40RDIiLCJpYXQiOjE3NTk2NTY0NjUsImV4cCI6MTc2MjI0ODQ2NSwianRpIjoiMjAyYjMzNzktZmRmYS00Njg3LWExZjQtYzZiYmJkMTdjNzIwIn0.iuS5xrIUJYJWnZGgJgBBFAFd9MBrhpOT2rSfH85rnus";
 
+type BadgeVariant = "default" | "success" | "danger" | "warning" | "info" | "successInvert" | "dangerInvert" | "black";
+type KnownDeliveryStatus = "pending" | "shipping" | "en_ruta" | "entregado" | "received" | "cancelado";
+type DeliveryStatus = KnownDeliveryStatus | string;
+type FilterStatus = "all" | KnownDeliveryStatus;
+
+const STATUS_OPTIONS: Array<{ value: KnownDeliveryStatus; label: string }> = [
+  { value: "pending", label: "Pendiente" },
+  { value: "shipping", label: "En envío" },
+  { value: "en_ruta", label: "En ruta" },
+  { value: "entregado", label: "Entregado" },
+  { value: "received", label: "Recibido" },
+  { value: "cancelado", label: "Cancelado" },
+];
+
+const STATUS_LABELS: Record<KnownDeliveryStatus, string> = STATUS_OPTIONS.reduce(
+  (labels, option) => ({ ...labels, [option.value]: option.label }),
+  {} as Record<KnownDeliveryStatus, string>
+);
+
+const STATUS_BADGE_VARIANT: Record<KnownDeliveryStatus, BadgeVariant> = {
+  entregado: "success",
+  received: "success",
+  shipping: "info",
+  en_ruta: "info",
+  pending: "warning",
+  cancelado: "danger",
+};
+
+const DEFAULT_BADGE_VARIANT: BadgeVariant = "default";
+
+const FILTER_STATUS_OPTIONS: Array<{ value: FilterStatus; label: string }> = [
+  { value: "all", label: "Todos los estados" },
+  ...STATUS_OPTIONS,
+];
+
+const ROWS_PER_PAGE_OPTIONS = [10, 15, 20] as const;
+
+
+
+// update
+async function updateOrderStatus(billId: number, newStatus: string): Promise<any> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders/update-status?billId=${billId}&newStatus=${newStatus}`, {
+      method: 'PATCH',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${AUTH_TOKEN}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    throw error;
+  }
+}
+
 type SupplierOrder = {
   billId: number;
   deliveryDate: string;
@@ -25,7 +88,7 @@ type SupplierOrder = {
     productName: string;
     productImage: string;
   }>;
-  deliveryStatus: string;
+  deliveryStatus: DeliveryStatus;
 };
 
 type SupplierOrdersResponse = {
@@ -77,9 +140,8 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
 
   const formatDisplayDate = (dateStr: string) => {
     if (!dateStr) return "";
-    // Parsear fecha local sin conversión UTC
     const [year, month, day] = dateStr.split('-').map(Number);
-    const date = new Date(year, month - 1, day); // month es 0-indexado
+    const date = new Date(year, month - 1, day); 
     return date.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit', 
@@ -129,7 +191,6 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
   };
 
   const handleDateSelect = (date: Date) => {
-    // Crear fecha local sin conversión UTC para evitar desfases de zona horaria
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -154,7 +215,6 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
   const dayNames = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
   const days = getDaysInMonth(currentMonth);
   
-  // Parsear selectedDate de manera local para evitar problemas de zona horaria
   let selectedDate = null;
   if (value) {
     const [year, month, day] = value.split('-').map(Number);
@@ -164,7 +224,7 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
   const today = new Date();
 
   return (
-    <div className="relative" ref={calendarRef}>
+    <div className="relative w-full" ref={calendarRef}>
       <div 
         className="flex items-center border border-gray-300 rounded-md bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
@@ -174,7 +234,7 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
           value={formatDisplayDate(value)}
           placeholder={placeholder}
           readOnly
-          className="border-0 shadow-none focus:ring-0 min-w-[140px] px-3 py-2 cursor-pointer bg-transparent"
+          className="border-0 shadow-none focus:ring-0 min-w-[140px] w-full px-3 py-2 cursor-pointer bg-transparent"
         />
         <div className="px-2 border-l border-gray-300">
           <CalendarBlank size={20} className="text-gray-600" weight="regular" />
@@ -266,50 +326,39 @@ function CustomCalendar({ value, onChange, placeholder = "Seleccionar fecha" }: 
   );
 }
 
-type TileCardProps = { product: any };
-function TileCard({ product }: TileCardProps) {
+type TileCardProps = { 
+  product: any; 
+  onStatusUpdate?: (id: number, status: string) => void;
+};
+
+const normalizeStatus = (status: DeliveryStatus): KnownDeliveryStatus | null => {
+  const normalized = String(status || "").toLowerCase() as KnownDeliveryStatus;
+  return normalized in STATUS_LABELS ? normalized : null;
+};
+
+const getStatusLabel = (status: DeliveryStatus) => {
+  const normalized = normalizeStatus(status);
+  return normalized ? STATUS_LABELS[normalized] : status;
+};
+
+const getStatusBadgeVariant = (status: DeliveryStatus): BadgeVariant => {
+  const normalized = normalizeStatus(status);
+  return normalized ? STATUS_BADGE_VARIANT[normalized] : DEFAULT_BADGE_VARIANT;
+};
+
+function TileCard({ product, onStatusUpdate }: TileCardProps) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<DeliveryStatus>(product?.deliveryStatus || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const img = product?.images?.[0]?.urlImage || "https://placehold.co/100x100/E5E7EB/9CA3AF?text=Order";
   const title = product?.name || "Orden sin título";
-  const desc = product?.description || "Sin descripción";
   
   const billId = product?.billId || 0;
   const buyerName = product?.buyerName || "Cliente desconocido";
   const deliveryDate = product?.deliveryDate || "Fecha no disponible";
-  const deliveryStatus = product?.deliveryStatus || "unknown";
+  const deliveryStatus: DeliveryStatus = product?.deliveryStatus || "unknown";
   const productCards = product?.productCards || [];
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'entregado':
-        return 'bg-green-100 text-green-600';
-      case 'en_ruta':
-        return 'bg-indigo-100 text-indigo-600';
-      case 'received':
-        return 'bg-blue-100 text-blue-600';
-      case 'cancelado':
-        return 'bg-red-100 text-red-600';
-      default:
-        return 'bg-gray-100 text-gray-600';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'entregado':
-        return 'Entregado';
-      case 'en_ruta':
-        return 'En ruta';
-      case 'received':
-        return 'Recibido';
-      case 'cancelado':
-        return 'Cancelado';
-      default:
-        return status;
-    }
-  };
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -325,6 +374,14 @@ function TileCard({ product }: TileCardProps) {
         alert("Error: Solo se permiten archivos PDF para las facturas");
         event.target.value = "";
       }
+    }
+  };
+
+  const handleStatusChange = (newStatus: string) => {
+    const nextStatus = newStatus as DeliveryStatus;
+    setSelectedStatus(nextStatus);
+    if (onStatusUpdate) {
+      onStatusUpdate(billId, nextStatus);
     }
   };
 
@@ -361,14 +418,10 @@ function TileCard({ product }: TileCardProps) {
         <div className="flex items-center gap-2 mb-4">
           <Text size="sm" color="default">Estado:</Text>
           <Select 
-            options={[
-              { value: "en_ruta", label: "En ruta" },
-              { value: "entregado", label: "Entregado" },
-              { value: "received", label: "Recibido" },
-              { value: "cancelado", label: "Cancelado" }
-            ]} 
+            options={STATUS_OPTIONS}
             size="small"
-            value={deliveryStatus}
+            value={selectedStatus}
+            onChange={(e) => handleStatusChange(e.target.value)}
             className="flex-1"
           />
           <Button 
@@ -451,9 +504,9 @@ function TileCard({ product }: TileCardProps) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
               <div className="flex items-center gap-3">
                 <Heading level={3} color="default">#{billId}</Heading>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(deliveryStatus)}`}>
-                  {getStatusText(deliveryStatus)}
-                </span>
+                <Badge variant={getStatusBadgeVariant(deliveryStatus)} size="small">
+                  {getStatusLabel(deliveryStatus)}
+                </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-blue-400"></div>
@@ -492,6 +545,7 @@ function TileCard({ product }: TileCardProps) {
           </div>
 
           <div className="flex-shrink-0 w-full sm:w-80">
+            {/* Botones de acción */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
               <Text size="sm" color="default" className="sm:whitespace-nowrap">Factura:</Text>
               <Button 
@@ -526,14 +580,10 @@ function TileCard({ product }: TileCardProps) {
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
               <Text size="sm" color="default" className="sm:whitespace-nowrap">Estado:</Text>
               <Select 
-                options={[
-                  { value: "en_ruta", label: "En ruta" },
-                  { value: "entregado", label: "Entregado" },
-                  { value: "received", label: "Recibido" },
-                  { value: "cancelado", label: "Cancelado" }
-                ]} 
+                options={STATUS_OPTIONS}
                 size="small"
-                value={deliveryStatus}
+                value={selectedStatus}
+                onChange={(e) => handleStatusChange(e.target.value)}
                 className="w-full sm:w-auto"
               />
             </div>
@@ -554,30 +604,47 @@ export default function SupplierOrdersProductInventory({
   const [orders, setOrders] = useState<SupplierOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
   const [filterDate, setFilterDate] = useState("");
   const [pagination, setPagination] = useState({ currentPage: 1, limit: 10, totalItems: 0 });
+  const [isMobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const loadOrders = useCallback(async () => {
+    setLoading(true);
+    try {
+      const ordersData = await fetchSupplierOrders();
+      setOrders(ordersData);
+    } catch (error) {
+      console.error('Error loading orders:', error);
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const handleStatusUpdate = useCallback(
+    async (orderId: number, newStatus: string) => {
+      try {
+        await updateOrderStatus(orderId, newStatus);
+        console.log('Estado actualizado:', orderId, newStatus);
+        await loadOrders();
+        alert(`¡Estado actualizado a ${newStatus}!`);
+      } catch (error) {
+        console.error('Error updating status:', error);
+        alert('Error al actualizar el estado');
+      }
+    },
+    [loadOrders]
+  );
+
+  const applyFilters = useCallback(() => {
+    loadOrders();
+    setMobileFiltersOpen(false);
+  }, [loadOrders, setMobileFiltersOpen]);
 
   useEffect(() => {
-    const loadOrders = async () => {
-      setLoading(true);
-      try {
-        const ordersData = await fetchSupplierOrders();
-        setOrders(ordersData);
-      } catch (error) {
-        console.error('Error loading orders:', error);
-        setOrders([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadOrders();
-  }, []);
-
-  const handleSearch = useCallback((term: string) => {
-    setSearchTerm(term);
-  }, []);
+  }, [loadOrders]);
 
   const filteredOrders = orders.filter(order => {
     const matchesSearch = 
@@ -586,13 +653,14 @@ export default function SupplierOrdersProductInventory({
         product.productName.toLowerCase().includes(searchTerm.toLowerCase())
       );
     
-    const matchesStatus = filterStatus === "all" || order.deliveryStatus === filterStatus;
+    const normalizedStatus = normalizeStatus(order.deliveryStatus);
+    const matchesStatus =
+      filterStatus === "all" || (normalizedStatus !== null && normalizedStatus === filterStatus);
     
     let matchesDate = true;
     if (filterDate) {
       try {
-        // La API devuelve fechas como "Sep 23, 2025, 10:55 PM"
-        // Necesitamos parsear este formato y comparar solo la fecha
+        
         const orderDate = new Date(order.deliveryDate);
         const selectedDate = new Date(filterDate + 'T00:00:00'); // Agregar hora local para evitar UTC
         
@@ -626,12 +694,14 @@ export default function SupplierOrdersProductInventory({
 
   const convertedProducts = filteredOrders.map(orderToProduct);
 
-  // Aplicar paginación
+  //  paginación
   const startIndex = (pagination.currentPage - 1) * pagination.limit;
   const endIndex = startIndex + pagination.limit;
   const paginatedProducts = convertedProducts.slice(startIndex, endIndex);
+  const currentPageStart = convertedProducts.length === 0 ? 0 : startIndex + 1;
+  const currentPageEnd = Math.min(endIndex, convertedProducts.length);
   
-  // Actualizar el total de items cuando cambien los productos filtrados
+  // Actualizar items
   useEffect(() => {
     setPagination(prev => ({ ...prev, totalItems: convertedProducts.length }));
   }, [convertedProducts.length]);
@@ -641,56 +711,75 @@ export default function SupplierOrdersProductInventory({
   return (
     <div className={`bg-gray-50 min-h-screen ${className}`}>
       <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-          <Input
-            placeholder="Buscar por cliente o producto..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 min-w-0"
-          />
-          
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <Select 
-              className="min-w-[140px] w-full sm:w-auto"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              options={[
-                { value: "all", label: "Todos los estados" },
-                { value: "en_ruta", label: "En ruta" },
-                { value: "entregado", label: "Entregado" },
-                { value: "received", label: "Recibido" },
-                { value: "cancelado", label: "Cancelado" }
-              ]}
-            />
-            
-            <CustomCalendar
-              value={filterDate}
-              onChange={setFilterDate}
-              placeholder="Seleccionar fecha"
-            />
-            
-            <Button 
-              variant="primary" 
-              onClick={() => handleSearch(searchTerm)}
-              className="px-4 py-2 w-full sm:w-auto"
-            >
-              Buscar
-            </Button>
-            
-            {(filterDate || filterStatus !== "all" || searchTerm) && (
-              <Button 
-                variant="secondary" 
-                onClick={() => {
-                  setSearchTerm("");
-                  setFilterStatus("all");
-                  setFilterDate("");
-                }}
-                className="px-3 py-2 w-full sm:w-auto"
-                title="Limpiar filtros"
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 sm:flex-nowrap">
+            <div className="w-full sm:flex-1 sm:min-w-[280px]">
+              <Input
+                placeholder="Buscar por cliente o producto..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full"
+              />
+            </div>
+
+            <div className="flex gap-2 sm:hidden">
+              <Button
+                variant="secondary"
+                size="small"
+                className="w-full"
+                onClick={() => setMobileFiltersOpen((prev) => !prev)}
+                aria-expanded={isMobileFiltersOpen}
+                aria-controls="supplier-filters"
               >
-                ✕
+                {isMobileFiltersOpen ? "Ocultar filtros" : "Mostrar filtros"}
               </Button>
-            )}
+            </div>
+
+            <div
+              id="supplier-filters"
+              className={`${isMobileFiltersOpen ? "grid gap-3" : "hidden"} sm:flex sm:flex-nowrap sm:items-center sm:gap-3 sm:ml-auto`}
+            >
+              <div className="w-full sm:w-52 flex-shrink-0">
+                <Select
+                  fullWidth
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
+                  options={FILTER_STATUS_OPTIONS}
+                />
+              </div>
+
+              <div className="w-full sm:w-56 flex-shrink-0">
+                <CustomCalendar
+                  value={filterDate}
+                  onChange={setFilterDate}
+                  placeholder="Seleccionar fecha"
+                />
+              </div>
+
+              <Button 
+                variant="primary" 
+                onClick={applyFilters}
+                className="w-full sm:w-auto sm:flex-shrink-0"
+              >
+                Buscar
+              </Button>
+
+              {(filterDate || filterStatus !== "all" || searchTerm) && (
+                <Button 
+                  variant="secondary" 
+                  onClick={() => {
+                    setSearchTerm("");
+                    setFilterStatus("all");
+                    setFilterDate("");
+                    setMobileFiltersOpen(false);
+                  }}
+                  className="w-full sm:w-auto sm:flex-shrink-0"
+                  title="Limpiar filtros"
+                >
+                  ✕
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -704,7 +793,11 @@ export default function SupplierOrdersProductInventory({
           <>
             <div className="space-y-4">
               {paginatedProducts.map((product) => (
-                <TileCard key={product.id} product={product} />
+                <TileCard 
+                  key={product.id} 
+                  product={product}
+                  onStatusUpdate={handleStatusUpdate}
+                />
               ))}
             </div>
 
@@ -719,59 +812,69 @@ export default function SupplierOrdersProductInventory({
 
       {/* Paginación */}
       {!loading && convertedProducts.length > 0 && (
-        <div className="flex flex-col-reverse sm:flex-row items-center justify-between mt-6 pt-4 border-t border-gray-200 gap-4 px-4 sm:px-6 pb-6">
-          <div className="flex items-center gap-2">
-            <label className="text-sm text-gray-600">Filas por página:</label>
-            <select
-              value={pagination.limit}
-              onChange={(e) => {
-                const newLimit = Number(e.target.value);
-                setPagination(prev => ({ 
-                  ...prev, 
-                  limit: newLimit, 
-                  currentPage: 1 
-                }));
-              }}
-              className="px-3 py-2 border border-gray-300 rounded-md text-sm bg-white hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-red-500"
-            >
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
-          </div>
+        <div className="mt-6 border-t border-gray-200 px-4 sm:px-6 pb-6 pt-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-gray-600">
+              <Text size="sm" color="muted" className="sm:whitespace-nowrap">
+                Mostrando {currentPageStart}-{currentPageEnd} de {convertedProducts.length} órdenes
+              </Text>
 
-          <div className="flex items-center gap-1 flex-wrap justify-center">
-            <PaginationItem
-              disabled={pagination.currentPage === 1}
-              onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage - 1 }))}
-            >
-              {"<"}
-            </PaginationItem>
+              <div className="flex items-center gap-2">
+                <Text size="sm" color="muted" className="sm:whitespace-nowrap">
+                  Filas por página:
+                </Text>
+                <Select
+                  value={String(pagination.limit)}
+                  onChange={(e) => {
+                    const newLimit = Number(e.target.value);
+                    setPagination(prev => ({
+                      ...prev,
+                      limit: newLimit,
+                      currentPage: 1,
+                    }));
+                  }}
+                  size="small"
+                  options={ROWS_PER_PAGE_OPTIONS.map((value) => ({
+                    value: String(value),
+                    label: String(value),
+                  }))}
+                />
+              </div>
+            </div>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter((page) => {
-                const current = pagination.currentPage;
-                const last = totalPages;
-                return page === 1 || page === last || (page >= current - 1 && page <= current + 1);
-              })
-              .map((page, idx, arr) => (
-                <React.Fragment key={page}>
-                  {idx > 0 && arr[idx - 1] !== page - 1 && <span className="px-1 sm:px-2 text-gray-500">…</span>}
-                  <PaginationItem 
-                    active={page === pagination.currentPage} 
-                    onClick={() => setPagination(prev => ({ ...prev, currentPage: page }))}
-                  >
-                    {page}
-                  </PaginationItem>
-                </React.Fragment>
-              ))}
+            <div className="flex items-center gap-1 flex-wrap justify-center sm:justify-end">
+              <PaginationItem
+                disabled={pagination.currentPage === 1}
+                onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage - 1 }))}
+              >
+                {"<"}
+              </PaginationItem>
 
-            <PaginationItem
-              disabled={pagination.currentPage === totalPages}
-              onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage + 1 }))}
-            >
-              {">"}
-            </PaginationItem>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((page) => {
+                  const current = pagination.currentPage;
+                  const last = totalPages;
+                  return page === 1 || page === last || (page >= current - 1 && page <= current + 1);
+                })
+                .map((page, idx, arr) => (
+                  <React.Fragment key={page}>
+                    {idx > 0 && arr[idx - 1] !== page - 1 && <span className="px-1 sm:px-2 text-gray-500">…</span>}
+                    <PaginationItem
+                      active={page === pagination.currentPage}
+                      onClick={() => setPagination(prev => ({ ...prev, currentPage: page }))}
+                    >
+                      {page}
+                    </PaginationItem>
+                  </React.Fragment>
+                ))}
+
+              <PaginationItem
+                disabled={pagination.currentPage === totalPages}
+                onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage + 1 }))}
+              >
+                {">"}
+              </PaginationItem>
+            </div>
           </div>
         </div>
       )}
