@@ -1,0 +1,40 @@
+---
+export const prerender = false;
+
+import "@/styles/global.css";
+import { Header } from "@/components/organisms/Header";
+import ProductSearchTemplate from "@/components/templates/ProductSearchTemplate";
+
+const { locale } = Astro.params;
+const url = new URL(Astro.request.url);
+const q = url.searchParams.get("q") ?? "";
+const page = Number(url.searchParams.get("page") ?? "1");
+const limit = Number(url.searchParams.get("limit") ?? "20");
+const pageTitle = q ? `Resultados para “${q}”` : "Buscar productos";
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <header class="sticky top-0 z-40 bg-white/70 backdrop-blur">
+      <Header client:load showSearch={false} />
+    </header>
+
+    <main class="min-h-screen">
+      <div class="max-w-6xl mx-auto px-4 py-6">
+        <ProductSearchTemplate
+          client:load
+          locale={String(locale)}
+          initialQuery={q}
+          initialPage={page}
+          initialLimit={limit}
+          mode="page"
+        />
+      </div>
+    </main>
+  </body>
+</html>

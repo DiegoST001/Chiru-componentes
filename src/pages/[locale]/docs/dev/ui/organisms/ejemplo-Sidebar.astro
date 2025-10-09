@@ -1,0 +1,50 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getStaticLanguagePaths } from "@/i18n/utils";
+import { Sidebar } from "@/components/organisms/Sidebar";
+
+export async function getStaticPaths() {
+  return getStaticLanguagePaths();
+}
+
+// Datos de ejemplo para el sidebar
+const sidebarItems = [
+  {
+    text: "text",
+    isActive: true,
+    onClick: () => console.log('Item 1 clicked')
+  },
+  {
+    text: "text",
+    isActive: false,
+    onClick: () => console.log('Item 2 clicked')
+  },
+  {
+    text: "text",
+    isActive: false,
+    onClick: () => console.log('Item 3 clicked')
+  },
+  {
+    text: "text",
+    isActive: false,
+    onClick: () => console.log('Item 4 clicked')
+  },
+  {
+    text: "text",
+    isActive: false,
+    onClick: () => console.log('Item 5 clicked')
+  }
+];
+---
+
+<Layout title="Sidebar - Marketplace">
+  <div class="min-h-screen bg-gray-50 py-8 lg:py-12">
+    <div class="max-w-md mx-auto px-4">
+      <Sidebar 
+        client:load
+        title="text"
+        items={sidebarItems}
+      />
+    </div>
+  </div>
+</Layout>

@@ -3,12 +3,12 @@
  * AppShell Template
  * Uso: Envolver páginas que requieren Header + Navbar + Footer recurrentes.
  * Props:
- *  - title?: string -> Título de la página (fallback en Layout base si se extiende en el futuro)
+ *  - title?: string
  *  - hideHeader?: boolean
  *  - hideNavbar?: boolean
  *  - hideFooter?: boolean
- *  - className?: string -> clases para el contenedor principal
- * Exclusiones: Páginas de login / register pueden omitir este template y usar Layout base.
+ *  - className?: string
+ *  - hideNavbarOnSearch?: boolean  // NEW: oculta la Navbar cuando el Header activa body.search-active (default: true)
  */
 import { HeaderIsland } from "@/components/islands/HeaderIsland";
 import { Navbar } from "@/components/organisms/Navbar";
@@ -20,15 +20,32 @@ interface Props {
   hideNavbar?: boolean;
   hideFooter?: boolean;
   className?: string;
+  hideNavbarOnSearch?: boolean;
 }
 
-const { hideHeader = false, hideNavbar = false, hideFooter = false, className = "" } = Astro.props as Props;
+const {
+  hideHeader = false,
+  hideNavbar = false,
+  hideFooter = false,
+  className = "",
+  hideNavbarOnSearch = true, // ← por defecto, se oculta la barra al buscar
+} = Astro.props as Props;
 ---
+
 <div class={`min-h-screen flex flex-col bg-gray-50 ${className}`}>
   {!hideHeader && <HeaderIsland client:load />}
-  {!hideNavbar && <Navbar client:load />}
-  <main class="flex-1 ">
+
+  {!hideNavbar && (
+    hideNavbarOnSearch
+      // Cuando la búsqueda inline está activa, el Header añade body.search-active,
+      // y esta clase hará que la Navbar desaparezca temporalmente.
+      ? <div class="hide-when-search"><Navbar client:load /></div>
+      : <Navbar client:load />
+  )}
+
+  <main class="flex-1">
     <slot />
   </main>
+
   {!hideFooter && <Footer client:visible />}
 </div>
