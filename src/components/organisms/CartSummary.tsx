@@ -44,7 +44,7 @@ function CartSummary({
       (typeof window !== "undefined" &&
         window.location.pathname.split("/")[1]) ||
       "es";
-    window.location.href = `/${locale}/docs/dev/ui/templates/abrir-tienda`;
+  window.location.assign(`/${locale}/docs/dev/ui/templates/abrir-tienda`);
   };
 
   return (
@@ -96,8 +96,7 @@ function CartSummary({
               onClick={() => {
                 if (onContinue) return onContinue();
                 // fallback (legacy)
-                window.location.href =
-                  "/es/docs/dev/ui/templates/PurchasingProcess";
+                window.location.assign("/es/docs/dev/ui/templates/PurchasingProcess");
               }}
             >
               Continuar compra

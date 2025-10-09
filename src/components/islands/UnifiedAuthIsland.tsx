@@ -3,9 +3,10 @@ import { AuthProvider, useAuth } from "@/contexts/AuthProvider";
 import { Header } from "@/components/organisms/Header";
 import { TemplateLogin } from "@/components/templates/TemplateLogin";
 import { TemplateRegister } from "@/components/templates/TemplateRegister";
+import { TemplateVerifyCodeForm } from "@/components/templates/TemplateVerifyCodeForm";
 
 export type UnifiedAuthIslandProps = {
-  mode?: "auto" | "login" | "app" | "register";
+  mode?: "auto" | "login" | "app" | "register" | "verify";
   imageUrl?: string;
   imageAlt?: string;
 };
@@ -16,7 +17,9 @@ function UnifiedAuthContent({ mode = "auto", imageUrl, imageAlt }: UnifiedAuthIs
   const showApp = mode === "app" || (mode === "auto" && Boolean(isAuthenticated));
   const showLogin = mode === "login" || (mode === "auto" && !isAuthenticated);
   const showRegister = mode === "register";
+  const showVerify = mode === "verify";
 
+  if (showVerify) return <TemplateVerifyCodeForm />;
   if (showRegister) return <TemplateRegister imageUrl={imageUrl ?? ""} imageAlt={imageAlt} />;
   if (showLogin) return <TemplateLogin imageUrl={imageUrl ?? ""} imageAlt={imageAlt} />;
   if (showApp) return <Header />;

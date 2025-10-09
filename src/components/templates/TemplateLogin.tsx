@@ -76,7 +76,7 @@ export function TemplateLogin({
           onSuccess(result);
         } else {
           // Comportamiento por defecto: redirigir
-          window.location.href = redirectUrl;
+          window.location.assign(redirectUrl);
         }
       } else {
         throw result.error ?? new Error("Login failed");
@@ -90,25 +90,27 @@ export function TemplateLogin({
   }
 
   return (
-    <div className="min-h-screen w-screen h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full h-full justify-center items-center">
-        <div className="flex-1 h-full flex items-center justify-center p-0">
-          <Image
-            src={imageUrl}
-            alt={imageAlt}
-            size="large"
-            radius="none"
-            fit="cover"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex-1 h-full flex items-center justify-center p-8">
-          <LoginForm
-            onSubmit={handleSubmit}
-            className={submitting ? "opacity-70 pointer-events-none" : ""}
-          />
-        </div>
-      </div>
-    </div>
+<main className="w-full h-screen flex max-xl:bg-gray-100">
+  <div className="hidden xl:flex w-1/2 h-full">
+    <Image
+      src={imageUrl}
+      alt={imageAlt}
+      size="large"
+      radius="none"
+      fit="cover"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  <div className="flex items-center justify-center w-full xl:w-1/2 h-full p-8">
+    <LoginForm
+      onSubmit={handleSubmit}
+      className={submitting ? "opacity-70 pointer-events-none" : ""}
+      onSignIn={() => {
+  window.location.assign("/es/docs/dev/ui/templates/auth/register");
+      }}
+      // ...otros props
+    />
+  </div>
+</main>
   );
 }

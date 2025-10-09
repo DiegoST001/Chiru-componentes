@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AppShell from "@/layouts/AppShell.astro";
+import { TemplateVerifyCodeForm } from "@/components/templates/TemplateVerifyCodeForm";
+
+export async function getStaticPaths() {
+  return [
+    { params: { locale: 'es' } },
+    { params: { locale: 'en' } },
+  ];
+}
+---
+
+<Layout title="Perfil de Usuario" lang="es">
+    <TemplateVerifyCodeForm 
+      client:visible
+    />
+</Layout>

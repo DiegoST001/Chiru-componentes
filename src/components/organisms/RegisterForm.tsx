@@ -8,6 +8,7 @@ import { Icon } from "../atoms/Icon";
 import { Envelope, LockKey, User } from "phosphor-react";
 
 type RegisterFormProps = {
+  onLogin?: () => void;
   className?: string;
   // icons?: {
   //   name?: React.ReactNode;
@@ -27,7 +28,7 @@ type RegisterFormProps = {
 
 function getRegisterFormStyles() {
   return cntl`
-    w-full max-w-md mx-auto p-8 bg-white rounded-lg shadow-lg
+    max-w-lg w-full mx-auto p-8 bg-white rounded-lg  max-xl:shadow-lg
   `;
 }
 
@@ -61,7 +62,13 @@ function getButtonGroupStyles() {
   `;
 }
 
-export function RegisterForm({ className, values, onChange, onSubmit }: RegisterFormProps) {
+export function RegisterForm({
+  className,
+  values,
+  onChange,
+  onSubmit,
+  onLogin,
+  }: RegisterFormProps) {
   function handleChange(field: keyof RegisterFormProps["values"]) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       onChange(field, e.target.value);
@@ -78,7 +85,7 @@ export function RegisterForm({ className, values, onChange, onSubmit }: Register
     <div className={cntl`${getRegisterFormStyles()} ${className || ""}`}>
       <div className={getHeaderStyles()}>
         <div className={getLogoStyles()}>Chiru</div>
-        <div className={getTitleStyles()}>Register</div>
+        <div className={getTitleStyles()}>Crear cuenta</div>
       </div>
 
       <form className={getFormStyles()} onSubmit={handleSubmit}>
@@ -97,7 +104,7 @@ export function RegisterForm({ className, values, onChange, onSubmit }: Register
           size="medium"
           variant="outline"
         />
-          {/* icon={icons?.email} */}
+        {/* icon={icons?.email} */}
         <FormField
           label="Email"
           type="email"
@@ -153,7 +160,13 @@ export function RegisterForm({ className, values, onChange, onSubmit }: Register
       <FormDivider text="o" spacing="medium" />
 
       <div className={getButtonGroupStyles()}>
-        <Button variant="primary" size="large" fullWidth text="Sign in" />
+        <Button
+          variant="primary"
+          size="large"
+          fullWidth
+          text="Iniciar sesión"
+          onClick={onLogin}
+        />
         <SocialLoginButton provider="google" fullWidth size="large" />
       </div>
     </div>

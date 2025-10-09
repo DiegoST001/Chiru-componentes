@@ -75,7 +75,7 @@ function Header({ className }: HeaderProps) {
     (user as any)?.userAbbreviation ?? fallbackAbbr ?? (displayName ? getInitials(displayName) : "");
 
   // consider authenticated if context says so or fallback session exists
-  const isLogged = Boolean(isAuthenticated) || Boolean(fallbackName);
+  const isLogged = Boolean(isAuthenticated) || Boolean(fallbackAbbr);
 
   const navigateToOpenStore = () => {
     window.location.href = resolveRoute("openStore");
@@ -88,21 +88,18 @@ function Header({ className }: HeaderProps) {
   const handleLogout = async () => {
     try {
       if (typeof logout === "function") {
-        // soportar logout sincrónico o asíncrono sin lanzar error de TS al chequear truthiness
-        await Promise.resolve(logout());
+        const maybePromise: any = logout();
+        if (maybePromise && typeof maybePromise.then === "function") {
+          await maybePromise;
+        }
       }
-    } catch (e) {
-      // opcional: log para debug
-      // console.error("[Header] logout error:", e);
+    } catch {
+      /* ignore */
     } finally {
-      try {
-        clearAuthStorage();
-      } catch {
-        /* ignore */
-      }
+      try { clearAuthStorage(); } catch {}
+      // redirigir con replace para no dejar la página anterior en el history
       if (typeof window !== "undefined") {
-        // redirigir al home (usa resolveRoute para respetar locale)
-        window.location.href = resolveRoute("home");
+        window.location.replace(resolveRoute("home"));
       }
     }
   };
@@ -117,14 +114,18 @@ function Header({ className }: HeaderProps) {
     >
       {/* Desktop layout */}
       <div className="hidden md:flex items-center w-full gap-6">
-        <a className="flex items-center min-w-fit" href={resolveRoute("home")}>
+        <button
+          className="flex items-center min-w-fit bg-transparent border-none p-0 cursor-pointer"
+          onClick={() => window.location.assign(resolveRoute("home"))}
+          style={{ background: "none", border: "none" }}
+        >
           <Image
             src="/chiru_logo_full.svg"
             alt="Chiru Logo"
             fit="contain"
             className="h-10 lg:h-12 w-auto"
           />
-        </a>
+        </button>
 
         {/* Barra de búsqueda centrada */}
         <div className="flex-1 flex justify-center">
@@ -270,14 +271,18 @@ function Header({ className }: HeaderProps) {
           </button>
 
           {/* Logo centrado */}
-          <a className="flex-1 flex justify-center min-w-fit" href={resolveRoute("home")}>
+          <button
+            className="flex-1 flex justify-center min-w-fit bg-transparent border-none p-0 cursor-pointer"
+            onClick={() => window.location.assign(resolveRoute("home"))}
+            style={{ background: "none", border: "none" }}
+          >
             <Image
               src="/chiru_logo_full.svg"
               alt="Chiru Logo"
               fit="contain"
               className="h-10 w-auto"
             />
-          </a>
+          </button>
 
           {/* Iconos a la derecha (cuenta + otros) */}
           <div className="flex items-center gap-1 min-w-fit">

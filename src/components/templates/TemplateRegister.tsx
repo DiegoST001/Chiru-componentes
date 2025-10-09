@@ -65,28 +65,9 @@ export function TemplateRegister({
         throw registerResult.error ?? new Error("Registro fallido");
       }
 
-      // Intentar login automático con las credenciales recién registradas
-      try {
-        const loginResult = await login(
-          { emailOrUsername: payload.email, password: payload.password } as any
-        );
-        if (loginResult.ok) {
-          if (typeof onSuccess === "function") onSuccess(loginResult);
-          else window.location.href = redirectUrl;
-          return;
-        } else {
-          // Registro ok pero login falló: notificar y devolver control
-          alert("Registro exitoso, pero no se pudo iniciar sesión automáticamente.");
-          if (typeof onSuccess === "function") onSuccess(registerResult);
-          return;
-        }
-      } catch (e) {
-        // Si el intento de login lanza, notificamos pero no bloqueamos
-        console.warn("[TemplateRegister] login after register failed", e);
-        alert("Registro exitoso, pero no se pudo iniciar sesión automáticamente.");
-        if (typeof onSuccess === "function") onSuccess(registerResult);
-        return;
-      }
+      // En vez de login automático, redirige a verificación
+  window.location.assign("/es/docs/dev/ui/templates/auth/verify"); // SPA navigation
+      return;
     } catch (err) {
       console.error("[TemplateRegister] error:", err);
       alert(err instanceof Error ? err.message : "Ocurrió un error desconocido.");
@@ -96,27 +77,30 @@ export function TemplateRegister({
   }
 
   return (
-    <div className="min-h-screen w-screen h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full h-full justify-center items-center">
-        <div className="flex-1 h-full flex items-center justify-center p-0">
-          <Image
-            src={imageUrl}
-            alt={imageAlt}
-            size="large"
-            radius="none"
-            fit="cover"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex-1 h-full flex items-center justify-center">
-          <RegisterForm
-            values={values}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            className={submitting ? "opacity-70 pointer-events-none" : ""}
-          />
-        </div>
+    <main className="w-full h-screen flex max-xl:bg-gray-100">
+      {/* Imagen lateral: solo visible en xl o superior */}
+      <div className="hidden xl:flex w-1/2 h-full">
+        <Image
+          src={imageUrl}
+          alt={imageAlt}
+          size="large"
+          radius="none"
+          fit="cover"
+          className="w-full h-full object-cover"
+        />
       </div>
-    </div>
+      {/* Formulario: ocupa toda la pantalla en móvil/tablet, la mitad en desktop */}
+      <div className="flex items-center justify-center w-full xl:w-1/2 h-full p-8">
+        <RegisterForm
+          values={values}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          className={submitting ? "opacity-70 pointer-events-none" : ""}
+          onLogin={() => {
+            window.location.assign("/es/docs/dev/ui/templates/auth/login");
+          }}
+        />
+      </div>
+    </main>
   );
 }

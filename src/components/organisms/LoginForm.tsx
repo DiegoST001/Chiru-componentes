@@ -17,6 +17,8 @@ type LoginFormProps = {
   className?: string;
 };
 
+import { AuthService } from "@/features/auth/service/auth.service";
+
 type LoginFormData = {
   email: string;
   password: string;
@@ -24,7 +26,7 @@ type LoginFormData = {
 
 function getLoginFormStyles() {
   return cntl`
-    w-full max-w-md mx-auto p-8 bg-white rounded-lg shadow-lg
+    max-w-lg w-full mx-auto p-8 bg-white rounded-lg  max-xl:shadow-lg
   `;
 }
 
@@ -49,7 +51,7 @@ function getLogoStyles() {
 
 function getTitleStyles() {
   return cntl`
-    text-2xl font-semibold text-gray-600 uppercase tracking-wide
+    text-2xl font-semibold text-gray-400 uppercase tracking-wide
   `;
 }
 
@@ -78,6 +80,8 @@ function LoginForm({
   });
 
   const [errors, setErrors] = useState<Partial<LoginFormData>>({});
+  const [loading, setLoading] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
 
   const handleInputChange = (field: keyof LoginFormData) => (
     e: React.ChangeEvent<HTMLInputElement>
@@ -119,6 +123,7 @@ function LoginForm({
     }
   };
 
+
   return (
     <div className={cntl`${getLoginFormStyles()} ${className || ""}`}>
       <div className={getHeaderStyles()}>
@@ -128,7 +133,7 @@ function LoginForm({
 
       <form onSubmit={handleSubmit} className={getFormStyles()}>
         <FormField
-          label="Text-Title"
+          label="Email:"
           type="email"
           placeholder="abc@gmail.com"
           value={formData.email}
@@ -146,7 +151,7 @@ function LoginForm({
 
         <div className="space-y-2">
           <FormField
-            label="Text-Title"
+            label="Contraseña:"
             type="password"
             placeholder="••••••••"
             value={formData.password}
@@ -161,7 +166,6 @@ function LoginForm({
             size="medium"
             variant="outline"
           />
-          
           <div className={getForgotPasswordStyles()}>
             <Link 
               href="#" 
@@ -172,7 +176,7 @@ function LoginForm({
               size="small"
               color="primary"
             >
-              Text link
+              ¿Olvidaste tu contraseña?
             </Link>
           </div>
         </div>
@@ -182,21 +186,22 @@ function LoginForm({
           variant="danger"
           size="large"
           fullWidth
-          text="Button"
+          text={loading ? "Ingresando..." : "Ingresar"}
+          disabled={loading}
         />
       </form>
 
-      <FormDivider text="text" spacing="medium" />
+
+      <FormDivider text="o" spacing="medium" />
 
       <div className={getButtonGroupStyles()}>
         <Button
           variant="primary"
           size="large"
           fullWidth
-          text="Sign in"
+          text="Registrarse"
           onClick={onSignIn}
         />
-
         <SocialLoginButton
           provider="google"
           onClick={onGoogleLogin}

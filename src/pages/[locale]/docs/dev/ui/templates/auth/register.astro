@@ -3,14 +3,15 @@ import Layout from "@/layouts/Layout.astro";
 import { getStaticLanguagePaths } from "@/i18n/utils";
 import { UnifiedAuthIsland } from "@/components/islands/UnifiedAuthIsland";
 
-
+const imageUrl = "https://w.wallhaven.cc/full/z8/wallhaven-z88yeg.png";
 export async function getStaticPaths() {
   return getStaticLanguagePaths();
 }
 ---
 
 <Layout title="Registro">
-    <UnifiedAuthIsland client:visible mode="register" imageAlt="Registro" />
+
+    <UnifiedAuthIsland client:visible imageUrl={imageUrl} mode="register" imageAlt="Registro" />
 
 </Layout>
 

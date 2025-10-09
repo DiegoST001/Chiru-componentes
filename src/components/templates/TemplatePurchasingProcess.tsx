@@ -10,6 +10,13 @@ type SupplierGroup = {
   items: Product[];
 };
 
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl?: string;
+};
+
 type Address = {
   id: string;
   label: string;
@@ -164,7 +171,7 @@ function TemplatePurchasingProcess() {
   const handleStepClick = (index: number) => {
     const href = stepLinks?.[index];
     if (href && typeof window !== "undefined") {
-      window.location.href = href;
+  window.location.assign(href);
       return;
     }
     setCurrentStep(index);

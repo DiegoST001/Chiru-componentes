@@ -18,7 +18,7 @@ export type UserData = {
 };
 
 type UserProfileProps = {
-  userData?: UserData; // opcional, no necesario si los organismos consumen sus propios datos
+  userData?: UserData; 
   className?: string;
   initialSection?: number;
 };
@@ -67,7 +67,6 @@ function UserProfile({ userData, className, initialSection }: UserProfileProps) 
   return (
     <div className={cntl`flex flex-col lg:flex-row gap-6 min-h-screen bg-gray-50 ${className || ""}`}>
       <UserProfileSidebar
-        // mantengo el prop userData por compatibilidad; el sidebar puede usarlo o leer su fuente
         userData={userData}
         activeSection={activeSection}
         onSectionChange={setActiveSection}
@@ -76,7 +75,6 @@ function UserProfile({ userData, className, initialSection }: UserProfileProps) 
       <div className="flex-1 bg-white shadow-sm p-6">
         <div className="max-w-2xl">
           {activeSection === 0 && (
-            // PersonalInfoSection ahora se encarga de obtener/mostrar/guardar los datos del usuario
             <PersonalInfoSection
               isEditing={isEditing}
               onEdit={handleEdit}
@@ -99,7 +97,7 @@ function UserProfile({ userData, className, initialSection }: UserProfileProps) 
 
           {activeSection === 3 && (
             // MyOrdersSection puede leer userId desde contexto/localStorage/servicio
-            // <MyOrdersSection />
+            <MyOrdersSection />
           )}
 
           {activeSection === 4 && (
